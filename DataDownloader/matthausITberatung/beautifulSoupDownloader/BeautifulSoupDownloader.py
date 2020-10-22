@@ -1,8 +1,8 @@
 import requests
 
-from com.matthausITberatung.receiveData.URLprovider import URLprovider
-
 from bs4 import BeautifulSoup
+
+from matthausITberatung.URLs.URLprovider import URLprovider
 
 text = 'downloaded3'
 urlProvider = URLprovider()
