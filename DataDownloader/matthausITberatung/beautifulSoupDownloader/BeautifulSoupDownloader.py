@@ -8,16 +8,12 @@ text = 'downloaded3'
 urlProvider = URLprovider()
 listOfWizzAirURLs = urlProvider.getListOfWizzAirURLs(urlProvider.LUFTHANSA())
 
-list = ['div']
-print(list)
+listOfHTMLtags = ['div']
+print(listOfHTMLtags)
 with open(str(text) + '.txt', 'w', encoding='utf-8') as outfile:
     for url in listOfWizzAirURLs:
-        website = requests.get(url)
-        soup = BeautifulSoup(website.content, "html.parser")
-        tags = soup.find_all(list)
-        text = [' '.join(s.findAll(text=True)) for s in tags]
-        textLen = len(text)
-
+        soup = BeautifulSoup(requests.get(url).content, "html.parser")
+        text = [' '.join(s.findAll(text=True)) for s in soup.find_all(listOfHTMLtags)]
         for item in text:
             print(item, file=outfile)
 
