@@ -12,8 +12,8 @@ class URLprovider:
     def getURL(iterator, airLineName):
         return "https://www.airlinequality.com/airline-reviews/"+airLineName+"/page/"+str(iterator)+"/?sortby=post_date%3ADesc&pagesize=100"
 
-    def getListOfWizzAirURLs(self, airlineName):
-        listOfWizzAirURLs = []
+    def getListOfAirLineURLs(self, airlineName):
+        listOfAirLineURLs = []
         for iterator in range(1, 11):
-            listOfWizzAirURLs.append(URLprovider.getURL(iterator, airlineName))
-        return listOfWizzAirURLs
+            listOfAirLineURLs.append(URLprovider.getURL(iterator, airlineName))
+        return listOfAirLineURLs
