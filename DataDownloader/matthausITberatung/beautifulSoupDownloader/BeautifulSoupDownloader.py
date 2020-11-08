@@ -4,12 +4,11 @@ from bs4 import BeautifulSoup
 
 class BeautifulSoupDownloader:
 
+    def getListOfBeautifulSoupObject(self, listOfUrls):
+        listOfBeautifulSoupObjects = []
+        for url in listOfUrls:
+            listOfBeautifulSoupObjects.append(self.getBeautifulSoupObject(url))
+        return listOfBeautifulSoupObjects
+
     def getBeautifulSoupObject(self, url):
-        return BeautifulSoup(requests.get(url).content, "html.parser")
-
-
-    def extractData(self, url, listOfHTMLtags):
-        return [' '.join(s.findAll(text=True)) for s in self.getURLcontent(url).find_all(listOfHTMLtags)]
-
-    def getURLcontent(self, url):
         return BeautifulSoup(requests.get(url).content, "html.parser")
