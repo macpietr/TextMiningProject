@@ -14,7 +14,7 @@ class MainPostsDownloader:
         return userPost[len(userPost) - 1].replace("|", "").lstrip().rstrip()
 
     def processSingleRow(self, item):
-        item.find('div').find('div').find_all(text=True)
+        return item.find('div').find('div').find_all(text=True)
 
     def gatDataArray(self, beautifulSoupObject):
         return beautifulSoupObject.findAll('div', id=re.compile("anchor"))
