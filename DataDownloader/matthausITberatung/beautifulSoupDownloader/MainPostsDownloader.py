@@ -3,11 +3,20 @@ import re
 
 class MainPostsDownloader:
 
-    def downloadAllPostsFromPage(self):
+    def getMainUsersOpinions(self, beautifulSoupObject):
+        usersOpinionsArray = []
+        for item in self.gatDataArray(beautifulSoupObject):
+            userPost = self.processSingleRow(item)
+            usersOpinionsArray.append(self.getExtractedUserOpinion(userPost))
+        return usersOpinionsArray
 
-    def downloadPost(self):
+    def getExtractedUserOpinion(self, userPost):
+        return userPost[len(userPost) - 1].replace("|", "").lstrip().rstrip()
 
-    def downloadAllTaggedData(self, beautifulSoupObject):
+    def processSingleRow(self, item):
+        item.find('div').find('div').find_all(text=True)
+
+    def gatDataArray(self, beautifulSoupObject):
         return beautifulSoupObject.findAll('div', id=re.compile("anchor"))
 
 
