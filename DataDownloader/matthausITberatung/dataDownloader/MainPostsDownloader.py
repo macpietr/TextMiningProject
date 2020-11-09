@@ -3,6 +3,12 @@ import re
 
 class MainPostsDownloader:
 
+    def getWholeMainUsersOpinionsArrayOfArrays(self, listOfBeautifulSoupObjects):
+        wholeMainUsersOpinionsArrayOfArrays = []
+        for beautifulSoupObjects in listOfBeautifulSoupObjects:
+            wholeMainUsersOpinionsArrayOfArrays.append(self.getMainUsersOpinions(beautifulSoupObjects))
+        return wholeMainUsersOpinionsArrayOfArrays
+
     def getMainUsersOpinions(self, beautifulSoupObject):
         usersOpinionsArray = []
         for item in self.gatDataArray(beautifulSoupObject):
