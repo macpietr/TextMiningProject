@@ -1,6 +1,6 @@
 from matthausITberatung.URLs.URLprovider import URLprovider
-from matthausITberatung.beautifulSoupDownloader.BeautifulSoupDownloader import BeautifulSoupDownloader
-from matthausITberatung.beautifulSoupDownloader.MainPostsDownloader import MainPostsDownloader
+from matthausITberatung.dataDownloader.BeautifulSoupDownloader import BeautifulSoupDownloader
+from matthausITberatung.dataDownloader.MainPostsDownloader import MainPostsDownloader
 from matthausITberatung.writer.FileWriter import FileWriter
 
 urlProvider = URLprovider()
@@ -15,15 +15,10 @@ listOfAirLineURLs = urlProvider.getListOfAirLineURLs(airLineName)
 
 listOfBeautifulSoupObjects = beautifulSoupDownloader.getListOfBeautifulSoupObject(listOfAirLineURLs)
 
-arrayOfUsersOpinionsArrays = []
-for beautifulSoupObjects in listOfBeautifulSoupObjects:
-    userOpinionArray = mainPostsDownloader.getMainUsersOpinions(beautifulSoupObjects)
-    arrayOfUsersOpinionsArrays.append(userOpinionArray)
-
+wholeMainUsersOpinionsArrayOfArrays = mainPostsDownloader.getWholeMainUsersOpinionsArrayOfArrays(listOfBeautifulSoupObjects)
 fileName = 'MainOpinions'
 
-fileWriter.putExtractedDataIntoFile(fileName,arrayOfUsersOpinionsArrays)
+fileWriter.putExtractedDataIntoFile(fileName, wholeMainUsersOpinionsArrayOfArrays)
 
-#TODO implement FileWriter class
 
 print("Done! File is saved where you have your scrape-website.py")
