@@ -3,8 +3,8 @@ class URLprovider:
     def WIZZ_AIR(self):
         return 'wizz-air'
 
-    def RAYANAIR(self):
-        return 'rayanair'
+    def RYANAIR(self):
+        return 'ryanair'
 
     def LUFTHANSA(self):
         return 'lufthansa'
