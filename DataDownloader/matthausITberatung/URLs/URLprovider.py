@@ -16,4 +16,5 @@ class URLprovider:
         return listOfAirLineURLs
 
     def getURL(iterator, airLineName):
-        return "https://www.airlinequality.com/airline-reviews/"+airLineName+"/page/"+str(iterator)+"/?sortby=post_date%3ADesc&pagesize=100"
+        return "https://www.airlinequality.com/airline-reviews/"\
+               +airLineName+"/page/"+str(iterator)+"/?sortby=post_date%3ADesc&pagesize=100"
