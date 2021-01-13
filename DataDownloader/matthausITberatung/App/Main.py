@@ -5,15 +5,14 @@ from matthausITberatung.writer.FileWriter import FileWriter
 
 urlProvider = URLprovider()
 beautifulSoupDownloader = BeautifulSoupDownloader()
-fileWriter = FileWriter()
 
 listOfAirLineNames = [urlProvider.LUFTHANSA(), urlProvider.WIZZ_AIR(), urlProvider.RYANAIR()]
 for airLineName in listOfAirLineNames:
     listOfAirLineURLs = urlProvider.getListOfAirLineURLs(airLineName)
     listOfBeautifulSoupObjects = beautifulSoupDownloader.getListOfBeautifulSoupObject(listOfAirLineURLs)
 
-    wholeMainUsersOpinionsArrayOfArrays = MainUserOpoinionDownloader(listOfBeautifulSoupObjects).getDataArrayOfArrays()
-    fileName = airLineName + '_MainOpinions'
-    fileWriter.putExtractedDataIntoFile(fileName, wholeMainUsersOpinionsArrayOfArrays)
+    FileWriter(airLineName,
+               MainUserOpoinionDownloader(listOfBeautifulSoupObjects).getDataArrayOfArrays(),
+               'MainUserOpinion').putExtractedDataIntoFile()
 
 print("Done! File is saved where you have your scrape-website.py")
