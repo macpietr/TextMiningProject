@@ -23,9 +23,10 @@ class AbstractDownloader:
         pass
 
     @abstractmethod
-    def getProcessedRow(self, extractedRow):
+    def getExtractedRow(self, item):
         pass
 
     @abstractmethod
-    def getExtractedRow(self, item):
+    def getProcessedRow(self, extractedRow):
         pass
+

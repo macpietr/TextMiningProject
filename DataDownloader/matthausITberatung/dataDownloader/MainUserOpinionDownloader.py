@@ -9,10 +9,18 @@ class MainUserOpoinionDownloader(AbstractDownloader):
         super().__init__(listOfBeautifulSoupObjects)
 
     def getDataBasedOnHTMLtype(self, beautifulSoupObject):
-        return beautifulSoupObject.findAll('div', id=re.compile("anchor"))
-
-    def getProcessedRow(self, userPost):
-        return userPost[len(userPost) - 1].replace("|", "").lstrip().rstrip()
+        return beautifulSoupObject.findAll('div', class_='text_content')
 
     def getExtractedRow(self, item):
-        return item.find('div').find('div').findAll(text=True)
+        return item.findAll(text=True)
+
+    def getProcessedRow(self, userPost):
+        userPostAsString = str(userPost)
+        return userPostAsString[self.beginFromCharacterIfExists(userPostAsString):].lstrip().rstrip()
+
+    def beginFromCharacterIfExists(self, userPostAsString):
+        try:
+            return userPostAsString.index('|') + 1
+        except:
+            return 1
+
