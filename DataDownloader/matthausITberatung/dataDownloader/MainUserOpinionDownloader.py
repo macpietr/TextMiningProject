@@ -1,5 +1,4 @@
-import re
-
+from matthausITberatung.cleaner.DataCleaner import DataCleaner
 from matthausITberatung.dataDownloader.AbstractDownloader import AbstractDownloader
 
 
@@ -16,7 +15,8 @@ class MainUserOpoinionDownloader(AbstractDownloader):
 
     def getProcessedRow(self, userPost):
         userPostAsString = str(userPost)
-        return userPostAsString[self.beginFromCharacterIfExists(userPostAsString):].lstrip().rstrip()
+        processedUserPost = userPostAsString[self.beginFromCharacterIfExists(userPostAsString):]
+        return DataCleaner(processedUserPost).cleanData()
 
     def beginFromCharacterIfExists(self, userPostAsString):
         try:
