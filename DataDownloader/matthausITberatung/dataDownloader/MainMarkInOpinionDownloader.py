@@ -1,5 +1,3 @@
-import re
-
 from matthausITberatung.cleaner.DataCleaner import DataCleaner
 from matthausITberatung.dataDownloader.AbstractDownloader import AbstractDownloader
 
