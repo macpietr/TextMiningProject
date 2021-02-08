@@ -1,4 +1,5 @@
 from matthausITberatung.URLs.URLprovider import URLprovider
+from matthausITberatung.dataDownloader.ReviewRatingDownloader import ReviewRatingDownloader
 from matthausITberatung.dataDownloader.BeautifulSoupDownloader import BeautifulSoupDownloader
 from matthausITberatung.dataDownloader.MainUserOpinionDownloader import MainUserOpoinionDownloader
 from matthausITberatung.dataDownloader.MainMarkInOpinionDownloader import MainMarkInOpinionDownloader
@@ -15,8 +16,12 @@ for airLineName in listOfAirLineNames:
 
     mainUserOpoinionData = MainUserOpoinionDownloader(listOfBeautifulSoupObjects).getDataArrayOfArrays()
     mainMarkInOpinionData = MainMarkInOpinionDownloader(listOfBeautifulSoupObjects).getDataArrayOfArrays()
+    aircraftData = ReviewRatingDownloader(listOfBeautifulSoupObjects,'Aircraft').getDataArrayOfArrays()
+    typeOfTravellerData = ReviewRatingDownloader(listOfBeautifulSoupObjects,'type_of_traveller').getDataArrayOfArrays()
 
     FileWriter(airLineName, mainUserOpoinionData, 'MainUserOpinion').putExtractedDataIntoFile()
     FileWriter(airLineName, mainMarkInOpinionData, 'MainMarkInOpinion').putExtractedDataIntoFile()
+    FileWriter(airLineName, aircraftData, 'AircraftDownloader').putExtractedDataIntoFile()
+    FileWriter(airLineName, typeOfTravellerData, 'TypeOfTravellerDownloader').putExtractedDataIntoFile()
 
 print("Done! File is saved where you have your scrape-website.py")
