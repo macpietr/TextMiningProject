@@ -2,11 +2,19 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-# url = 'https://www.airlinequality.com/airline-reviews/lufthansa/page/1/?sortby=post_date%3ADesc&pagesize=100'
-# beautifulSoupObject = BeautifulSoup(requests.get(url).content, "html.parser")
-#
-# tag = beautifulSoupObject.findAll('span', itemprop='ratingValue')
-#
+url = 'https://www.airlinequality.com/airline-reviews/lufthansa/page/1/?sortby=post_date%3ADesc&pagesize=100'
+beautifulSoupObject = BeautifulSoup(requests.get(url).content, "html.parser")
+
+print(len(beautifulSoupObject))
+
+item = beautifulSoupObject.findAll('tr')
+print(len(item))
+
+for tdtag in item:
+    td = tdtag.findAll('td')
+    if('type_of_traveller' in str(td)):
+        print(td[1].findAll(text=True))
+
 # def tryToDecompose(tag):
 #     try:
 #         tag.find('em').decompose()
@@ -29,7 +37,7 @@ import re
 #
 # for i in dataArray:
 #     print(i)
-wyraz = '\\nhehe\\nhehe\\xa0hehe\\r\\hehe\\'
-print(wyraz)
-
-print(wyraz.replace('\\n','').replace('\\r','').replace('\\xa0','').replace('\\',''))
+# wyraz = '\\nhehe\\nhehe\\xa0hehe\\r\\hehe\\'
+# print(wyraz)
+#
+# print(wyraz.replace('\\n','').replace('\\r','').replace('\\xa0','').replace('\\',''))
