@@ -13,9 +13,10 @@ class ReviewRatingDownloader(AbstractDownloader):
 
     def getExtractedRow(self, item):
         td = item.findAll('td')
+        #TODO make better condition whcich will return NONE only if there won't be particular reviewRatingHeader insted of checking it for every <td>
         if (self.reviewRatingHeader in str(td)):
             return td[1].findAll(text=True)
-            # TODO naprawić to (ma być zgodnie z testem App.py)
+
 
 
     def getProcessedRow(self, userMainMark):
