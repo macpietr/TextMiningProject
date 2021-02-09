@@ -9,7 +9,9 @@ class ReviewRatingDownloader(AbstractDownloader):
         self.reviewRatingHeader = reviewRatingHeader
 
     def getDataBasedOnHTMLtype(self, beautifulSoupObject):
-        return beautifulSoupObject.findAll('table', class_='review-ratings')
+        table = beautifulSoupObject.findAll('table', class_='review-ratings')
+        table.remove(table[0])
+        return table
 
 
     def getExtractedRow(self, table):
