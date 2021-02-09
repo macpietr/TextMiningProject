@@ -9,13 +9,22 @@ class ReviewRatingDownloader(AbstractDownloader):
         self.reviewRatingHeader = reviewRatingHeader
 
     def getDataBasedOnHTMLtype(self, beautifulSoupObject):
-        return beautifulSoupObject.findAll('tr')
+        return beautifulSoupObject.findAll('table', class_='review-ratings')
 
-    def getExtractedRow(self, item):
-        td = item.findAll('td')
+
+    def getExtractedRow(self, table):
+        if (self.reviewRatingHeader in str(table)):
+            item = table.findAll('tr')
+            if (self.reviewRatingHeader in str(item)):
+                for tr in item:
+                    if (self.reviewRatingHeader in str(tr)):
+                        td = tr.findAll('td')
+                        return td[1].find(text=True)
+        else:
+            return None
+
+
         #TODO make better condition whcich will return NONE only if there won't be particular reviewRatingHeader insted of checking it for every <td>
-        if (self.reviewRatingHeader in str(td)):
-            return td[1].findAll(text=True)
 
 
 
