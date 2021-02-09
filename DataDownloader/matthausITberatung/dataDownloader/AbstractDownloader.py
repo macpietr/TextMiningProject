@@ -14,8 +14,8 @@ class AbstractDownloader:
 
     def getDataArray(self, beautifulSoupObject):
         dataArray = []
-        for item in self.getDataBasedOnHTMLtype(beautifulSoupObject):
-            dataArray.append(self.getProcessedRow(self.getExtractedRow(item)))
+        for htmlDataItem in self.getDataBasedOnHTMLtype(beautifulSoupObject):
+            dataArray.append(self.getProcessedRow(self.getExtractedRow(htmlDataItem)))
         return dataArray
 
     @abstractmethod
