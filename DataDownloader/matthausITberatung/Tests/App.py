@@ -7,13 +7,24 @@ beautifulSoupObject = BeautifulSoup(requests.get(url).content, "html.parser")
 
 print(len(beautifulSoupObject))
 
-item = beautifulSoupObject.findAll('tr')
-print(len(item))
+arrayOfTables = beautifulSoupObject.findAll('table', class_='review-ratings')
+print(len(arrayOfTables))
 
-for tdtag in item:
-    td = tdtag.findAll('td')
-    if('type_of_traveller' in str(td)):
-        print(td[1].findAll(text=True))
+dataArray =[]
+
+for table in arrayOfTables:
+    print(str(table))
+    if ('type_of_traveller' in str(table)):
+        item = table.findAll('tr')
+        if ('type_of_traveller' in str(item)):
+            for tr in item:
+                if ('type_of_traveller' in str(tr)):
+                    td = tr.findAll('td')
+                    dataArray.append(td[1].find(text=True))
+    else:
+        dataArray.append('nie ma')
+
+print(dataArray)
 
 # def tryToDecompose(tag):
 #     try:
