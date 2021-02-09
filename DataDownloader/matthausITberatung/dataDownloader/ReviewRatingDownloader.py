@@ -13,7 +13,6 @@ class ReviewRatingDownloader(AbstractDownloader):
         table.remove(table[0])
         return table
 
-
     def getExtractedRow(self, table):
         if (self.reviewRatingHeader in str(table)):
             item = table.findAll('tr')
@@ -24,11 +23,6 @@ class ReviewRatingDownloader(AbstractDownloader):
                         return td[1].find(text=True)
         else:
             return None
-
-
-        #TODO make better condition whcich will return NONE only if there won't be particular reviewRatingHeader insted of checking it for every <td>
-
-
 
     def getProcessedRow(self, userMainMark):
         userMainMarkAsString = str(userMainMark)
