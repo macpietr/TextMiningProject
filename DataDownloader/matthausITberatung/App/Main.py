@@ -16,12 +16,22 @@ for airLineName in listOfAirLineNames:
 
     mainUserOpoinionData = MainUserOpoinionDownloader(listOfBeautifulSoupObjects).getDataArrayOfArrays()
     mainMarkInOpinionData = MainMarkInOpinionDownloader(listOfBeautifulSoupObjects).getDataArrayOfArrays()
+
     aircraftData = ReviewRatingDownloader(listOfBeautifulSoupObjects,'Aircraft').getDataArrayOfArrays()
     typeOfTravellerData = ReviewRatingDownloader(listOfBeautifulSoupObjects,'type_of_traveller').getDataArrayOfArrays()
+    seatType = ReviewRatingDownloader(listOfBeautifulSoupObjects, 'cabin_flown').getDataArrayOfArrays()
+    route = ReviewRatingDownloader(listOfBeautifulSoupObjects, 'cabin_flown').getDataArrayOfArrays()
+    dateFlown = ReviewRatingDownloader(listOfBeautifulSoupObjects, 'date_flown').getDataArrayOfArrays()
+    isRecommended = ReviewRatingDownloader(listOfBeautifulSoupObjects, 'recommended').getDataArrayOfArrays()
 
     FileWriter(airLineName, mainUserOpoinionData, 'MainUserOpinion').putExtractedDataIntoFile()
     FileWriter(airLineName, mainMarkInOpinionData, 'MainMarkInOpinion').putExtractedDataIntoFile()
-    FileWriter(airLineName, aircraftData, 'AircraftDownloader').putExtractedDataIntoFile()
-    FileWriter(airLineName, typeOfTravellerData, 'TypeOfTravellerDownloader').putExtractedDataIntoFile()
+
+    FileWriter(airLineName, aircraftData, 'AircraftDownloaded').putExtractedDataIntoFile()
+    FileWriter(airLineName, typeOfTravellerData, 'TypeOfTravellerDownloaded').putExtractedDataIntoFile()
+    FileWriter(airLineName, seatType, 'SeatTypeDownloaded').putExtractedDataIntoFile()
+    FileWriter(airLineName, route, 'RouteDownloaded').putExtractedDataIntoFile()
+    FileWriter(airLineName, dateFlown, 'DateFlownDownloaded').putExtractedDataIntoFile()
+    FileWriter(airLineName, isRecommended, 'IsRecommendedDownloaded').putExtractedDataIntoFile()
 
 print("Done! File is saved where you have your scrape-website.py")
