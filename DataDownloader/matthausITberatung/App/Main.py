@@ -34,4 +34,6 @@ for airLineName in listOfAirLineNames:
     FileWriter(airLineName, dateFlown, 'DateFlownDownloaded').putExtractedDataIntoFile()
     FileWriter(airLineName, isRecommended, 'IsRecommendedDownloaded').putExtractedDataIntoFile()
 
+    ###TODO: Make analogical sollution of collecting data for ratings with stars
+
 print("Done! File is saved where you have your scrape-website.py")
