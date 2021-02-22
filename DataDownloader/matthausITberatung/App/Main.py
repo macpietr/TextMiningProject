@@ -51,5 +51,4 @@ for airLineName in listOfAirLineNames:
     FileWriter(airLineName, wifiAndConnectivity, 'WifiAndConnectivityDownloaded').putExtractedDataIntoFile()
     FileWriter(airLineName, valueForMoney, 'ValueForMoneyDownloaded').putExtractedDataIntoFile()
 
-    ###TODO: Make analogical sollution of collecting data for ratings with stars
 print("Done! File is saved where you have your scrape-website.py")
