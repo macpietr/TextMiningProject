@@ -13,14 +13,20 @@ print(len(arrayOfTables))
 dataArray =[]
 
 for table in arrayOfTables:
-    print(str(table))
-    if ('type_of_traveller' in str(table)):
+    # print(str(table))
+    if ('seat_comfort' in str(table)):
         item = table.findAll('tr')
-        if ('type_of_traveller' in str(item)):
+        if ('seat_comfort' in str(item)):
             for tr in item:
-                if ('type_of_traveller' in str(tr)):
+                if ('seat_comfort' in str(tr)):
                     td = tr.findAll('td')
-                    dataArray.append(td[1].find(text=True))
+                    span = td[1].findAll('span')
+                    counter = -1
+                    for star in span:
+                        if('\"star fill\"' in str(star)):
+                            counter = counter + 1
+                    dataArray.append(span[counter].find(text=True))
+                    # dataArray.append(td[1].find(text=True))
     else:
         dataArray.append('nie ma')
 
