@@ -1,4 +1,5 @@
 from matthausITberatung.URLs.URLprovider import URLprovider
+from matthausITberatung.dataDownloader.ReviewRatingStarDownloader import ReviewRatingStarDownloader
 from matthausITberatung.dataDownloader.ReviewRatingDownloader import ReviewRatingDownloader
 from matthausITberatung.dataDownloader.BeautifulSoupDownloader import BeautifulSoupDownloader
 from matthausITberatung.dataDownloader.MainUserOpinionDownloader import MainUserOpoinionDownloader
@@ -24,6 +25,14 @@ for airLineName in listOfAirLineNames:
     dateFlown = ReviewRatingDownloader(listOfBeautifulSoupObjects, 'date_flown').getDataArrayOfArrays()
     isRecommended = ReviewRatingDownloader(listOfBeautifulSoupObjects, 'recommended').getDataArrayOfArrays()
 
+    seatComfort = ReviewRatingStarDownloader(listOfBeautifulSoupObjects, 'seat_comfort').getDataArrayOfArrays()
+    cabinStaffService = ReviewRatingStarDownloader(listOfBeautifulSoupObjects, 'cabin_staff_service').getDataArrayOfArrays()
+    foodAndBeverages = ReviewRatingStarDownloader(listOfBeautifulSoupObjects, 'food_and_beverages').getDataArrayOfArrays()
+    inflightEntertainment = ReviewRatingStarDownloader(listOfBeautifulSoupObjects, 'inflight_entertainment').getDataArrayOfArrays()
+    groundService = ReviewRatingStarDownloader(listOfBeautifulSoupObjects, 'ground_service').getDataArrayOfArrays()
+    wifiAndConnectivity = ReviewRatingStarDownloader(listOfBeautifulSoupObjects, 'wifi_and_connectivity').getDataArrayOfArrays()
+    valueForMoney = ReviewRatingStarDownloader(listOfBeautifulSoupObjects, 'value_for_money').getDataArrayOfArrays()
+
     FileWriter(airLineName, mainUserOpoinionData, 'MainUserOpinion').putExtractedDataIntoFile()
     FileWriter(airLineName, mainMarkInOpinionData, 'MainMarkInOpinion').putExtractedDataIntoFile()
 
@@ -34,6 +43,13 @@ for airLineName in listOfAirLineNames:
     FileWriter(airLineName, dateFlown, 'DateFlownDownloaded').putExtractedDataIntoFile()
     FileWriter(airLineName, isRecommended, 'IsRecommendedDownloaded').putExtractedDataIntoFile()
 
-    ###TODO: Make analogical sollution of collecting data for ratings with stars
+    FileWriter(airLineName, seatComfort, 'SeatComfortDownloaded').putExtractedDataIntoFile()
+    FileWriter(airLineName, cabinStaffService, 'CabinStaffServiceDownloaded').putExtractedDataIntoFile()
+    FileWriter(airLineName, foodAndBeverages, 'FoodAndBeveragesDownloaded').putExtractedDataIntoFile()
+    FileWriter(airLineName, inflightEntertainment, 'InflightEntertainmentDownloaded').putExtractedDataIntoFile()
+    FileWriter(airLineName, groundService, 'GroundServiceDownloaded').putExtractedDataIntoFile()
+    FileWriter(airLineName, wifiAndConnectivity, 'WifiAndConnectivityDownloaded').putExtractedDataIntoFile()
+    FileWriter(airLineName, valueForMoney, 'ValueForMoneyDownloaded').putExtractedDataIntoFile()
 
+    ###TODO: Make analogical sollution of collecting data for ratings with stars
 print("Done! File is saved where you have your scrape-website.py")
