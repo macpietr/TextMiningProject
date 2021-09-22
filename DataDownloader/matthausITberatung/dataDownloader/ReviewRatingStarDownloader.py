@@ -1,5 +1,5 @@
-from matthausITberatung.cleaner.DataCleaner import DataCleaner
-from matthausITberatung.dataDownloader.AbstractDownloader import AbstractDownloader
+from DataDownloader.matthausITberatung.cleaner.DataCleaner import DataCleaner
+from DataDownloader.matthausITberatung.dataDownloader.AbstractDownloader import AbstractDownloader
 
 
 class ReviewRatingStarDownloader(AbstractDownloader):

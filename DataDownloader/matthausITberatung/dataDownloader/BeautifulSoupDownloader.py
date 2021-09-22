@@ -1,5 +1,4 @@
-import requests
-
+import requests as requests
 from bs4 import BeautifulSoup
 
 class BeautifulSoupDownloader:
