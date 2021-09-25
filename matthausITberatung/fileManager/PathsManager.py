@@ -1,5 +1,14 @@
 class PathsManager:
 
+    def WIZZ_AIR(self):
+        return 'wizz-air'
+
+    def RYANAIR(self):
+        return 'ryanair'
+
+    def LUFTHANSA(self):
+        return 'lufthansa'
+
     def PROJECT_ROOT_DIR(self):
         path = 'C:\\Users\\macie\\Documents\\TextMiningProject\\matthausITberatung\\output_files\\'
         return path

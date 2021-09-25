@@ -9,17 +9,16 @@ from matthausITberatung.fileManager.PathsManager import PathsManager
 
 print('dataDownloader module has started')
 
-urlProvider = URLprovider()
 beautifulSoupDownloader = BeautifulSoupDownloader()
 saveFolder = PathsManager().DOWNLOADED_FILES_DIR()
 
-listOfAirLineNames = [urlProvider.LUFTHANSA(), urlProvider.WIZZ_AIR(), urlProvider.RYANAIR()]
+listOfAirLineNames = [PathsManager().LUFTHANSA(), PathsManager().WIZZ_AIR(), PathsManager().RYANAIR()]
 
 for airLineName in listOfAirLineNames:
 
     print('scraping data for: ' + airLineName)
 
-    listOfAirLineURLs = urlProvider.getListOfAirLineURLs(airLineName)
+    listOfAirLineURLs = URLprovider().getListOfAirLineURLs(airLineName)
     listOfBeautifulSoupObjects = beautifulSoupDownloader.getListOfBeautifulSoupObject(listOfAirLineURLs)
 
     mainUserOpoinionData = MainUserOpoinionDownloader(listOfBeautifulSoupObjects).getDataArrayOfArrays()
