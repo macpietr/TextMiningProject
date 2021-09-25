@@ -12,9 +12,7 @@ print('dataDownloader module has started')
 beautifulSoupDownloader = BeautifulSoupDownloader()
 saveFolder = PathsManager().DOWNLOADED_FILES_DIR()
 
-listOfAirLineNames = [PathsManager().LUFTHANSA(), PathsManager().WIZZ_AIR(), PathsManager().RYANAIR()]
-
-for airLineName in listOfAirLineNames:
+for airLineName in PathsManager().LIST_OF_AIRLINES():
 
     print('scraping data for: ' + airLineName)
 

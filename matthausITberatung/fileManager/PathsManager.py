@@ -9,6 +9,9 @@ class PathsManager:
     def LUFTHANSA(self):
         return 'lufthansa'
 
+    def LIST_OF_AIRLINES(self):
+        return [self.LUFTHANSA(),self.RYANAIR(),self.WIZZ_AIR()]
+
     def PROJECT_ROOT_DIR(self):
         path = 'C:\\Users\\macie\\Documents\\TextMiningProject\\matthausITberatung\\output_files\\'
         return path
