@@ -15,8 +15,7 @@ class MainUserOpoinionDownloader(AbstractDownloader):
 
     def getProcessedRow(self, userPost):
         userPostAsString = str(userPost)
-        processedUserPost = userPostAsString[self.beginFromCharacterIfExists(userPostAsString):]
-        return DataCleaner(processedUserPost).cleanData()
+        return userPostAsString[self.beginFromCharacterIfExists(userPostAsString):]
 
     def beginFromCharacterIfExists(self, userPostAsString):
         try:

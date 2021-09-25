@@ -30,5 +30,4 @@ class ReviewRatingStarDownloader(AbstractDownloader):
             return None
 
     def getProcessedRow(self, userMainMark):
-        userMainMarkAsString = str(userMainMark)
-        return DataCleaner(userMainMarkAsString).cleanData()
+        return str(userMainMark)
