@@ -3,13 +3,17 @@ import os
 
 class FileWriter:
 
-    def __init__(self, airLineName, arrayOfArraysData, filenameSuffix):
+    def __init__(self, airLineName, arrayOfArraysData, filenameSuffix, parentDirectoryName):
         self.arrayOfArraysData = arrayOfArraysData
-        self.directoryName = filenameSuffix
+        self.childDirectoryName = filenameSuffix
         self.filename = airLineName + '_' + filenameSuffix
+        self.parentDirectoryName = parentDirectoryName
 
     def OUTPUT_DIRECTORY(self):
-        path = 'C:\\Users\\macie\\Documents\\TextMiningProject\\matthausITberatung\\output_files\\' + self.directoryName
+        path = self.parentDirectoryName
+        if not (os.path.exists(path)):
+            os.mkdir(path)
+        path = path + '\\' + self.childDirectoryName
         if not (os.path.exists(path)):
             os.mkdir(path)
         return path+'\\'

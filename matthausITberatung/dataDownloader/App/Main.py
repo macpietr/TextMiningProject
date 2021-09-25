@@ -4,14 +4,21 @@ from matthausITberatung.dataDownloader.dataDownloader.MainMarkInOpinionDownloade
 from matthausITberatung.dataDownloader.dataDownloader.MainUserOpinionDownloader import MainUserOpoinionDownloader
 from matthausITberatung.dataDownloader.dataDownloader.ReviewRatingDownloader import ReviewRatingDownloader
 from matthausITberatung.dataDownloader.dataDownloader.ReviewRatingStarDownloader import ReviewRatingStarDownloader
-from matthausITberatung.dataDownloader.writer.FileWriter import FileWriter
+from matthausITberatung.fileManager.FileWriter import FileWriter
+from matthausITberatung.fileManager.PathsManager import PathsManager
+
+print('dataDownloader module has started')
 
 urlProvider = URLprovider()
 beautifulSoupDownloader = BeautifulSoupDownloader()
+saveFolder = PathsManager().DOWNLOADED_FILES_DIR()
 
 listOfAirLineNames = [urlProvider.LUFTHANSA(), urlProvider.WIZZ_AIR(), urlProvider.RYANAIR()]
 
 for airLineName in listOfAirLineNames:
+
+    print('scraping data for: ' + airLineName)
+
     listOfAirLineURLs = urlProvider.getListOfAirLineURLs(airLineName)
     listOfBeautifulSoupObjects = beautifulSoupDownloader.getListOfBeautifulSoupObject(listOfAirLineURLs)
 
@@ -33,22 +40,26 @@ for airLineName in listOfAirLineNames:
     wifiAndConnectivity = ReviewRatingStarDownloader(listOfBeautifulSoupObjects, 'wifi_and_connectivity').getDataArrayOfArrays()
     valueForMoney = ReviewRatingStarDownloader(listOfBeautifulSoupObjects, 'value_for_money').getDataArrayOfArrays()
 
-    FileWriter(airLineName, mainUserOpoinionData, 'MainUserOpinion').putExtractedDataIntoFile()
-    FileWriter(airLineName, mainMarkInOpinionData, 'MainMarkInOpinion').putExtractedDataIntoFile()
+    print('saving data for: ' + airLineName)
 
-    FileWriter(airLineName, aircraftData, 'AircraftDownloaded').putExtractedDataIntoFile()
-    FileWriter(airLineName, typeOfTravellerData, 'TypeOfTravellerDownloaded').putExtractedDataIntoFile()
-    FileWriter(airLineName, seatType, 'SeatTypeDownloaded').putExtractedDataIntoFile()
-    FileWriter(airLineName, route, 'RouteDownloaded').putExtractedDataIntoFile()
-    FileWriter(airLineName, dateFlown, 'DateFlownDownloaded').putExtractedDataIntoFile()
-    FileWriter(airLineName, isRecommended, 'IsRecommendedDownloaded').putExtractedDataIntoFile()
+    FileWriter(airLineName, mainUserOpoinionData, 'MainUserOpinion', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, mainMarkInOpinionData, 'MainMarkInOpinion', saveFolder).putExtractedDataIntoFile()
 
-    FileWriter(airLineName, seatComfort, 'SeatComfortDownloaded').putExtractedDataIntoFile()
-    FileWriter(airLineName, cabinStaffService, 'CabinStaffServiceDownloaded').putExtractedDataIntoFile()
-    FileWriter(airLineName, foodAndBeverages, 'FoodAndBeveragesDownloaded').putExtractedDataIntoFile()
-    FileWriter(airLineName, inflightEntertainment, 'InflightEntertainmentDownloaded').putExtractedDataIntoFile()
-    FileWriter(airLineName, groundService, 'GroundServiceDownloaded').putExtractedDataIntoFile()
-    FileWriter(airLineName, wifiAndConnectivity, 'WifiAndConnectivityDownloaded').putExtractedDataIntoFile()
-    FileWriter(airLineName, valueForMoney, 'ValueForMoneyDownloaded').putExtractedDataIntoFile()
+    FileWriter(airLineName, aircraftData, 'AircraftDownloaded', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, typeOfTravellerData, 'TypeOfTravellerDownloaded', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, seatType, 'SeatTypeDownloaded', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, route, 'RouteDownloaded', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, dateFlown, 'DateFlownDownloaded', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, isRecommended, 'IsRecommendedDownloaded', saveFolder).putExtractedDataIntoFile()
 
-print("Done! File is saved where you have your scrape-website.py")
+    FileWriter(airLineName, seatComfort, 'SeatComfortDownloaded', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, cabinStaffService, 'CabinStaffServiceDownloaded', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, foodAndBeverages, 'FoodAndBeveragesDownloaded', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, inflightEntertainment, 'InflightEntertainmentDownloaded', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, groundService, 'GroundServiceDownloaded', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, wifiAndConnectivity, 'WifiAndConnectivityDownloaded', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, valueForMoney, 'ValueForMoneyDownloaded', saveFolder).putExtractedDataIntoFile()
+
+    print('operation for airline: ' + airLineName + ' is done!')
+
+print("Done! Data is scraped and saved in: " + saveFolder)
