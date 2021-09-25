@@ -22,3 +22,7 @@ class FileWriter:
             for dataArray in arrayOfArraysData:
                 for dataItem in dataArray:
                     print(dataItem, file=outfile)
+
+    def putDataIntoFile(self, data):
+        with open(str(self.OUTPUT_DIRECTORY() + self.filename) + '.txt', 'w', encoding='utf-8') as outfile:
+            print(data, file=outfile)
