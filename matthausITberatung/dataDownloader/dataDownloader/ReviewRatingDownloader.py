@@ -1,8 +1,8 @@
-from DataDownloader.matthausITberatung.cleaner.DataCleaner import DataCleaner
-from DataDownloader.matthausITberatung.dataDownloader.AbstractDownloader import AbstractDownloader
+from matthausITberatung.dataDownloader.cleaner.DataCleaner import DataCleaner
+from matthausITberatung.dataDownloader.dataDownloader.AbstractDownloader import AbstractDownloader
 
 
-class ReviewRatingStarDownloader(AbstractDownloader):
+class ReviewRatingDownloader(AbstractDownloader):
 
     def __init__(self, listOfBeautifulSoupObjects, reviewRatingHeader):
         super().__init__(listOfBeautifulSoupObjects)
@@ -20,12 +20,7 @@ class ReviewRatingStarDownloader(AbstractDownloader):
                 for tr in item:
                     if (self.reviewRatingHeader in str(tr)):
                         td = tr.findAll('td')
-                        span = td[1].findAll('span')
-                        counter = -1
-                        for star in span:
-                            if ('\"star fill\"' in str(star)):
-                                counter = counter + 1
-                        return span[counter].find(text=True)
+                        return td[1].find(text=True)
         else:
             return None
 

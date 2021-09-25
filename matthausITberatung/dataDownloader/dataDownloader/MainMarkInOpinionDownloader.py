@@ -1,5 +1,5 @@
-from DataDownloader.matthausITberatung.cleaner.DataCleaner import DataCleaner
-from DataDownloader.matthausITberatung.dataDownloader.AbstractDownloader import AbstractDownloader
+from matthausITberatung.dataDownloader.cleaner.DataCleaner import DataCleaner
+from matthausITberatung.dataDownloader.dataDownloader.AbstractDownloader import AbstractDownloader
 
 
 class MainMarkInOpinionDownloader(AbstractDownloader):

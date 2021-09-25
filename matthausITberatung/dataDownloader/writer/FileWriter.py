@@ -9,7 +9,7 @@ class FileWriter:
         self.filename = airLineName + '_' + filenameSuffix
 
     def OUTPUT_DIRECTORY(self):
-        path = 'C:\\Users\\macie\\Documents\\TextMiningProject\\DataDownloader\\output_files\\' + self.directoryName
+        path = 'C:\\Users\\macie\\Documents\\TextMiningProject\\matthausITberatung\\output_files\\' + self.directoryName
         if not (os.path.exists(path)):
             os.mkdir(path)
         return path+'\\'
