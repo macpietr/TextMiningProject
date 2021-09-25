@@ -10,7 +10,7 @@ from matthausITberatung.fileManager.PathsManager import PathsManager
 print('dataDownloader module has started')
 
 beautifulSoupDownloader = BeautifulSoupDownloader()
-saveFolder = PathsManager()._FILES_DIR()
+saveFolder = PathsManager().DOWNLOADED_FILES_DIR()
 
 listOfAirLineNames = [PathsManager().LUFTHANSA(), PathsManager().WIZZ_AIR(), PathsManager().RYANAIR()]
 
