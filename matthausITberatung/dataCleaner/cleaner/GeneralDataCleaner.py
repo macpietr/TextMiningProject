@@ -1,5 +1,5 @@
 
-class DataCleaner:
+class GeneralDataCleaner:
 
 
     def __init__(self, processingString):
