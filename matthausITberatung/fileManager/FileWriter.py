@@ -4,9 +4,9 @@ import os
 class FileWriter:
 
     def __init__(self, airLineName, arrayOfArraysData, filenameSuffix, parentDirectoryName):
+        self.filename = airLineName + '_' + filenameSuffix
         self.arrayOfArraysData = arrayOfArraysData
         self.childDirectoryName = filenameSuffix
-        self.filename = airLineName + '_' + filenameSuffix
         self.parentDirectoryName = parentDirectoryName
 
     def OUTPUT_DIRECTORY(self):
