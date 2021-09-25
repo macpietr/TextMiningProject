@@ -1,4 +1,3 @@
-from matthausITberatung.dataDownloader.cleaner.DataCleaner import DataCleaner
 from matthausITberatung.dataDownloader.dataDownloader.AbstractDownloader import AbstractDownloader
 
 
