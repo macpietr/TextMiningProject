@@ -41,23 +41,23 @@ for airLineName in listOfAirLineNames:
 
     print('saving data for: ' + airLineName)
 
-    FileWriter(airLineName, mainUserOpoinionData, 'MainUserOpinion', saveFolder).putExtractedDataIntoFile()
-    FileWriter(airLineName, mainMarkInOpinionData, 'MainMarkInOpinion', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, 'MainUserOpinion', saveFolder).putExtractedDataIntoFile(mainUserOpoinionData)
+    FileWriter(airLineName, 'MainMarkInOpinion', saveFolder).putExtractedDataIntoFile(mainMarkInOpinionData)
 
-    FileWriter(airLineName, aircraftData, 'Aircraft', saveFolder).putExtractedDataIntoFile()
-    FileWriter(airLineName, typeOfTravellerData, 'TypeOfTraveller', saveFolder).putExtractedDataIntoFile()
-    FileWriter(airLineName, seatType, 'SeatType', saveFolder).putExtractedDataIntoFile()
-    FileWriter(airLineName, route, 'Route', saveFolder).putExtractedDataIntoFile()
-    FileWriter(airLineName, dateFlown, 'DateFlown', saveFolder).putExtractedDataIntoFile()
-    FileWriter(airLineName, isRecommended, 'IsRecommended', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, 'Aircraft', saveFolder).putExtractedDataIntoFile(aircraftData)
+    FileWriter(airLineName, 'TypeOfTraveller', saveFolder).putExtractedDataIntoFile(typeOfTravellerData)
+    FileWriter(airLineName, 'SeatType', saveFolder).putExtractedDataIntoFile(seatType)
+    FileWriter(airLineName, 'Route', saveFolder).putExtractedDataIntoFile(route)
+    FileWriter(airLineName, 'DateFlown', saveFolder).putExtractedDataIntoFile(dateFlown)
+    FileWriter(airLineName, 'IsRecommended', saveFolder).putExtractedDataIntoFile(isRecommended)
 
-    FileWriter(airLineName, seatComfort, 'SeatComfort', saveFolder).putExtractedDataIntoFile()
-    FileWriter(airLineName, cabinStaffService, 'CabinStaffService', saveFolder).putExtractedDataIntoFile()
-    FileWriter(airLineName, foodAndBeverages, 'FoodAndBeverages', saveFolder).putExtractedDataIntoFile()
-    FileWriter(airLineName, inflightEntertainment, 'InflightEntertainment', saveFolder).putExtractedDataIntoFile()
-    FileWriter(airLineName, groundService, 'GroundService', saveFolder).putExtractedDataIntoFile()
-    FileWriter(airLineName, wifiAndConnectivity, 'WifiAndConnectivity', saveFolder).putExtractedDataIntoFile()
-    FileWriter(airLineName, valueForMoney, 'ValueForMoney', saveFolder).putExtractedDataIntoFile()
+    FileWriter(airLineName, 'SeatComfort', saveFolder).putExtractedDataIntoFile(seatComfort)
+    FileWriter(airLineName, 'CabinStaffService', saveFolder).putExtractedDataIntoFile(cabinStaffService)
+    FileWriter(airLineName, 'FoodAndBeverages', saveFolder).putExtractedDataIntoFile(foodAndBeverages)
+    FileWriter(airLineName, 'InflightEntertainment', saveFolder).putExtractedDataIntoFile(inflightEntertainment)
+    FileWriter(airLineName, 'GroundService', saveFolder).putExtractedDataIntoFile(groundService)
+    FileWriter(airLineName, 'WifiAndConnectivity', saveFolder).putExtractedDataIntoFile(wifiAndConnectivity)
+    FileWriter(airLineName, 'ValueForMoney', saveFolder).putExtractedDataIntoFile(valueForMoney)
 
     print('operation for airline: ' + airLineName + ' is done!')
 
