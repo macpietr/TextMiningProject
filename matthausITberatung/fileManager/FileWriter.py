@@ -3,9 +3,9 @@ import os
 
 class FileWriter:
 
-    def __init__(self, airLineName, filenameSuffix, parentDirectoryName):
-        self.filename = airLineName + '_' + filenameSuffix
-        self.childDirectoryName = filenameSuffix
+    def __init__(self, parentDirectoryName, childDirectoryName, airLineName):
+        self.filename = airLineName + '_' + childDirectoryName
+        self.childDirectoryName = childDirectoryName
         self.parentDirectoryName = parentDirectoryName
 
     def OUTPUT_DIRECTORY(self):

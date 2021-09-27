@@ -13,10 +13,10 @@ mainMarkInOpinionDir = 'MainMarkInOpinion'
 for airline in PathsManager().LIST_OF_AIRLINES():
     downloadedData = FileReader().readFile(downloadedFolder, mainUserOpinionChildDir, airline)
     cleanedData = DataCleaner().cleanDataExtended(downloadedData)
-    FileWriter(airline, mainUserOpinionChildDir, saveFolder).putDataIntoFile(cleanedData)
+    FileWriter(saveFolder, mainUserOpinionChildDir, airline).putDataIntoFile(cleanedData)
 
 #Clean data for MainMarkInOpinion
 for airline in PathsManager().LIST_OF_AIRLINES():
     downloadedData = FileReader().readFile(downloadedFolder, mainMarkInOpinionDir, airline)
     cleanedData = DataCleaner().cleanData(downloadedData)
-    FileWriter(airline, mainMarkInOpinionDir, saveFolder).putDataIntoFile(cleanedData)
+    FileWriter(saveFolder, mainMarkInOpinionDir, airline).putDataIntoFile(cleanedData)
