@@ -23,3 +23,7 @@ class PathsManager:
     def CLEANED_DATA_FILES_DIR(self):
         path = self.PROJECT_ROOT_DIR() + 'cleaned_data_files'
         return path
+
+    def PICKLED_FILES(self):
+        path = self.PROJECT_ROOT_DIR() + 'pickled_files'
+        return path
