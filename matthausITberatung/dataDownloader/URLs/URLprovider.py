@@ -1,14 +1,5 @@
 class URLprovider:
 
-    def WIZZ_AIR(self):
-        return 'wizz-air'
-
-    def RYANAIR(self):
-        return 'ryanair'
-
-    def LUFTHANSA(self):
-        return 'lufthansa'
-
     def getListOfAirLineURLs(self, airlineName):
         listOfAirLineURLs = []
         # TODO change range for iterator
