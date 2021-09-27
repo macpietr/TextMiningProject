@@ -1,13 +1,18 @@
-
-class GeneralDataCleaner:
-
-
-    def __init__(self, processingString):
-        self.processingString = processingString
+import re
+import string
 
 
-    def cleanData(self):
-        return self.processingString\
+class DataCleaner:
+
+    def cleanDataExtended(self, data):
+        data = data.lower()
+        data = re.sub('\[.*?\]', '', data)
+        data = re.sub('[%s]' % re.escape(string.punctuation), '', data)
+        data = re.sub('\w*\d\w*', '', data)
+        return data
+
+    def cleanData(self, data):
+        return data\
             .replace('\\n','')\
             .replace('\\r','')\
             .replace('\\xa0','')\
