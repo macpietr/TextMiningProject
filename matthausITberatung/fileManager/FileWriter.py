@@ -17,7 +17,7 @@ class FileWriter:
             os.mkdir(path)
         return path+'\\'
 
-    def putExtractedDataIntoFile(self, arrayOfArraysData):
+    def putWebScrappedDataIntoFile(self, arrayOfArraysData):
         with open(str(self.OUTPUT_DIRECTORY() + self.filename) + '.txt', 'w', encoding='utf-8') as outfile:
             for dataArray in arrayOfArraysData:
                 for dataItem in dataArray:
