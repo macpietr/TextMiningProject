@@ -6,7 +6,6 @@ class DataCleaner:
 
     def cleanDataExtended(self, data):
         data = data.lower()
-        data = re.sub('\[.*?\]', '', data)
         data = re.sub('[%s]' % re.escape(string.punctuation), '', data)
         data = re.sub('\w*\d\w*', '', data)
         return data
