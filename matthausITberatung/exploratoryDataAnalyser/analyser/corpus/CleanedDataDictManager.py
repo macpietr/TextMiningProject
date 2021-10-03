@@ -1,6 +1,6 @@
 from matthausITberatung.dataCleaner.cleaner.DataCleaner import DataCleaner
-from matthausITberatung.fileManager.FileReader import FileReader
-from matthausITberatung.fileManager.PathsManager import PathsManager
+from matthausITberatung.objectsManager.FileReader import FileReader
+from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 
 class CleanedDataDictManager:

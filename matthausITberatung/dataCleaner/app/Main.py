@@ -1,7 +1,7 @@
 from matthausITberatung.dataCleaner.cleaner.DataCleaner import DataCleaner
-from matthausITberatung.fileManager.FileReader import FileReader
-from matthausITberatung.fileManager.FileWriter import FileWriter
-from matthausITberatung.fileManager.PathsManager import PathsManager
+from matthausITberatung.objectsManager.FileReader import FileReader
+from matthausITberatung.objectsManager.FileWriter import FileWriter
+from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 
 downloadedFolder = PathsManager().DOWNLOADED_FILES_DIR()

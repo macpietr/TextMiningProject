@@ -4,8 +4,8 @@ from matthausITberatung.dataDownloader.dataDownloader.MainMarkInOpinionDownloade
 from matthausITberatung.dataDownloader.dataDownloader.MainUserOpinionDownloader import MainUserOpoinionDownloader
 from matthausITberatung.dataDownloader.dataDownloader.ReviewRatingDownloader import ReviewRatingDownloader
 from matthausITberatung.dataDownloader.dataDownloader.ReviewRatingStarDownloader import ReviewRatingStarDownloader
-from matthausITberatung.fileManager.FileWriter import FileWriter
-from matthausITberatung.fileManager.PathsManager import PathsManager
+from matthausITberatung.objectsManager.FileWriter import FileWriter
+from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 print('dataDownloader module has started')
 

@@ -2,7 +2,7 @@ import pandas
 from pandas import DataFrame
 
 from matthausITberatung.exploratoryDataAnalyser.analyser.corpus.CleanedDataDictManager import CleanedDataDictManager
-from matthausITberatung.fileManager.PathsManager import PathsManager
+from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 
 class CorpusManager:
