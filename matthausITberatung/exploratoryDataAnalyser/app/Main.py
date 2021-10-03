@@ -1,14 +1,19 @@
 
 from matthausITberatung.exploratoryDataAnalyser.analyser.corpus.CorpusManager import CorpusManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.dataTermMatrix.DataTermMatrixManager import DataTermMatrixManager
+from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 
 corpusManager = CorpusManager()
 dataTermMatrixManager = DataTermMatrixManager()
+objectManager = ObjectsManager()
 
 mainOpinionsCorpus = corpusManager.createMainOpinionsCorpus()
 mainOpinionsCorpus.columns = ['opinions']
 
-print(dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.opinions))
+mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.opinions)
+objectManager.saveObject(mainOpinionsDTM, 'mainOpinionsDTM')
+print(objectManager.getSavedObject('mainOpinionsDTM'))
+
 
 # mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.opinions)
 #
