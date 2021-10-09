@@ -1,14 +1,15 @@
 import pandas
 from pandas import DataFrame
 
-from matthausITberatung.exploratoryDataAnalyser.analyser.corpus.CleanedDataDictManager import CleanedDataDictManager
+from matthausITberatung.exploratoryDataAnalyser.analyser.CleanedDataDictManager import CleanedDataDictManager
 from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 
 class CorpusManager:
 
     def createMainOpinionsCorpus(self, *numberOfCharactersToPrint):
-        cleanDataDictForMainOpinionsCorpus = CleanedDataDictManager().getCleanedDataDictForCorpus(partOfScrappedData='MainUserOpinion')
+        cleanDataDictForMainOpinionsCorpus = CleanedDataDictManager()\
+            .getCleanedDataDictForCorpus(partOfScrappedData='MainUserOpinion')
         if len(numberOfCharactersToPrint) == 0:
             return DataFrame.from_dict(cleanDataDictForMainOpinionsCorpus).transpose()
         if len(numberOfCharactersToPrint) == 1:
