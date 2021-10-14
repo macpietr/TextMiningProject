@@ -9,25 +9,29 @@ objectManager = ObjectsManager()
 topWordsDictManager = TopWordsDictManager()
 
 mainOpinionsCorpus = corpusManager.createMainOpinionsCorpus()
-print(mainOpinionsCorpus)
-print("####################")
+#print(mainOpinionsCorpus)
+#print("####################")
 #name columns with opinions from corpus as 'opinions'. We have only one column in our corpus, beacuse airlines are index of corpus
 mainOpinionsCorpus.columns = ['opinions']
-print(mainOpinionsCorpus)
-print("####################")
+#print(mainOpinionsCorpus)
+#print("####################")
 
 mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.opinions)
-print(mainOpinionsDTM)
+#print(mainOpinionsDTM)
 #assign corpus index to DTM index. It replaces numeric index with appropriate airline names brought from corpus
+#rows of DTM are labeled as certain arilines.
 mainOpinionsDTM.index = mainOpinionsCorpus.index
-print(mainOpinionsDTM)
-print(mainOpinionsDTM.transpose())
+#print(mainOpinionsDTM)
+#print(mainOpinionsDTM.transpose())
 
-print(mainOpinionsDTM.columns)
+#print(mainOpinionsDTM.columns)
+
+print(mainOpinionsDTM.transpose().head(30))
 
 topWordsDict = topWordsDictManager.createTopWordsDict(mainOpinionsDTM.transpose())
 
-print(topWordsDict)
+#print(topWordsDict)
 
-topWordsDictManager.printTopWords(topWordsDict,4)
+topWordsDictManager.printTopWords(topWordsDict,12)
 
+print(topWordsDict["lufthansa"][0:14])
