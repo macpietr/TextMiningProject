@@ -1,6 +1,6 @@
 class TopWordsDictManager:
 
-    def getTopWordsDict(self, DataTermMatrix):
+    def createTopWordsDict(self, DataTermMatrix):
         topWorldsDict = {}
         for column in DataTermMatrix.columns:
             top = DataTermMatrix[column].sort_values(ascending=False)
