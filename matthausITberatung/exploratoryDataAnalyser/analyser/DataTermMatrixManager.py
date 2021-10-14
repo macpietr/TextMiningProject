@@ -10,6 +10,8 @@ class DataTermMatrixManager:
     def createDataTermMatrix(self, corpusColumn):
         return pandas.DataFrame(self.__getCountedWordsArray(corpusColumn), columns=self.__getCountedWordsLabels())
 
+    #Below methods are private, beacuse they have to be invoked in appropriate order. It is not allowed to return
+    #CountedWirdsLabels without previous usage of fit_transform on countVectoriser
     def __getCountedWordsLabels(self):
         return self.countVectoriser.get_feature_names_out()
 
