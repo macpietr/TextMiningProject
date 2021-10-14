@@ -1,39 +1,33 @@
-
-from matthausITberatung.exploratoryDataAnalyser.analyser.corpus.CorpusManager import CorpusManager
-from matthausITberatung.exploratoryDataAnalyser.analyser.dataTermMatrix.DataTermMatrixManager import DataTermMatrixManager
+from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
+from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
+from matthausITberatung.exploratoryDataAnalyser.analyser.TopWordsDictManager import TopWordsDictManager
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 
 corpusManager = CorpusManager()
 dataTermMatrixManager = DataTermMatrixManager()
 objectManager = ObjectsManager()
+topWordsDictManager = TopWordsDictManager()
 
 mainOpinionsCorpus = corpusManager.createMainOpinionsCorpus()
+print(mainOpinionsCorpus)
+print("####################")
+#name columns with opinions from corpus as 'opinions'. We have only one column in our corpus, beacuse airlines are index of corpus
 mainOpinionsCorpus.columns = ['opinions']
+print(mainOpinionsCorpus)
+print("####################")
 
 mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.opinions)
-objectManager.saveObject(mainOpinionsDTM, 'mainOpinionsDTM')
-print(objectManager.getSavedObject('mainOpinionsDTM'))
+print(mainOpinionsDTM)
+#assign corpus index to DTM index. It replaces numeric index with appropriate airline names brought from corpus
+mainOpinionsDTM.index = mainOpinionsCorpus.index
+print(mainOpinionsDTM)
+print(mainOpinionsDTM.transpose())
 
+print(mainOpinionsDTM.columns)
 
-# mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.opinions)
-#
-# print(mainOpinionsDTM)
+topWordsDict = topWordsDictManager.createTopWordsDict(mainOpinionsDTM.transpose())
 
+print(topWordsDict)
 
-# data_cv = countVectorizer.fit_transform(corpus.opinions)
-# print(data_cv)
-# print('#############')
-# data_dtm = pandas.DataFrame(data_cv.toarray(), columns=countVectorizer.get_feature_names_out())
-# print('#############')
-# print(data_cv.toarray())
-# print(countVectorizer.get_feature_names_out())
-# print('#############')
-# print(data_dtm)
+topWordsDictManager.printTopWords(topWordsDict,4)
 
-
-# corpusManager = CorpusManager()
-#
-# generalCorpus = corpusManager.createCorpus(150)
-# generalCorpus.columns = ['opinions']
-#
-# print(generalCorpus.items)
