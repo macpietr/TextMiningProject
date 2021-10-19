@@ -4,11 +4,13 @@ from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import Co
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.TopWordsDictManager import TopWordsDictManager
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
+from matthausITberatung.stopWords.StopWordsManager import StopWordsManager
 
 corpusManager = CorpusManager()
 dataTermMatrixManager = DataTermMatrixManager()
 objectManager = ObjectsManager()
 topWordsDictManager = TopWordsDictManager()
+stopWordsManager = StopWordsManager()
 
 mainOpinionsCorpus = corpusManager.createMainOpinionsCorpus()
 #print(mainOpinionsCorpus)
@@ -48,3 +50,6 @@ print(len(topWordsDictManager.getTopCommonWords(topWordsDict,30)))
 #Dzięki counterowi, możemy wskazać, które słowo z wcześniej wrzuconych powtórzuło się. Otzymujemy słowo i numer w ilu opiniach lini lotniczych wystąpiło
 print(type(Counter(topCommonWords).most_common()))
 #Możemy zdecydować, które spośród tych słów trafi do stop words, a które będziemy badać
+print(len(topWordsDict.keys()))
+potentialStopWordsList = stopWordsManager.createPotentialStopWordsList(topCommonWords,3)
+print(potentialStopWordsList)
