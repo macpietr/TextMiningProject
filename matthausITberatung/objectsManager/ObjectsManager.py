@@ -1,3 +1,5 @@
+import pickle
+
 import pandas
 
 from matthausITberatung.objectsManager.PathsManager import PathsManager
@@ -5,7 +7,9 @@ from matthausITberatung.objectsManager.PathsManager import PathsManager
 class ObjectsManager:
 
     def saveObject(self, object, objectFileName):
-        object.to_pickle(PathsManager().PICKLED_FILES() + "/" + objectFileName + ".pkl")
+        with open(PathsManager().PICKLED_FILES() + "/" + objectFileName + ".pkl", 'wb') as pickledFile:
+            pickle.dump(object, pickledFile)
 
     def getSavedObject(self, objectFileName):
-        return pandas.read_pickle(PathsManager().PICKLED_FILES() + "/" + objectFileName + ".pkl")
+        with open(PathsManager().PICKLED_FILES() + "/" + objectFileName + ".pkl", 'rb') as pickledFile:
+            return pickle.load(pickledFile)
