@@ -1,39 +1,47 @@
 from collections import Counter
 
+from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer
 
 from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.TopWordsDictManager import TopWordsDictManager
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
-from matthausITberatung.stopWords.StopWordsManager import StopWordsManager
+from matthausITberatung.stopWords.manager.StopWordsManager import StopWordsManager
 
+
+##BASIC PART
+#Create objects which are managers for certain operations
 corpusManager = CorpusManager()
 dataTermMatrixManager = DataTermMatrixManager()
 objectManager = ObjectsManager()
 topWordsDictManager = TopWordsDictManager()
 stopWordsManager = StopWordsManager()
 
+POTENTIAL_STOP_WORDS_LIST = objectManager.getSavedObject('potentialStopWordsList')
+UNION_STOP_WORDS = text.ENGLISH_STOP_WORDS.union(POTENTIAL_STOP_WORDS_LIST)
+#CountVectorizer will be required object to create DTM
+#It is used to transform a given text into a vector on the basis of the frequency (count) of each word that occurs in the entire text.
+countVectorizer = CountVectorizer(stop_words=UNION_STOP_WORDS)
+
+#We have to create corpus
 mainOpinionsCorpus = corpusManager.createMainOpinionsCorpus()
-#print(mainOpinionsCorpus)
-#print("####################")
+
 #name columns with opinions from corpus as 'opinions'. We have only one column in our corpus, beacuse airlines are index of corpus
 mainOpinionsCorpus.columns = ['opinions']
-#print(mainOpinionsCorpus)
-#print("####################")
-countVectorizer = CountVectorizer(stop_words='english')
+
+#Create DTM basing on previous corpus and countVectorizer which takes stop words into account
 mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.opinions, countVectorizer)
-#print(mainOpinionsDTM)
+
 #assign corpus index to DTM index. It replaces numeric index with appropriate airline names brought from corpus
 #rows of DTM are labeled as certain arilines.
 mainOpinionsDTM.index = mainOpinionsCorpus.index
-#print(mainOpinionsDTM)
-#print(mainOpinionsDTM.transpose())
 
 #print(mainOpinionsDTM.columns)
 
 print(mainOpinionsDTM.transpose().head(30))
 
+#Create a dictionary where key is the airline and value is a list of words and their number of appearance (word, count)
 topWordsDict = topWordsDictManager.createTopWordsDict(mainOpinionsDTM.transpose())
 
 #print(topWordsDict)
