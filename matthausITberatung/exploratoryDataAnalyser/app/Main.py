@@ -1,3 +1,5 @@
+from collections import Counter
+
 from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.TopWordsDictManager import TopWordsDictManager
@@ -35,3 +37,14 @@ topWordsDict = topWordsDictManager.createTopWordsDict(mainOpinionsDTM.transpose(
 topWordsDictManager.printTopWords(topWordsDict,12)
 
 print(topWordsDict["lufthansa"][0:14])
+
+
+
+#Poniżej wrzucamy 30 najczęściej występujących słów do tablicy words dla każdej lini lotniczej
+
+topCommonWords = topWordsDictManager.getTopCommonWords(topWordsDict,30)
+
+print(len(topWordsDictManager.getTopCommonWords(topWordsDict,30)))
+#Dzięki counterowi, możemy wskazać, które słowo z wcześniej wrzuconych powtórzuło się. Otzymujemy słowo i numer w ilu opiniach lini lotniczych wystąpiło
+print(type(Counter(topCommonWords).most_common()))
+#Możemy zdecydować, które spośród tych słów trafi do stop words, a które będziemy badać
