@@ -1,5 +1,7 @@
 from collections import Counter
 
+from sklearn.feature_extraction.text import CountVectorizer
+
 from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.TopWordsDictManager import TopWordsDictManager
@@ -19,8 +21,8 @@ mainOpinionsCorpus = corpusManager.createMainOpinionsCorpus()
 mainOpinionsCorpus.columns = ['opinions']
 #print(mainOpinionsCorpus)
 #print("####################")
-
-mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.opinions)
+countVectorizer = CountVectorizer(stop_words='english')
+mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.opinions, countVectorizer)
 #print(mainOpinionsDTM)
 #assign corpus index to DTM index. It replaces numeric index with appropriate airline names brought from corpus
 #rows of DTM are labeled as certain arilines.
