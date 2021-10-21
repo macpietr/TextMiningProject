@@ -1,7 +1,9 @@
 from collections import Counter
 
+from matplotlib import pyplot as plt
 from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer
+from wordcloud import WordCloud
 
 from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
@@ -26,6 +28,8 @@ countVectorizer = CountVectorizer(stop_words=UNION_STOP_WORDS)
 
 #We have to create corpus
 mainOpinionsCorpus = corpusManager.createMainOpinionsCorpus()
+
+print(mainOpinionsCorpus)
 
 #name columns with opinions from corpus as 'opinions'. We have only one column in our corpus, beacuse airlines are index of corpus
 mainOpinionsCorpus.columns = ['opinions']
@@ -63,3 +67,20 @@ print(type(Counter(topCommonWords).most_common()))
 print(len(topWordsDict.keys()))
 potentialStopWordsList = stopWordsManager.createPotentialStopWordsList(topCommonWords,3)
 print(potentialStopWordsList)
+
+
+#########PLOTS
+
+airlines = topWordsDict.keys()
+
+projectWordcloud = WordCloud(stopwords=UNION_STOP_WORDS, background_color="white", colormap="Dark2", max_font_size=150, random_state=42)
+
+plt.rcParams['figure.figsize'] = [50,50]
+
+projectWordcloud.generate(mainOpinionsCorpus.opinions['lufthansa'])
+plt.subplot(4,4,1)
+plt.imshow(projectWordcloud, interpolation="bilinear")
+plt.axis("off")
+plt.title("heheheh")
+
+plt.show()
