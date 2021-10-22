@@ -5,8 +5,8 @@ from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer
 
 from matthausITberatung.dataCleaner.cleaner.DataCleaner import DataCleaner
-from matthausITberatung.fileManager.FileReader import FileReader
-from matthausITberatung.fileManager.PathsManager import PathsManager
+from matthausITberatung.objectsManager.FileReader import FileReader
+from matthausITberatung.objectsManager.PathsManager import PathsManager
 import pandas as pd
 
 cleanedDataMap = {}
