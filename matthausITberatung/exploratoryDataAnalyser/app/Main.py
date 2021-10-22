@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.TopWordsDictManager import TopWordsDictManager
+from matthausITberatung.exploratoryDataAnalyser.analyser.UniqueWordsManager import UniqueWordsManager
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 from matthausITberatung.stopWords.manager.StopWordsManager import StopWordsManager
 
@@ -17,6 +18,7 @@ dataTermMatrixManager = DataTermMatrixManager()
 objectManager = ObjectsManager()
 topWordsDictManager = TopWordsDictManager()
 stopWordsManager = StopWordsManager()
+uniqueWordsManager = UniqueWordsManager()
 
 POTENTIAL_STOP_WORDS_LIST = objectManager.getSavedObject('potentialStopWordsList')
 UNION_STOP_WORDS = text.ENGLISH_STOP_WORDS.union(POTENTIAL_STOP_WORDS_LIST)
@@ -66,7 +68,11 @@ print(len(topWordsDict.keys()))
 potentialStopWordsList = stopWordsManager.createPotentialStopWordsList(topCommonWords,3)
 print(potentialStopWordsList)
 
-objectManager.saveObject(mainOpinionsCorpus, 'mainOpinionsCorpus')
-objectManager.saveObject(UNION_STOP_WORDS,'unionStopWords')
-objectManager.saveObject(topWordsDict,'topWordsDict')
-objectManager.saveObject(mainOpinionsDTM, 'mainOpinionsDTM')
+mainOpinionsDTM = mainOpinionsDTM.transpose()
+
+print(uniqueWordsManager.createUniqueWordsTable(mainOpinionsDTM))
+
+# objectManager.saveObject(mainOpinionsCorpus, 'mainOpinionsCorpus')
+# objectManager.saveObject(UNION_STOP_WORDS,'unionStopWords')
+# objectManager.saveObject(topWordsDict,'topWordsDict')
+# objectManager.saveObject(mainOpinionsDTM, 'mainOpinionsDTM')
