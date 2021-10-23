@@ -4,6 +4,7 @@ from matthausITberatung.dataDownloader.dataDownloader.MainMarkInOpinionDownloade
 from matthausITberatung.dataDownloader.dataDownloader.MainUserOpinionDownloader import MainUserOpoinionDownloader
 from matthausITberatung.dataDownloader.dataDownloader.ReviewRatingDownloader import ReviewRatingDownloader
 from matthausITberatung.dataDownloader.dataDownloader.ReviewRatingStarDownloader import ReviewRatingStarDownloader
+from matthausITberatung.dataDownloader.dataDownloader.TitleOfOpinionDownloader import TitleOfOpinionDownloader
 from matthausITberatung.objectsManager.FileWriter import FileWriter
 from matthausITberatung.objectsManager.PathsManager import PathsManager
 
@@ -19,13 +20,14 @@ for airLineName in PathsManager().LIST_OF_AIRLINES():
     listOfAirLineURLs = URLprovider().getListOfAirLineURLs(airLineName)
     listOfBeautifulSoupObjects = beautifulSoupDownloader.getListOfBeautifulSoupObject(listOfAirLineURLs)
 
-    mainUserOpoinionData = MainUserOpoinionDownloader(listOfBeautifulSoupObjects).getDataArrayOfArrays()
+    titleOfOpinionData = TitleOfOpinionDownloader(listOfBeautifulSoupObjects).getDataArrayOfArrays()
+    mainUserOpinionData = MainUserOpoinionDownloader(listOfBeautifulSoupObjects).getDataArrayOfArrays()
     mainMarkInOpinionData = MainMarkInOpinionDownloader(listOfBeautifulSoupObjects).getDataArrayOfArrays()
 
     aircraftData = ReviewRatingDownloader(listOfBeautifulSoupObjects,'Aircraft').getDataArrayOfArrays()
     typeOfTravellerData = ReviewRatingDownloader(listOfBeautifulSoupObjects,'type_of_traveller').getDataArrayOfArrays()
     seatType = ReviewRatingDownloader(listOfBeautifulSoupObjects, 'cabin_flown').getDataArrayOfArrays()
-    route = ReviewRatingDownloader(listOfBeautifulSoupObjects, 'cabin_flown').getDataArrayOfArrays()
+    route = ReviewRatingDownloader(listOfBeautifulSoupObjects, 'route').getDataArrayOfArrays()
     dateFlown = ReviewRatingDownloader(listOfBeautifulSoupObjects, 'date_flown').getDataArrayOfArrays()
     isRecommended = ReviewRatingDownloader(listOfBeautifulSoupObjects, 'recommended').getDataArrayOfArrays()
 
@@ -39,7 +41,8 @@ for airLineName in PathsManager().LIST_OF_AIRLINES():
 
     print('saving data for: ' + airLineName)
 
-    FileWriter(saveFolder, 'MainUserOpinion', airLineName).putWebScrappedDataIntoFile(mainUserOpoinionData)
+    FileWriter(saveFolder, 'TitleOfOpinion', airLineName).putWebScrappedDataIntoFile(titleOfOpinionData)
+    FileWriter(saveFolder, 'MainUserOpinion', airLineName).putWebScrappedDataIntoFile(mainUserOpinionData)
     FileWriter(saveFolder, 'MainMarkInOpinion', airLineName).putWebScrappedDataIntoFile(mainMarkInOpinionData)
 
     FileWriter(saveFolder, 'Aircraft', airLineName).putWebScrappedDataIntoFile(aircraftData)
