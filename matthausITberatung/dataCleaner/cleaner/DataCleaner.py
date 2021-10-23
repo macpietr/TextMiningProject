@@ -1,8 +1,19 @@
 import re
 import string
 
+from matthausITberatung.objectsManager.FileReader import FileReader
+from matthausITberatung.objectsManager.FileWriter import FileWriter
+from matthausITberatung.objectsManager.PathsManager import PathsManager
+
 
 class DataCleaner:
+
+    def cleanAndWriteData(self, nameOfDataChildDir):
+        for airline in PathsManager().LIST_OF_AIRLINES():
+            downloadedData = FileReader().readFile(PathsManager().DOWNLOADED_FILES_DIR(), nameOfDataChildDir, airline)
+            cleanedData = self.cleanData(downloadedData)
+            cleanedData = self.cleanDataExtended(cleanedData)
+            FileWriter(PathsManager().CLEANED_DATA_FILES_DIR(), nameOfDataChildDir, airline).putDataIntoFile(cleanedData)
 
     def cleanDataExtended(self, data):
         data = data.lower()
@@ -15,6 +26,7 @@ class DataCleaner:
     def cleanData(self, data):
         return data\
             .replace('\\n','')\
+            .replace('´','')\
             .replace('\\r','')\
             .replace('\\xa0','')\
             .replace('\\','')\
