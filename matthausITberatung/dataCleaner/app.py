@@ -31,7 +31,7 @@ corpus['airlines'] = PathsManager().LIST_OF_AIRLINES
 
 print(corpus)
 #Pickle the corpus
-corpus.to_pickle(PathsManager().PICKLED_FILES()+"/corpus.pkl")
+corpus.to_pickle(PathsManager().PICKLED_FILES+"/corpus.pkl")
 
 #Document-Term Matrix
 cv = CountVectorizer(stop_words='english') #declare CountVectorizer
@@ -44,7 +44,7 @@ data_dtm.index = corpus.index
 
 print(data_dtm)
 
-data_dtm.to_pickle(PathsManager().PICKLED_FILES()+"/dtm.pkl")
+data_dtm.to_pickle(PathsManager().PICKLED_FILES+"/dtm.pkl")
 
 
 pickle.dump(cv, open("corpus.pkl", "wb"))
@@ -88,7 +88,7 @@ print(add_stop_words)
 
 ###########
 
-# corpus = pd.read_pickle(PathsManager().PICKLED_FILES()+'/corpus.pkl')
+# corpus = pd.read_pickle(PathsManager().PICKLED_FILES+'/corpus.pkl')
 print(corpus)
 
 stop_words = text.ENGLISH_STOP_WORDS.union(add_stop_words)
@@ -103,7 +103,7 @@ data_stop = pd.DataFrame(data_cv.toarray(), columns=cv.get_feature_names_out())
 data_stop.index = corpus.index
 print(data_stop)
 
-pickle.dump(cv,open(PathsManager().PICKLED_FILES()+'/cv_stop.pkl','wb'))
+pickle.dump(cv,open(PathsManager().PICKLED_FILES+'/cv_stop.pkl','wb'))
 data_stop.to_pickle('dtm_stop.pkl')
 
 print(data_stop)
