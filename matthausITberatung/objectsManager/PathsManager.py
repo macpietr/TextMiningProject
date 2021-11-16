@@ -1,28 +1,18 @@
 class PathsManager:
 
-    def WIZZ_AIR(self):
-        return 'wizz-air'
+    WIZZ_AIR = 'wizz-air'
 
-    def RYANAIR(self):
-        return 'ryanair'
+    RYANAIR = 'ryanair'
 
-    def LUFTHANSA(self):
-        return 'lufthansa'
+    LUFTHANSA = 'lufthansa'
 
-    def LIST_OF_AIRLINES(self):
-        return [self.LUFTHANSA(),self.RYANAIR(),self.WIZZ_AIR()]
+    LIST_OF_AIRLINES = [LUFTHANSA,RYANAIR,WIZZ_AIR]
 
-    def PROJECT_ROOT_DIR(self):
-        path = 'C:\\Users\\macie\\Documents\\TextMiningProject\\matthausITberatung\\output_files\\'
-        return path
+    PROJECT_ROOT_DIR = 'C:\\Users\\macie\\Documents\\TextMiningProject\\matthausITberatung\\output_files\\'
 
-    def DOWNLOADED_FILES_DIR(self):
-        path = self.PROJECT_ROOT_DIR() + 'downloaded_files'
-        return path
+    DOWNLOADED_FILES_DIR = PROJECT_ROOT_DIR + 'downloaded_files'
 
-    def CLEANED_DATA_FILES_DIR(self):
-        path = self.PROJECT_ROOT_DIR() + 'cleaned_data_files'
-        return path
+    CLEANED_DATA_FILES_DIR = PROJECT_ROOT_DIR + 'cleaned_data_files'
 
     def PICKLED_FILES(self):
         path = self.PROJECT_ROOT_DIR() + 'pickled_files'

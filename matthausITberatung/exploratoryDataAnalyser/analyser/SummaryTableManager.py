@@ -8,7 +8,8 @@ class SummaryTableManager:
         summaryTable = pandas.DataFrame(dataTermMatrix.columns, columns=['airlines'])
         summaryTable['unique_words'] = self.__getCountOfUniqueWordsList(dataTermMatrix)
         summaryTable['sum_of_words'] = self.__getTotalNumberOfWords(dataTermMatrix)
-        summaryTable['sum_of_words_per_post'] = summaryTable['sum_of_words'] / 1000
+        # TODO: zobaczyc czy da radę tego tysiaka wrzuconego na tweardo zamienic na cos
+        summaryTable['avg_amount_of_words_per_post'] = summaryTable['sum_of_words'] / 1000
         return summaryTable
 
     def __getTotalNumberOfWords(self, dataTermMatrix):

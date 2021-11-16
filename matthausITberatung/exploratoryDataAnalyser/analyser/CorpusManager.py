@@ -19,7 +19,7 @@ class CorpusManager:
             print('Maximum number of parameters is 1 for getCorpus() method')
 
     def saveCorpus(self, corpusObject, objectfileName):
-        corpusObject.to_pickle(PathsManager().PICKLED_FILES()+'/'+objectfileName+'.pkl')
+        corpusObject.to_pickle(PathsManager().PICKLED_FILES+'/'+objectfileName+'.pkl')
 
     def getSavedCorpus(self, objectFileName):
-        return pandas.read_pickle(PathsManager().PICKLED_FILES()+'/'+objectFileName+'.pkl')
+        return pandas.read_pickle(PathsManager().PICKLED_FILES+'/'+objectFileName+'.pkl')

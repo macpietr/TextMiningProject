@@ -11,9 +11,9 @@ from matthausITberatung.objectsManager.PathsManager import PathsManager
 print('dataDownloader module has started')
 
 beautifulSoupDownloader = BeautifulSoupDownloader()
-saveFolder = PathsManager().DOWNLOADED_FILES_DIR()
+saveFolder = PathsManager().DOWNLOADED_FILES_DIR
 
-for airLineName in PathsManager().LIST_OF_AIRLINES():
+for airLineName in PathsManager().LIST_OF_AIRLINES:
 
     print('scraping data for: ' + airLineName)
 

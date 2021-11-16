@@ -60,18 +60,24 @@ print(topWordsDict["lufthansa"][0:14])
 
 topCommonWords = topWordsDictManager.getTopCommonWords(topWordsDict,30)
 
+print("####### TOP COMMON WORDS #######")
+print(topCommonWords)
+print("### length of top common words")
 print(len(topWordsDictManager.getTopCommonWords(topWordsDict,30)))
 #Dzięki counterowi, możemy wskazać, które słowo z wcześniej wrzuconych powtórzuło się. Otzymujemy słowo i numer w ilu opiniach lini lotniczych wystąpiło
-print(type(Counter(topCommonWords).most_common()))
+print("###### mose common word")
+print(Counter(topCommonWords).most_common())
 #Możemy zdecydować, które spośród tych słów trafi do stop words, a które będziemy badać
 print(len(topWordsDict.keys()))
 potentialStopWordsList = stopWordsManager.createPotentialStopWordsList(topCommonWords,3)
+print("#### potential stop words list ########")
 print(potentialStopWordsList)
 
 mainOpinionsDTM = mainOpinionsDTM.transpose()
 
 summaryTable = summaryTableManager.createSummaryTable(mainOpinionsDTM)
 
+print(UNION_STOP_WORDS)
 print(summaryTable)
 
 objectManager.saveObject(mainOpinionsCorpus, 'mainOpinionsCorpus')

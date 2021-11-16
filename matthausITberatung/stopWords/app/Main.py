@@ -33,3 +33,5 @@ potentialStopWordsList = stopWordsManager.createPotentialStopWordsList(topCommon
                                                                        NUMBER_OF_DOCUMENTS_IN_WHICH_WORDS_OCCURED)
 
 objectManager.saveObject(potentialStopWordsList,"potentialStopWordsList")
+
+print(potentialStopWordsList)

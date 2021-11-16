@@ -10,7 +10,7 @@ from matthausITberatung.objectsManager.PathsManager import PathsManager
 import pandas as pd
 
 cleanedDataMap = {}
-for i, airline in enumerate(PathsManager().LIST_OF_AIRLINES()):
+for i, airline in enumerate(PathsManager().LIST_OF_AIRLINES):
     downloadedData = FileReader().readFile(PathsManager().CLEANED_DATA_FILES_DIR(),'MainUserOpinion',airline)
     cleanedDataMap[airline] = DataCleaner().cleanData(downloadedData)
 
@@ -27,7 +27,7 @@ corpus = corpus.sort_index()
 
 print(corpus)
 #Add next column to corpus
-corpus['airlines'] = PathsManager().LIST_OF_AIRLINES()
+corpus['airlines'] = PathsManager().LIST_OF_AIRLINES
 
 print(corpus)
 #Pickle the corpus
