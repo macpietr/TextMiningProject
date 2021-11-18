@@ -14,6 +14,4 @@ class PathsManager:
 
     CLEANED_DATA_FILES_DIR = PROJECT_ROOT_DIR + 'cleaned_data_files'
 
-    def PICKLED_FILES(self):
-        path = self.PROJECT_ROOT_DIR() + 'pickled_files'
-        return path
+    PICKLED_FILES = PROJECT_ROOT_DIR + 'pickled_files'
