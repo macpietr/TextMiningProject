@@ -21,7 +21,7 @@ plt.xticks(y_pos, summaryTable.airlines)
 
 plt.subplot(1,3,3)
 plt.title('Avg. amount of Words per post', fontsize=10)
-plt.bar(y_pos, summaryTable.sum_of_words_per_post)
+plt.bar(y_pos, summaryTable.avg_amount_of_words_per_post)
 plt.xticks(y_pos, summaryTable.airlines)
 
 plt.tight_layout(pad=3)

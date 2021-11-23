@@ -1,11 +1,11 @@
 class TopWordsDictManager:
 
     #Make a dict where key is the airline and value is array of words and the number of theirs appearances
-    def createTopWordsDict(self, DataTermMatrix):
+    def createTopWordsDict(self, TermDataMatrix):
         topWordsDict = {}
-        for column in DataTermMatrix.columns:
+        for column in TermDataMatrix.columns:
             #sort numbers of certain word appearance descending
-            top = DataTermMatrix[column].sort_values(ascending=False)
+            top = TermDataMatrix[column].sort_values(ascending=False)
             #zip index of those numbers with them. Thus we obtain array of pairs - (word, number of appearances)
             #TODO: zastanowić się czy nie zrobić dla poniższej linijki wariantu z dictem, tak aby móc wyciągać sobie konkretny wyraz i ilość wystąpień dla niego
             topWordsDict[column] = list(zip(top.index, top.values))

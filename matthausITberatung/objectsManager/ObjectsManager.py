@@ -1,7 +1,5 @@
 import pickle
 
-import pandas
-
 from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 class ObjectsManager:

@@ -42,11 +42,12 @@ mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.
 mainOpinionsDTM.index = mainOpinionsCorpus.index
 
 #print(mainOpinionsDTM.columns)
-
-print(mainOpinionsDTM.transpose().head(30))
+mainOpinionsTDM = mainOpinionsDTM.transpose()
+print('######### TDM head(30)')
+print(mainOpinionsTDM.head(30))
 
 #Create a dictionary where key is the airline and value is a list of words and their number of appearance (word, count)
-topWordsDict = topWordsDictManager.createTopWordsDict(mainOpinionsDTM.transpose())
+topWordsDict = topWordsDictManager.createTopWordsDict(mainOpinionsTDM)
 
 #print(topWordsDict)
 
@@ -73,9 +74,8 @@ potentialStopWordsList = stopWordsManager.createPotentialStopWordsList(topCommon
 print("#### potential stop words list ########")
 print(potentialStopWordsList)
 
-mainOpinionsDTM = mainOpinionsDTM.transpose()
 
-summaryTable = summaryTableManager.createSummaryTable(mainOpinionsDTM)
+summaryTable = summaryTableManager.createSummaryTable(mainOpinionsTDM)
 
 print(UNION_STOP_WORDS)
 print(summaryTable)
@@ -83,5 +83,5 @@ print(summaryTable)
 objectManager.saveObject(mainOpinionsCorpus, 'mainOpinionsCorpus')
 objectManager.saveObject(UNION_STOP_WORDS,'unionStopWords')
 objectManager.saveObject(topWordsDict,'topWordsDict')
-objectManager.saveObject(mainOpinionsDTM, 'mainOpinionsDTM')
+objectManager.saveObject(mainOpinionsTDM, 'mainOpinionsTDM')
 objectManager.saveObject(summaryTable, 'summaryTable')
