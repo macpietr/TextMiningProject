@@ -3,6 +3,7 @@ from collections import Counter
 from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer
 
+from matthausITberatung.exploratoryDataAnalyser.analyser.BigramsManager import BigramsManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.CleanedDataDictManager import CleanedDataDictManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
@@ -20,6 +21,7 @@ objectManager = ObjectsManager()
 topWordsDictManager = TopWordsDictManager()
 stopWordsManager = StopWordsManager()
 summaryTableManager = SummaryTableManager()
+bigramsManager = BigramsManager()
 
 POTENTIAL_STOP_WORDS_LIST = objectManager.getSavedObject('potentialStopWordsList')
 UNION_STOP_WORDS = text.ENGLISH_STOP_WORDS.union(POTENTIAL_STOP_WORDS_LIST)
@@ -70,7 +72,7 @@ print("####### TOP COMMON WORDS #######")
 print(topCommonWords)
 print("### length of top common words")
 print(len(topWordsDictManager.getTopCommonWords(topWordsDict,30)))
-#Dzięki counterowi, możemy wskazać, które słowo z wcześniej wrzuconych powtórzuło się. Otzymujemy słowo i numer w ilu opiniach lini lotniczych wystąpiło
+#Dzięki counterowi, możemy wskazać, które słowo z wcześniej wrzuconych powtórzyło się. Otzymujemy słowo i numer w ilu opiniach lini lotniczych wystąpiło
 print("###### mose common word")
 print(Counter(topCommonWords).most_common())
 #Możemy zdecydować, które spośród tych słów trafi do stop words, a które będziemy badać
@@ -85,8 +87,42 @@ summaryTable = summaryTableManager.createSummaryTable(mainOpinionsTDM)
 print(UNION_STOP_WORDS)
 print(summaryTable)
 
+
+######## BIGRAMS - repetition of previous steps, but using bigrams data############
+
+
+dataDictParsedFromDictOfBigrams = bigramsManager.getDataDictParsedFromDictOfBigrams(mainOpinionsCorpus)
+
+dictForBigramsCorpus = CleanedDataDictManager().getDataDictForCorpus(dataDictParsedFromDictOfBigrams)
+
+bigramsCorpus = CorpusManager().createCorpus(dictForBigramsCorpus, 30)
+bigramsCorpus.columns = ['bigramsOpinions']
+bigramsDTM = DataTermMatrixManager().createDataTermMatrix(bigramsCorpus.bigramsOpinions, countVectorizer)
+bigramsDTM.index = bigramsCorpus.index
+
+print(bigramsCorpus)
+print("########")
+
+bigramsTDM = bigramsDTM.transpose()
+
+bigramsTopWordsDict = TopWordsDictManager().createTopWordsDict(bigramsTDM)
+
+TopWordsDictManager().printTopWords(bigramsTopWordsDict, 12)
+
+topCommonBigramsWords = TopWordsDictManager().getTopCommonWords(bigramsTopWordsDict, 30)
+
+print(topCommonBigramsWords)
+
+bigramsSummaryTable = SummaryTableManager().createSummaryTable(bigramsTDM)
+
+print('##### bigrams summary table #####')
+print(bigramsSummaryTable)
+
 objectManager.saveObject(mainOpinionsCorpus, 'mainOpinionsCorpus')
 objectManager.saveObject(UNION_STOP_WORDS,'unionStopWords')
 objectManager.saveObject(topWordsDict,'topWordsDict')
+objectManager.saveObject(bigramsTopWordsDict, 'bigramsTopWordsDict')
 objectManager.saveObject(mainOpinionsTDM, 'mainOpinionsTDM')
+objectManager.saveObject(bigramsTDM, 'bigramsTDM')
 objectManager.saveObject(summaryTable, 'summaryTable')
+objectManager.saveObject(bigramsSummaryTable, 'bigramsSummaryTable')

@@ -4,10 +4,10 @@ import pandas
 class SummaryTableManager:
 
 
-    def createSummaryTable(self, dataTermMatrix):
-        summaryTable = pandas.DataFrame(dataTermMatrix.columns, columns=['airlines'])
-        summaryTable['unique_words'] = self.__getCountOfUniqueWordsList(dataTermMatrix)
-        summaryTable['sum_of_words'] = self.__getTotalNumberOfWords(dataTermMatrix)
+    def createSummaryTable(self, termDataMatrix):
+        summaryTable = pandas.DataFrame(termDataMatrix.columns, columns=['airlines'])
+        summaryTable['unique_words'] = self.__getCountOfUniqueWordsList(termDataMatrix)
+        summaryTable['sum_of_words'] = self.__getTotalNumberOfWords(termDataMatrix)
         # TODO: zobaczyc czy da radę tego tysiaka wrzuconego na tweardo zamienic na cos
         summaryTable['avg_amount_of_words_per_post'] = summaryTable['sum_of_words'] / 1000
         return summaryTable

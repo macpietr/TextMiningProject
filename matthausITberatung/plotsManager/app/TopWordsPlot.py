@@ -4,7 +4,7 @@ from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 
 topWordsDict = ObjectsManager().getSavedObject("topWordsDict")
 
-lufthansaTopWordsList = topWordsDict['ryanair'][0:20]
+lufthansaTopWordsList = topWordsDict['lufthansa'][0:20]
 
 lufthansaTopWordsDict = dict(lufthansaTopWordsList)
 
