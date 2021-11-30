@@ -2,6 +2,7 @@ from collections import Counter
 
 from sklearn.feature_extraction.text import CountVectorizer
 
+from matthausITberatung.exploratoryDataAnalyser.analyser.CleanedDataDictManager import CleanedDataDictManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.TopWordsDictManager import TopWordsDictManager
@@ -23,7 +24,9 @@ objectManager = ObjectsManager()
 topWordsDictManager = TopWordsDictManager()
 stopWordsManager = StopWordsManager()
 
-mainOpinionsCorpus = corpusManager.createMainOpinionsCorpus()
+cleanedDataDict = CleanedDataDictManager().getCleanedDataDictFromFiles(partOfScrappedData='MainUserOpinion')
+cleandDataDictForCorpus = CleanedDataDictManager().getDataDictForCorpus(cleanedDataDict)
+mainOpinionsCorpus = corpusManager.createCorpus(cleandDataDictForCorpus, 30)
 mainOpinionsCorpus.columns = ['opinions']
 mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.opinions, countVectorizer)
 mainOpinionsDTM.index = mainOpinionsCorpus.index

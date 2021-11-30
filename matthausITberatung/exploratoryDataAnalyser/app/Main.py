@@ -3,6 +3,7 @@ from collections import Counter
 from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer
 
+from matthausITberatung.exploratoryDataAnalyser.analyser.CleanedDataDictManager import CleanedDataDictManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.TopWordsDictManager import TopWordsDictManager
@@ -25,9 +26,13 @@ UNION_STOP_WORDS = text.ENGLISH_STOP_WORDS.union(POTENTIAL_STOP_WORDS_LIST)
 #CountVectorizer will be required object to create DTM
 #It is used to transform a given text into a vector on the basis of the frequency (count) of each word that occurs in the entire text.
 countVectorizer = CountVectorizer(stop_words=UNION_STOP_WORDS)
+objectManager.saveObject(countVectorizer, 'countVectorizer')
 
+#Prepare dict of cleand data for every airline
+cleanedDataDict = CleanedDataDictManager().getCleanedDataDictFromFiles(partOfScrappedData='MainUserOpinion')
+cleandDataDictForCorpus = CleanedDataDictManager().getDataDictForCorpus(cleanedDataDict)
 #We have to create corpus
-mainOpinionsCorpus = corpusManager.createMainOpinionsCorpus()
+mainOpinionsCorpus = corpusManager.createCorpus(cleandDataDictForCorpus, 30)
 
 print(mainOpinionsCorpus)
 
