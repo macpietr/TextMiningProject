@@ -1,3 +1,5 @@
+from collections import Counter
+
 from wordcloud import WordCloud
 from matplotlib import pyplot as plt
 
@@ -9,16 +11,32 @@ objectsManager = ObjectsManager()
 UNION_STOP_WORDS = objectsManager.getSavedObject('unionStopWords')
 mainOpinionsCorpus = objectsManager.getSavedObject('bigramsCorpus')
 
+dictOfListsOfBigrams = objectsManager.getSavedObject('dictOfListsOfBigrams')
 
-projectWordcloud = WordCloud(stopwords=UNION_STOP_WORDS, collocations=False, background_color="white", colormap="Dark2", max_font_size=150, random_state=42)
+dictOfCounters = {}
+for airline in PathsManager().LIST_OF_AIRLINES:
+    dictOfCounters[airline] = Counter(dictOfListsOfBigrams[airline])
 
-plt.rcParams['figure.figsize'] = [50,50]
+# lufthansaClearedList = [term for term in dictOfCounters['lufthansa'] if ]
 
-for numberOfPlot, airline in enumerate(PathsManager().LIST_OF_AIRLINES):
-    projectWordcloud.generate(mainOpinionsCorpus.opinions[airline])
-    plt.subplot(3,4,numberOfPlot+1)
-    plt.imshow(projectWordcloud, interpolation="bilinear")
-    plt.axis("off")
-    plt.title(airline)
+print(dictOfCounters['lufthansa'].most_common(10))
 
+wordcloud = WordCloud(width = 1000, height = 500).generate_from_frequencies(dictOfCounters['lufthansa'])
+
+plt.figure(figsize=(15,8))
+plt.imshow(wordcloud)
+plt.axis("off")
 plt.show()
+
+# projectWordcloud = WordCloud(stopwords=UNION_STOP_WORDS, collocations=False, background_color="white", colormap="Dark2", max_font_size=150, random_state=42)
+#
+# plt.rcParams['figure.figsize'] = [50,50]
+#
+# for numberOfPlot, airline in enumerate(PathsManager().LIST_OF_AIRLINES):
+#     projectWordcloud.generate(dictOfListsOfBigrams[airline])
+#     plt.subplot(3,4,numberOfPlot+1)
+#     plt.imshow(projectWordcloud, interpolation="bilinear")
+#     plt.axis("off")
+#     plt.title(airline)
+#
+# plt.show()

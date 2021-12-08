@@ -4,7 +4,7 @@ from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer
 
 from matthausITberatung.exploratoryDataAnalyser.analyser.BigramsManager import BigramsManager
-from matthausITberatung.exploratoryDataAnalyser.analyser.CleanedDataDictManager import CleanedDataDictManager
+from matthausITberatung.exploratoryDataAnalyser.analyser.DataDictManager import DataDictManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.TopWordsDictManager import TopWordsDictManager
@@ -15,6 +15,7 @@ from matthausITberatung.stopWords.manager.StopWordsManager import StopWordsManag
 
 ##BASIC PART
 #Create objects which are managers for certain operations
+dataDictManager = DataDictManager()
 corpusManager = CorpusManager()
 dataTermMatrixManager = DataTermMatrixManager()
 objectManager = ObjectsManager()
@@ -24,19 +25,23 @@ summaryTableManager = SummaryTableManager()
 bigramsManager = BigramsManager()
 
 POTENTIAL_STOP_WORDS_LIST = objectManager.getSavedObject('potentialStopWordsList')
-UNION_STOP_WORDS = text.ENGLISH_STOP_WORDS.union(POTENTIAL_STOP_WORDS_LIST)
+STOP_WORDS_LIST_FROM_SHORT_WORDS = objectManager.getSavedObject('stopWordsListFromShortWords')
+
+UNION_STOP_WORDS = text.ENGLISH_STOP_WORDS.union(POTENTIAL_STOP_WORDS_LIST).union(STOP_WORDS_LIST_FROM_SHORT_WORDS)
 #CountVectorizer will be required object to create DTM
 #It is used to transform a given text into a vector on the basis of the frequency (count) of each word that occurs in the entire text.
 countVectorizer = CountVectorizer(stop_words=UNION_STOP_WORDS)
 objectManager.saveObject(countVectorizer, 'countVectorizer')
 
 #Prepare dict of cleand data for every airline
-cleanedDataDict = CleanedDataDictManager().getCleanedDataDictFromFiles(partOfScrappedData='MainUserOpinion')
-cleandDataDictForCorpus = CleanedDataDictManager().getDataDictForCorpus(cleanedDataDict)
+cleanedDataDict = dataDictManager.getDataDictFromFiles(partOfScrappedData='MainUserOpinion')
+cleandDataDictForCorpus = dataDictManager.getDataDictForCorpus(cleanedDataDict)
 #We have to create corpus
 mainOpinionsCorpus = corpusManager.createCorpus(cleandDataDictForCorpus, 30)
 
-print(mainOpinionsCorpus)
+print('########## CORPUS')
+print(mainOpinionsCorpus.loc['lufthansa'])
+print('#############')
 
 #name columns with opinions from corpus as 'opinions'. We have only one column in our corpus, beacuse airlines are index of corpus
 mainOpinionsCorpus.columns = ['opinions']
@@ -77,7 +82,7 @@ print("###### mose common word")
 print(Counter(topCommonWords).most_common())
 #Możemy zdecydować, które spośród tych słów trafi do stop words, a które będziemy badać
 print(len(topWordsDict.keys()))
-potentialStopWordsList = stopWordsManager.createPotentialStopWordsList(topCommonWords,3)
+potentialStopWordsList = stopWordsManager.createStopWordsListBasedOnCommonWords(topCommonWords, 3)
 print("#### potential stop words list ########")
 print(potentialStopWordsList)
 
@@ -90,39 +95,19 @@ print(summaryTable)
 
 ######## BIGRAMS - repetition of previous steps, but using bigrams data############
 
+lemmitizedDataDictWithoutStopWords = dataDictManager.getLemmatizedDataDictForCorpusWithoutStopWords(cleandDataDictForCorpus, UNION_STOP_WORDS)
+dictOfListsOfBigrams = bigramsManager.getDictOfListsOfBigrams(lemmitizedDataDictWithoutStopWords)
 
-dataDictParsedFromDictOfBigrams = bigramsManager.getDataDictParsedFromDictOfBigrams(mainOpinionsCorpus)
+print('#################### BIGRAMS dataDictParsedFromDictOfBigrams')
+print(dictOfListsOfBigrams.keys())
+print(dictOfListsOfBigrams['lufthansa'])
+print('#################')
 
-dictForBigramsCorpus = CleanedDataDictManager().getDataDictForCorpus(dataDictParsedFromDictOfBigrams)
-
-bigramsCorpus = CorpusManager().createCorpus(dictForBigramsCorpus, 30)
-bigramsCorpus.columns = ['bigramsOpinions']
-bigramsDTM = DataTermMatrixManager().createDataTermMatrix(bigramsCorpus.bigramsOpinions, countVectorizer)
-bigramsDTM.index = bigramsCorpus.index
-
-print(bigramsCorpus)
-print("########")
-
-bigramsTDM = bigramsDTM.transpose()
-
-bigramsTopWordsDict = TopWordsDictManager().createTopWordsDict(bigramsTDM)
-
-TopWordsDictManager().printTopWords(bigramsTopWordsDict, 12)
-
-topCommonBigramsWords = TopWordsDictManager().getTopCommonWords(bigramsTopWordsDict, 30)
-
-print(topCommonBigramsWords)
-
-bigramsSummaryTable = SummaryTableManager().createSummaryTable(bigramsTDM)
-
-print('##### bigrams summary table #####')
-print(bigramsSummaryTable)
 
 objectManager.saveObject(mainOpinionsCorpus, 'mainOpinionsCorpus')
 objectManager.saveObject(UNION_STOP_WORDS,'unionStopWords')
 objectManager.saveObject(topWordsDict,'topWordsDict')
-objectManager.saveObject(bigramsTopWordsDict, 'bigramsTopWordsDict')
 objectManager.saveObject(mainOpinionsTDM, 'mainOpinionsTDM')
-objectManager.saveObject(bigramsTDM, 'bigramsTDM')
 objectManager.saveObject(summaryTable, 'summaryTable')
-objectManager.saveObject(bigramsSummaryTable, 'bigramsSummaryTable')
+objectManager.saveObject(dictOfListsOfBigrams, 'dictOfListsOfBigrams')
+objectManager.saveObject(UNION_STOP_WORDS, 'UNION_STOP_WORDS')

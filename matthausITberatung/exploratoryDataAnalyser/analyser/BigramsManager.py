@@ -3,20 +3,19 @@ from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 class BigramsManager:
 
-    def getDataDictParsedFromDictOfBigrams(self, mainOpinionsCorpus):
+    def getDictOfListsOfBigrams(self, dataDict):
         dataDictParsedFromDictOfBigrams = {}
-        for airline in PathsManager().LIST_OF_AIRLINES:
-            listOfBigrams = [' '.join(bigram) for bigram in self.__getDictOfBigrams(mainOpinionsCorpus)[airline]]
-            fullString = ' '.join(listOfBigrams)
-            dataDictParsedFromDictOfBigrams[airline] = fullString
+        for key in dataDict.keys():
+            listOfBigrams = [' '.join(bigram) for bigram in ngrams(dataDict[key].split(), 2)]
+            dataDictParsedFromDictOfBigrams[key] = listOfBigrams
         return dataDictParsedFromDictOfBigrams
 
 
-    def __getDictOfBigrams(self, mainOpinionsCorpus):
-        dictOfBigrams = {}
-        for airline in PathsManager().LIST_OF_AIRLINES:
-            dictOfBigrams[airline] = ngrams(mainOpinionsCorpus.opinions[airline].split(), 2)
-        return dictOfBigrams
+    # def __getDictOfBigrams(self, dataDict):
+    #     dictOfBigrams = {}
+    #     for key in dataDict.keys():
+    #         dictOfBigrams[key] = ngrams(dataDict[key].split(), 2)
+    #     return dictOfBigrams
 
 
 
