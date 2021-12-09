@@ -95,8 +95,9 @@ print(summaryTable)
 
 ######## BIGRAMS - repetition of previous steps, but using bigrams data############
 
-lemmitizedDataDictWithoutStopWords = dataDictManager.getLemmatizedDataDictForCorpusWithoutStopWords(cleandDataDictForCorpus, UNION_STOP_WORDS)
-dictOfListsOfBigrams = bigramsManager.getDictOfListsOfBigrams(lemmitizedDataDictWithoutStopWords)
+lemmitizedDataDict = dataDictManager.getLemmatizedDataDictForCorpus(cleandDataDictForCorpus)
+dataDictWithoutStopWords = dataDictManager.getDataDictWithoutStopWords(lemmitizedDataDict, UNION_STOP_WORDS)
+dictOfListsOfBigrams = bigramsManager.getDictOfListsOfBigrams(dataDictWithoutStopWords)
 
 print('#################### BIGRAMS dataDictParsedFromDictOfBigrams')
 print(dictOfListsOfBigrams.keys())

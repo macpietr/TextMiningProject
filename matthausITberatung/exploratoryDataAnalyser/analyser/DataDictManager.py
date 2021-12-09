@@ -20,11 +20,20 @@ class DataDictManager:
             cleanedDataDict[airline] = FileReader().readFile(PathsManager().CLEANED_DATA_FILES_DIR, partOfScrappedData, airline)
         return cleanedDataDict
 
-    def getLemmatizedDataDictForCorpusWithoutStopWords(self, dataDict, stopWords):
-        dataDictForCorpusWithoutStopWords = {}
+    def getLemmatizedDataDictForCorpus(self, dataDict):
+        lemmatizedDataDict = {}
         for key in dataDict.keys():
-            helperList = []
             for opinion in dataDict[key]:
-                helperList = [''.join(self.wordNetLemmatizer.lemmatize((word.strip()))) for word in opinion.split(" ") if word.strip() not in stopWords]
-            dataDictForCorpusWithoutStopWords[key] = ' '.join(helperList)
-        return dataDictForCorpusWithoutStopWords
+                helperList = [self.wordNetLemmatizer.lemmatize(word.strip(),'v') for word in opinion.split(" ")]
+                helperList = [self.wordNetLemmatizer.lemmatize(word.strip(),'n') for word in helperList]
+                helperList = [self.wordNetLemmatizer.lemmatize(word.strip(),'a') for word in helperList]
+                helperList = [self.wordNetLemmatizer.lemmatize(word.strip(),'r') for word in helperList]
+            lemmatizedDataDict[key] = ' '.join(helperList)
+        return lemmatizedDataDict
+
+    def getDataDictWithoutStopWords(self, dataDict, stopWords):
+        dataDictWithoutStopWords = {}
+        for key in dataDict.keys():
+            helperlist = [word.strip() for word in dataDict[key].split(" ") if word.strip() not in stopWords]
+            dataDictWithoutStopWords[key] = ' '.join(helperlist)
+        return dataDictWithoutStopWords
