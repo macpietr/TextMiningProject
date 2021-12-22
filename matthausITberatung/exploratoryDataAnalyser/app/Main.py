@@ -10,6 +10,7 @@ from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager i
 from matthausITberatung.exploratoryDataAnalyser.analyser.TopWordsDictManager import TopWordsDictManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.SummaryTableManager import SummaryTableManager
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
+from matthausITberatung.objectsManager.PathsManager import PathsManager
 from matthausITberatung.stopWords.manager.StopWordsManager import StopWordsManager
 
 
@@ -101,9 +102,21 @@ dictOfListsOfBigrams = bigramsManager.getDictOfListsOfBigrams(dataDictWithoutSto
 
 print('#################### BIGRAMS dataDictParsedFromDictOfBigrams')
 print(dictOfListsOfBigrams.keys())
-print(dictOfListsOfBigrams['lufthansa'])
+
+# print(dictOfListsOfBigrams['lufthansa'])
 print('#################')
 
+
+######## clean the dictOfListsOfBigrams #####
+for key in dictOfListsOfBigrams.keys():
+    dictOfListsOfBigrams[key] = [word.replace('online checkin', 'check online') for word in dictOfListsOfBigrams[key]]
+    dictOfListsOfBigrams[key] = [word.replace('online check', 'check online') for word in dictOfListsOfBigrams[key]]
+    dictOfListsOfBigrams[key] = [word.replace('checkin online', 'check online') for word in dictOfListsOfBigrams[key]]
+
+##### create dicOfCounters - this is the dict where key is a word an value is the frequency of times this word appeared
+dictOfCountersFromBigrams = {}
+for airline in PathsManager().LIST_OF_AIRLINES:
+    dictOfCountersFromBigrams[airline] = Counter(dictOfListsOfBigrams[airline])
 
 objectManager.saveObject(mainOpinionsCorpus, 'mainOpinionsCorpus')
 objectManager.saveObject(UNION_STOP_WORDS,'unionStopWords')
@@ -111,4 +124,5 @@ objectManager.saveObject(topWordsDict,'topWordsDict')
 objectManager.saveObject(mainOpinionsTDM, 'mainOpinionsTDM')
 objectManager.saveObject(summaryTable, 'summaryTable')
 objectManager.saveObject(dictOfListsOfBigrams, 'dictOfListsOfBigrams')
+objectManager.saveObject(dictOfCountersFromBigrams, 'dictOfCountersFromBigrams')
 objectManager.saveObject(UNION_STOP_WORDS, 'UNION_STOP_WORDS')

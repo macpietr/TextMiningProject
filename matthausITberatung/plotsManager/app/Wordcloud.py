@@ -11,25 +11,17 @@ objectsManager = ObjectsManager()
 UNION_STOP_WORDS = objectsManager.getSavedObject('unionStopWords')
 mainOpinionsCorpus = objectsManager.getSavedObject('bigramsCorpus')
 
-dictOfListsOfBigrams = objectsManager.getSavedObject('dictOfListsOfBigrams')
-
-for key in dictOfListsOfBigrams.keys():
-    dictOfListsOfBigrams[key] = [word.replace('online checkin', 'check online') for word in dictOfListsOfBigrams[key]]
-    dictOfListsOfBigrams[key] = [word.replace('online check', 'check online') for word in dictOfListsOfBigrams[key]]
-    dictOfListsOfBigrams[key] = [word.replace('checkin online', 'check online') for word in dictOfListsOfBigrams[key]]
-
-dictOfCounters = {}
-for airline in PathsManager().LIST_OF_AIRLINES:
-    dictOfCounters[airline] = Counter(dictOfListsOfBigrams[airline])
+# dictOfListsOfBigrams = objectsManager.getSavedObject('dictOfListsOfBigrams')
+dictOfCountersFromBigrams = objectsManager.getSavedObject('dictOfCountersFromBigrams')
 
 # lufthansaClearedList = [term for term in dictOfCounters['lufthansa'] if ]
 
-for key in dictOfCounters.keys():
+for key in dictOfCountersFromBigrams.keys():
     print('########### '+key+' ##########')
-    print(dictOfCounters[key].most_common(10))
+    print(dictOfCountersFromBigrams[key].most_common(10))
 
     wordcloud = WordCloud(width = 1000, height = 500, background_color="white", stopwords=UNION_STOP_WORDS, colormap="Dark2")\
-        .generate_from_frequencies(dictOfCounters[key])
+        .generate_from_frequencies(dictOfCountersFromBigrams[key])
     plt.figure(figsize=(15,8))
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
