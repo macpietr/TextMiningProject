@@ -1,13 +1,13 @@
 from wordcloud import WordCloud
 from matplotlib import pyplot as plt
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
+from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 objectsManager = ObjectsManager()
+pathsManager = PathsManager()
 
-UNION_STOP_WORDS = objectsManager.getSavedObject('unionStopWords')
-mainOpinionsCorpus = objectsManager.getSavedObject('bigramsCorpus')
-
-dictOfCountersFromBigrams = objectsManager.getSavedObject('dictOfCountersFromBigrams')
+UNION_STOP_WORDS = objectsManager.getSavedObject(pathsManager.UNION_STOP_WORDS)
+dictOfCountersFromBigrams = objectsManager.getSavedObject(pathsManager.DICT_OF_COUNTERS_FROM_BIGRAMS)
 
 for key in dictOfCountersFromBigrams.keys():
     print('########### '+key+' ##########')

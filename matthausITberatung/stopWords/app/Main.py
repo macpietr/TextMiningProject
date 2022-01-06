@@ -7,6 +7,7 @@ from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import Co
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.TopWordsDictManager import TopWordsDictManager
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
+from matthausITberatung.objectsManager.PathsManager import PathsManager
 from matthausITberatung.stopWords.manager.StopWordsManager import StopWordsManager
 
 # The aim of this Main script is to make a pickle object which will be the lis containing additional stop_words
@@ -24,6 +25,7 @@ dataTermMatrixManager = DataTermMatrixManager()
 objectManager = ObjectsManager()
 topWordsDictManager = TopWordsDictManager()
 stopWordsManager = StopWordsManager()
+pathsManager = PathsManager()
 
 dataDictFromFiles = dataDictManager.getDataDictFromFiles(partOfScrappedData='MainUserOpinion')
 dataDictForCorpus = dataDictManager.getDataDictForCorpus(dataDictFromFiles)
@@ -39,7 +41,7 @@ topCommonWords = topWordsDictManager.getTopCommonWords(topWordsDict, NUMBER_OF_T
 potentialStopWordsList = stopWordsManager.createStopWordsListBasedOnCommonWords(topCommonWords,
                                                                                 NUMBER_OF_DOCUMENTS_IN_WHICH_WORDS_OCCURED)
 
-objectManager.saveObject(stopWordsListFromShortWords,"stopWordsListFromShortWords")
-objectManager.saveObject(potentialStopWordsList,"potentialStopWordsList")
+objectManager.saveObject(stopWordsListFromShortWords, pathsManager.STOP_WORDS_LIST_FROM_SHORT_WORDS)
+objectManager.saveObject(potentialStopWordsList, pathsManager.POTENTIAL_STOP_WORDS_LIST)
 
 print(potentialStopWordsList)

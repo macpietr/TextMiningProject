@@ -4,14 +4,13 @@ from wordcloud import WordCloud
 from matplotlib import pyplot as plt
 
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
+from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 objectsManager = ObjectsManager()
+pathsManager = PathsManager()
 
-topWordsDict = objectsManager.getSavedObject('topWordsDict')
-UNION_STOP_WORDS = objectsManager.getSavedObject('unionStopWords')
-mainOpinionsCorpus = objectsManager.getSavedObject('mainOpinionsCorpus')
-
-dataDictWithoutStopWords = objectsManager.getSavedObject('dataDictWithoutStopWords')
+UNION_STOP_WORDS = objectsManager.getSavedObject(pathsManager.UNION_STOP_WORDS)
+dataDictWithoutStopWords = objectsManager.getSavedObject(pathsManager.DATA_DICT_WITHOUT_STOP_WORDS)
 
 dataDictOfListsOfWordsWithoutStopWords = {}
 for key in dataDictWithoutStopWords.keys():

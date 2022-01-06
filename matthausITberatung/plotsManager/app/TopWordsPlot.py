@@ -1,8 +1,11 @@
 import matplotlib.pyplot as plt
 
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
+from matthausITberatung.objectsManager.PathsManager import PathsManager
 
-topWordsDict = ObjectsManager().getSavedObject("topWordsDict")
+pathsManager = PathsManager()
+
+topWordsDict = ObjectsManager().getSavedObject(pathsManager.TOP_WORDS_DICT)
 
 lufthansaTopWordsList = topWordsDict['lufthansa'][0:20]
 

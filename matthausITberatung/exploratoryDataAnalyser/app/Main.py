@@ -16,6 +16,7 @@ from matthausITberatung.stopWords.manager.StopWordsManager import StopWordsManag
 
 ##BASIC PART
 #Create objects which are managers for certain operations
+pathsManager = PathsManager()
 dataDictManager = DataDictManager()
 corpusManager = CorpusManager()
 dataTermMatrixManager = DataTermMatrixManager()
@@ -25,8 +26,8 @@ stopWordsManager = StopWordsManager()
 summaryTableManager = SummaryTableManager()
 bigramsManager = BigramsManager()
 
-POTENTIAL_STOP_WORDS_LIST = objectManager.getSavedObject('potentialStopWordsList')
-STOP_WORDS_LIST_FROM_SHORT_WORDS = objectManager.getSavedObject('stopWordsListFromShortWords')
+POTENTIAL_STOP_WORDS_LIST = objectManager.getSavedObject(pathsManager.POTENTIAL_STOP_WORDS_LIST)
+STOP_WORDS_LIST_FROM_SHORT_WORDS = objectManager.getSavedObject(pathsManager.STOP_WORDS_LIST_FROM_SHORT_WORDS)
 
 UNION_STOP_WORDS = text.ENGLISH_STOP_WORDS.union(POTENTIAL_STOP_WORDS_LIST).union(STOP_WORDS_LIST_FROM_SHORT_WORDS)
 #CountVectorizer will be required object to create DTM
@@ -37,22 +38,35 @@ objectManager.saveObject(countVectorizer, 'countVectorizer')
 #Prepare dict of cleand data for every airline
 cleanedDataDict = dataDictManager.getDataDictFromFiles(partOfScrappedData='MainUserOpinion')
 cleandDataDictForCorpus = dataDictManager.getDataDictForCorpus(cleanedDataDict)
+lemmitizedDataDict = dataDictManager.getLemmatizedDataDictForCorpus(cleandDataDictForCorpus)
+dataDictWithoutStopWords = dataDictManager.getDataDictWithoutStopWords(lemmitizedDataDict, UNION_STOP_WORDS)
+
 #We have to create corpus
-mainOpinionsCorpus = corpusManager.createCorpus(cleandDataDictForCorpus, 30)
 
-print('########## CORPUS')
-print(mainOpinionsCorpus.loc['lufthansa'])
-print('#############')
-
-#name columns with opinions from corpus as 'opinions'. We have only one column in our corpus, beacuse airlines are index of corpus
+#1 corpus with stop words included - only for display purpose
+mainOpinionsCorpus = corpusManager.createCorpus(cleandDataDictForCorpus, 100)
 mainOpinionsCorpus.columns = ['opinions']
+print('###### Display Corpus #######')
+print(mainOpinionsCorpus)
+print('#############################')
+print('')
+
+#2 corpus without stop words - for further analysis
+mainOpinionsCorpusWithoutStopWords = corpusManager.createCorpus(dataDictWithoutStopWords, 30)
+#name columns with opinions from corpus as 'opinions'. We have only one column in our corpus, beacuse airlines are index of corpus
+mainOpinionsCorpusWithoutStopWords.columns = ['opinions']
+
+print('########## Display Corpus without stop words ###########')
+print(mainOpinionsCorpusWithoutStopWords)
+print('#############################')
+print('')
 
 #Create DTM basing on previous corpus and countVectorizer which takes stop words into account
-mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.opinions, countVectorizer)
+mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpusWithoutStopWords.opinions, countVectorizer)
 
 #assign corpus index to DTM index. It replaces numeric index with appropriate airline names brought from corpus
 #rows of DTM are labeled as certain arilines.
-mainOpinionsDTM.index = mainOpinionsCorpus.index
+mainOpinionsDTM.index = mainOpinionsCorpusWithoutStopWords.index
 
 #print(mainOpinionsDTM.columns)
 mainOpinionsTDM = mainOpinionsDTM.transpose()
@@ -95,9 +109,6 @@ print(summaryTable)
 
 
 ######## BIGRAMS - repetition of previous steps, but using bigrams data############
-
-lemmitizedDataDict = dataDictManager.getLemmatizedDataDictForCorpus(cleandDataDictForCorpus)
-dataDictWithoutStopWords = dataDictManager.getDataDictWithoutStopWords(lemmitizedDataDict, UNION_STOP_WORDS)
 dictOfListsOfBigrams = bigramsManager.getDictOfListsOfBigrams(dataDictWithoutStopWords)
 
 print('#################### BIGRAMS dataDictParsedFromDictOfBigrams')
@@ -115,16 +126,14 @@ for key in dictOfListsOfBigrams.keys():
 
 ##### create dicOfCounters - this is the dict where key is a word and value is the frequency of times this word appeared
 dictOfCountersFromBigrams = {}
-for airline in PathsManager().LIST_OF_AIRLINES:
+for airline in pathsManager.LIST_OF_AIRLINES:
     dictOfCountersFromBigrams[airline] = Counter(dictOfListsOfBigrams[airline])
 
-objectManager.saveObject(mainOpinionsCorpus, 'mainOpinionsCorpus')
-objectManager.saveObject(UNION_STOP_WORDS,'unionStopWords')
-objectManager.saveObject(topWordsDict,'topWordsDict')
-objectManager.saveObject(mainOpinionsTDM, 'mainOpinionsTDM')
-objectManager.saveObject(summaryTable, 'summaryTable')
-objectManager.saveObject(dictOfListsOfBigrams, 'dictOfListsOfBigrams')
-objectManager.saveObject(dictOfCountersFromBigrams, 'dictOfCountersFromBigrams')
-objectManager.saveObject(UNION_STOP_WORDS, 'UNION_STOP_WORDS')
-
-objectManager.saveObject(dataDictWithoutStopWords,'dataDictWithoutStopWords')
+objectManager.saveObject(mainOpinionsCorpusWithoutStopWords, pathsManager.MAIN_OPINIONS_CORPUS_WITHOUT_STOPWORDS)
+objectManager.saveObject(UNION_STOP_WORDS, pathsManager.UNION_STOP_WORDS)
+objectManager.saveObject(topWordsDict, pathsManager.TOP_WORDS_DICT)
+objectManager.saveObject(mainOpinionsTDM, pathsManager.MAIN_OPINIONS_TDM)
+objectManager.saveObject(summaryTable, pathsManager.SUMMARY_TABLE)
+objectManager.saveObject(dictOfListsOfBigrams, pathsManager.DICT_LIST_OF_BIGRAMS)
+objectManager.saveObject(dictOfCountersFromBigrams, pathsManager.DICT_OF_COUNTERS_FROM_BIGRAMS)
+objectManager.saveObject(dataDictWithoutStopWords, pathsManager.DATA_DICT_WITHOUT_STOP_WORDS)

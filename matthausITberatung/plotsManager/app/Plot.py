@@ -2,10 +2,12 @@ import numpy
 from matplotlib import pyplot as plt
 
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
+from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 objectManager = ObjectsManager()
+pathsManager = PathsManager()
 
-summaryTable = objectManager.getSavedObject('summaryTable')
+summaryTable = objectManager.getSavedObject(pathsManager.SUMMARY_TABLE)
 
 y_pos = numpy.arange(len(summaryTable))
 
