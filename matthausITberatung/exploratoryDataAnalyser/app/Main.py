@@ -113,7 +113,7 @@ for key in dictOfListsOfBigrams.keys():
     dictOfListsOfBigrams[key] = [word.replace('online check', 'check online') for word in dictOfListsOfBigrams[key]]
     dictOfListsOfBigrams[key] = [word.replace('checkin online', 'check online') for word in dictOfListsOfBigrams[key]]
 
-##### create dicOfCounters - this is the dict where key is a word an value is the frequency of times this word appeared
+##### create dicOfCounters - this is the dict where key is a word and value is the frequency of times this word appeared
 dictOfCountersFromBigrams = {}
 for airline in PathsManager().LIST_OF_AIRLINES:
     dictOfCountersFromBigrams[airline] = Counter(dictOfListsOfBigrams[airline])
@@ -126,3 +126,5 @@ objectManager.saveObject(summaryTable, 'summaryTable')
 objectManager.saveObject(dictOfListsOfBigrams, 'dictOfListsOfBigrams')
 objectManager.saveObject(dictOfCountersFromBigrams, 'dictOfCountersFromBigrams')
 objectManager.saveObject(UNION_STOP_WORDS, 'UNION_STOP_WORDS')
+
+objectManager.saveObject(dataDictWithoutStopWords,'dataDictWithoutStopWords')
