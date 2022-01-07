@@ -76,27 +76,27 @@ print(mainOpinionsTDM.head(30))
 
 #Create a dictionary where key is the airline and value is a list of words and their number of appearance (word, count)
 airlinesDictOfListsOfWords = dataDictManager.createDataDictOfListsOfWords(dataDictWithoutStopWords)
-airlinesDictOfCountedWordsDict = dataDictManager\
+airlinesDictOfCountedWordsCounter = dataDictManager\
     .createDataDictOfDictsOfCountedWordsWithoutDefaultStopWords(airlinesDictOfListsOfWords,
                                                                 countVectorizer.get_stop_words())
 
 #print(topWordsDict)
 
-topWordsDictManager.printTopWords(airlinesDictOfCountedWordsDict,12)
+topWordsDictManager.printTopWords(airlinesDictOfCountedWordsCounter, 12)
 
 #Poniżej wrzucamy 30 najczęściej występujących słów do tablicy words dla każdej lini lotniczej
 
-topCommonWords = topWordsDictManager.getTopCommonWords(airlinesDictOfCountedWordsDict,30)
+topCommonWords = topWordsDictManager.getTopCommonWords(airlinesDictOfCountedWordsCounter, 30)
 
 print("####### TOP COMMON WORDS #######")
 print(topCommonWords)
 print("### length of top common words")
-print(len(topWordsDictManager.getTopCommonWords(airlinesDictOfCountedWordsDict,30)))
+print(len(topWordsDictManager.getTopCommonWords(airlinesDictOfCountedWordsCounter, 30)))
 #Dzięki counterowi, możemy wskazać, które słowo z wcześniej wrzuconych powtórzyło się. Otzymujemy słowo i numer w ilu opiniach lini lotniczych wystąpiło
 print("###### most common words")
 print(Counter(topCommonWords).most_common())
 #Możemy zdecydować, które spośród tych słów trafi do stop words, a które będziemy badać
-print(len(airlinesDictOfCountedWordsDict.keys()))
+print(len(airlinesDictOfCountedWordsCounter.keys()))
 potentialStopWordsList = stopWordsManager.createStopWordsListBasedOnCommonWords(topCommonWords, 3)
 print("#### potential stop words list ########")
 print(potentialStopWordsList)
@@ -129,7 +129,7 @@ for airline in pathsManager.LIST_OF_AIRLINES:
 
 objectManager.saveObject(mainOpinionsCorpusWithoutStopWords, pathsManager.MAIN_OPINIONS_CORPUS_WITHOUT_STOPWORDS)
 objectManager.saveObject(UNION_STOP_WORDS, pathsManager.UNION_STOP_WORDS)
-objectManager.saveObject(airlinesDictOfCountedWordsDict, pathsManager.AIRLINES_DICT_OF_COUNTED_WORDS_DICT)
+objectManager.saveObject(airlinesDictOfCountedWordsCounter, pathsManager.AIRLINES_DICT_OF_COUNTED_WORDS_COUNTER)
 objectManager.saveObject(mainOpinionsTDM, pathsManager.MAIN_OPINIONS_TDM)
 objectManager.saveObject(summaryTable, pathsManager.SUMMARY_TABLE)
 objectManager.saveObject(dictOfListsOfBigrams, pathsManager.DICT_LIST_OF_BIGRAMS)

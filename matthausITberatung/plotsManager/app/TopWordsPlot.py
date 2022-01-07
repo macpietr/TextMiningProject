@@ -6,9 +6,9 @@ from matthausITberatung.objectsManager.PathsManager import PathsManager
 pathsManager = PathsManager()
 objectManager = ObjectsManager()
 
-airlinesDictOfCountedWordsDict = ObjectsManager().getSavedObject(pathsManager.AIRLINES_DICT_OF_COUNTED_WORDS_DICT)
+airlinesDictOfCountedWordsCounter = ObjectsManager().getSavedObject(pathsManager.AIRLINES_DICT_OF_COUNTED_WORDS_COUNTER)
 
-lufthansaTopWordsList = airlinesDictOfCountedWordsDict['lufthansa'][0:20]
+lufthansaTopWordsList = airlinesDictOfCountedWordsCounter['lufthansa'].most_common(20)
 
 lufthansaTopWordsDict = dict(lufthansaTopWordsList)
 
