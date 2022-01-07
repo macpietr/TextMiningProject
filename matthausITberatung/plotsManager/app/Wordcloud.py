@@ -10,26 +10,14 @@ objectsManager = ObjectsManager()
 pathsManager = PathsManager()
 
 UNION_STOP_WORDS = objectsManager.getSavedObject(pathsManager.UNION_STOP_WORDS)
-dataDictWithoutStopWords = objectsManager.getSavedObject(pathsManager.DATA_DICT_WITHOUT_STOP_WORDS)
+airlinesDictOfCountedWordsCounter = objectsManager.getSavedObject(pathsManager.AIRLINES_DICT_OF_COUNTED_WORDS_COUNTER)
 
-dataDictOfListsOfWordsWithoutStopWords = {}
-for key in dataDictWithoutStopWords.keys():
-    dataDictOfListsOfWordsWithoutStopWords[key] = dataDictWithoutStopWords[key].split(" ")
-
-dictOfCounters = {}
-for key in dataDictWithoutStopWords.keys():
-    dictOfCounters[key] = Counter(dataDictOfListsOfWordsWithoutStopWords[key])
-# projectWordcloud = WordCloud(stopwords=UNION_STOP_WORDS, collocations=False,
-#                              background_color="white", colormap="Dark2", max_font_size=150, random_state=42)
-#
-# plt.rcParams['figure.figsize'] = [50,50]
-
-for key in dictOfCounters.keys():
+for key in airlinesDictOfCountedWordsCounter.keys():
     print('########### '+key+' ##########')
-    print(dictOfCounters[key].most_common(10))
+    print(airlinesDictOfCountedWordsCounter[key].most_common(10))
 
     wordcloud = WordCloud(width = 1000, height = 500, background_color="white", stopwords=UNION_STOP_WORDS, colormap="Dark2")\
-        .generate_from_frequencies(dictOfCounters[key])
+        .generate_from_frequencies(airlinesDictOfCountedWordsCounter[key])
     plt.figure(figsize=(15,8))
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
