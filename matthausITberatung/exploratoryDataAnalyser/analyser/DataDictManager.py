@@ -10,7 +10,6 @@ from matthausITberatung.objectsManager.PathsManager import PathsManager
 class DataDictManager:
 
     def __init__(self):
-        nltk.download('wordnet')
         self.wordNetLemmatizer = WordNetLemmatizer()
 
     def getDataDictForCorpus(self, dataDict):
@@ -24,6 +23,7 @@ class DataDictManager:
         return cleanedDataDict
 
     def getLemmatizedDataDictForCorpus(self, dataDict):
+        nltk.download('wordnet')
         lemmatizedDataDict = {}
         for key in dataDict.keys():
             for opinion in dataDict[key]:
