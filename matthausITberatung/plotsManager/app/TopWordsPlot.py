@@ -4,12 +4,15 @@ from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 pathsManager = PathsManager()
+objectManager = ObjectsManager()
 
-topWordsDict = ObjectsManager().getSavedObject(pathsManager.TOP_WORDS_DICT)
+airlinesDictOfCountedWordsDict = ObjectsManager().getSavedObject(pathsManager.AIRLINES_DICT_OF_COUNTED_WORDS_DICT)
 
-lufthansaTopWordsList = topWordsDict['lufthansa'][0:20]
+lufthansaTopWordsList = airlinesDictOfCountedWordsDict['lufthansa'][0:20]
 
 lufthansaTopWordsDict = dict(lufthansaTopWordsList)
+
+
 
 print(len(lufthansaTopWordsDict))
 

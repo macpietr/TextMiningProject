@@ -29,6 +29,7 @@ bigramsManager = BigramsManager()
 POTENTIAL_STOP_WORDS_LIST = objectManager.getSavedObject(pathsManager.POTENTIAL_STOP_WORDS_LIST)
 STOP_WORDS_LIST_FROM_SHORT_WORDS = objectManager.getSavedObject(pathsManager.STOP_WORDS_LIST_FROM_SHORT_WORDS)
 
+#TODO: Remember to check behaviuor with and without POTENTIAL_STOP_WORDS_LIST. Especially in wordClouds
 UNION_STOP_WORDS = text.ENGLISH_STOP_WORDS.union(POTENTIAL_STOP_WORDS_LIST).union(STOP_WORDS_LIST_FROM_SHORT_WORDS)
 #CountVectorizer will be required object to create DTM
 #It is used to transform a given text into a vector on the basis of the frequency (count) of each word that occurs in the entire text.
@@ -74,29 +75,28 @@ print('######### TDM head(30)')
 print(mainOpinionsTDM.head(30))
 
 #Create a dictionary where key is the airline and value is a list of words and their number of appearance (word, count)
-topWordsDict = topWordsDictManager.createTopWordsDict(mainOpinionsTDM)
+airlinesDictOfListsOfWords = dataDictManager.createDataDictOfListsOfWords(dataDictWithoutStopWords)
+airlinesDictOfCountedWordsDict = dataDictManager\
+    .createDataDictOfDictsOfCountedWordsWithoutDefaultStopWords(airlinesDictOfListsOfWords,
+                                                                countVectorizer.get_stop_words())
 
 #print(topWordsDict)
 
-topWordsDictManager.printTopWords(topWordsDict,12)
-
-print(topWordsDict["lufthansa"][0:14])
-
-
+topWordsDictManager.printTopWords(airlinesDictOfCountedWordsDict,12)
 
 #Poniżej wrzucamy 30 najczęściej występujących słów do tablicy words dla każdej lini lotniczej
 
-topCommonWords = topWordsDictManager.getTopCommonWords(topWordsDict,30)
+topCommonWords = topWordsDictManager.getTopCommonWords(airlinesDictOfCountedWordsDict,30)
 
 print("####### TOP COMMON WORDS #######")
 print(topCommonWords)
 print("### length of top common words")
-print(len(topWordsDictManager.getTopCommonWords(topWordsDict,30)))
+print(len(topWordsDictManager.getTopCommonWords(airlinesDictOfCountedWordsDict,30)))
 #Dzięki counterowi, możemy wskazać, które słowo z wcześniej wrzuconych powtórzyło się. Otzymujemy słowo i numer w ilu opiniach lini lotniczych wystąpiło
-print("###### mose common word")
+print("###### most common words")
 print(Counter(topCommonWords).most_common())
 #Możemy zdecydować, które spośród tych słów trafi do stop words, a które będziemy badać
-print(len(topWordsDict.keys()))
+print(len(airlinesDictOfCountedWordsDict.keys()))
 potentialStopWordsList = stopWordsManager.createStopWordsListBasedOnCommonWords(topCommonWords, 3)
 print("#### potential stop words list ########")
 print(potentialStopWordsList)
@@ -113,8 +113,6 @@ dictOfListsOfBigrams = bigramsManager.getDictOfListsOfBigrams(dataDictWithoutSto
 
 print('#################### BIGRAMS dataDictParsedFromDictOfBigrams')
 print(dictOfListsOfBigrams.keys())
-
-# print(dictOfListsOfBigrams['lufthansa'])
 print('#################')
 
 
@@ -131,7 +129,7 @@ for airline in pathsManager.LIST_OF_AIRLINES:
 
 objectManager.saveObject(mainOpinionsCorpusWithoutStopWords, pathsManager.MAIN_OPINIONS_CORPUS_WITHOUT_STOPWORDS)
 objectManager.saveObject(UNION_STOP_WORDS, pathsManager.UNION_STOP_WORDS)
-objectManager.saveObject(topWordsDict, pathsManager.TOP_WORDS_DICT)
+objectManager.saveObject(airlinesDictOfCountedWordsDict, pathsManager.AIRLINES_DICT_OF_COUNTED_WORDS_DICT)
 objectManager.saveObject(mainOpinionsTDM, pathsManager.MAIN_OPINIONS_TDM)
 objectManager.saveObject(summaryTable, pathsManager.SUMMARY_TABLE)
 objectManager.saveObject(dictOfListsOfBigrams, pathsManager.DICT_LIST_OF_BIGRAMS)

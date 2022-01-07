@@ -17,6 +17,7 @@ NUMBER_OF_TOP_WORDS_PER_AIRLINE = 30
 NUMBER_OF_DOCUMENTS_IN_WHICH_WORDS_OCCURED = 3
 
 countVectorizer = CountVectorizer(stop_words=LANGUAGE)
+print(countVectorizer.get_stop_words())
 ##BASIC PART
 # Create objects which are managers for certain operations
 dataDictManager = DataDictManager()
@@ -27,19 +28,26 @@ topWordsDictManager = TopWordsDictManager()
 stopWordsManager = StopWordsManager()
 pathsManager = PathsManager()
 
-dataDictFromFiles = dataDictManager.getDataDictFromFiles(partOfScrappedData='MainUserOpinion')
-dataDictForCorpus = dataDictManager.getDataDictForCorpus(dataDictFromFiles)
+airlinesDataDictFromFiles = dataDictManager.getDataDictFromFiles(partOfScrappedData='MainUserOpinion')
+airlinesDataDictForCorpus = dataDictManager.getDataDictForCorpus(airlinesDataDictFromFiles)
+airlinesDataDictOfLemmitizedWords = dataDictManager.getLemmatizedDataDictForCorpus(airlinesDataDictForCorpus)
 
-stopWordsListFromShortWords = stopWordsManager.createStopWordsListFromShortWords(dataDictForCorpus,3)
-
-mainOpinionsCorpus = corpusManager.createCorpus(dataDictForCorpus, 30)
+mainOpinionsCorpus = corpusManager.createCorpus(airlinesDataDictOfLemmitizedWords, 30)
 mainOpinionsCorpus.columns = ['opinions']
 mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.opinions, countVectorizer)
 mainOpinionsDTM.index = mainOpinionsCorpus.index
-topWordsDict = topWordsDictManager.createTopWordsDict(mainOpinionsDTM.transpose())
-topCommonWords = topWordsDictManager.getTopCommonWords(topWordsDict, NUMBER_OF_TOP_WORDS_PER_AIRLINE)
+
+airlinesDataDictOfListsOfLemmatizedWords = dataDictManager.createDataDictOfListsOfWords(airlinesDataDictOfLemmitizedWords)
+
+airlinesDictOfCountedWordsWithoutStopWords = dataDictManager\
+    .createDataDictOfDictsOfCountedWordsWithoutDefaultStopWords(airlinesDataDictOfListsOfLemmatizedWords,
+                                                                countVectorizer.get_stop_words())
+
+topCommonWords = topWordsDictManager.getTopCommonWords(airlinesDictOfCountedWordsWithoutStopWords, NUMBER_OF_TOP_WORDS_PER_AIRLINE)
 potentialStopWordsList = stopWordsManager.createStopWordsListBasedOnCommonWords(topCommonWords,
                                                                                 NUMBER_OF_DOCUMENTS_IN_WHICH_WORDS_OCCURED)
+
+stopWordsListFromShortWords = stopWordsManager.createStopWordsListFromShortWords(airlinesDataDictOfLemmitizedWords, 3)
 
 objectManager.saveObject(stopWordsListFromShortWords, pathsManager.STOP_WORDS_LIST_FROM_SHORT_WORDS)
 objectManager.saveObject(potentialStopWordsList, pathsManager.POTENTIAL_STOP_WORDS_LIST)

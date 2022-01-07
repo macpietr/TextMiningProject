@@ -4,7 +4,8 @@ from collections import Counter
 class StopWordsManager:
 
     def createStopWordsListBasedOnCommonWords(self, topCommonWords, numberOfDocumentsInWhichWordsOccured):
-        potentialStopWordsList = [word for (word, count) in Counter(topCommonWords).most_common() if count >= numberOfDocumentsInWhichWordsOccured]
+        potentialStopWordsList = [word for (word, count) in Counter(topCommonWords).most_common()
+                                  if count >= numberOfDocumentsInWhichWordsOccured and len(word) > 3]
         return potentialStopWordsList
 
     def createStopWordsListFromShortWords(self, dataDict, maxLengthOfWords):
