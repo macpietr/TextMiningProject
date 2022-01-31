@@ -1,77 +1,39 @@
 from collections import Counter
 
-from matplotlib import pyplot as plt
-from textblob import TextBlob
-
 from matthausITberatung.objectsManager.CollectionsFromFiles import CollectionsFromFiles
+from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
+from matthausITberatung.objectsManager.PathsManager import PathsManager
+from matthausITberatung.sentimentAnalysis.helper.SentimentHelper import SentimentHelper
 
+YEAR = '2021'
+
+pathsManager = PathsManager()
+objectsManager = ObjectsManager()
 collectionsFromFiles = CollectionsFromFiles()
+sentimentHelper = SentimentHelper()
 airlinesDictOfListsOfMainOpinions = collectionsFromFiles.createDictOfListsOfRecordsFromDownloadedFile('MainUserOpinion')
 airlinesDictOfListsOfDateFlown = collectionsFromFiles.createDictOfListsOfRecordsFromDownloadedFile('DateFlown')
 
-lufthansaListOfMainOpinions = airlinesDictOfListsOfMainOpinions['lufthansa']
-del lufthansaListOfMainOpinions[len(lufthansaListOfMainOpinions)-1]
-lufthansaListOfDateFlown = airlinesDictOfListsOfDateFlown['lufthansa']
-del lufthansaListOfDateFlown[len(lufthansaListOfDateFlown) - 1]
+dictOfListsOfDateAndString = {}
+for airline in pathsManager.LIST_OF_AIRLINES:
+    lufthansaListOfMainOpinions = airlinesDictOfListsOfMainOpinions[airline]
+    lufthansaListOfDateFlown = airlinesDictOfListsOfDateFlown[airline]
+    sentimentHelper.adjustListBuiltFromFile(lufthansaListOfMainOpinions)
+    sentimentHelper.adjustListBuiltFromFile(lufthansaListOfDateFlown)
+    dictOfListsOfDateAndString[airline] = list(zip(lufthansaListOfDateFlown,lufthansaListOfMainOpinions))
 
-# lufthansaListOfMainOpinionsPolarity = []
-# for line in lufthansaListOfMainOpinions:
-#     lufthansaListOfMainOpinionsPolarity.append(TextBlob(line).sentiment.polarity)
+dictOfListsOfDateAndStringInYear = {}
+for airline in pathsManager.LIST_OF_AIRLINES:
+    dateAndStringList = []
+    for dateAndString in dictOfListsOfDateAndString[airline]:
+        if dateAndString[0][len(dateAndString) - 6:] == YEAR:
+            dateAndStringList.append(dateAndString)
+    dictOfListsOfDateAndStringInYear[airline] = dateAndStringList
 
-lufthansaZippedList = list(zip(lufthansaListOfDateFlown,lufthansaListOfMainOpinions))
+dictOfAirlinesOfDateCounters = {}
+for airline in pathsManager.LIST_OF_AIRLINES:
+    date, string = zip(*dictOfListsOfDateAndStringInYear[airline])
+    dictOfAirlinesOfDateCounters[airline] = Counter(date)
 
-lufthansaZippedListOfDateFlownAndOpinion2021 = []
-for dateFlownAndOpinion in lufthansaZippedList:
-    if dateFlownAndOpinion[0][len(dateFlownAndOpinion) - 6:] == '2021':
-        lufthansaZippedListOfDateFlownAndOpinion2021.append(dateFlownAndOpinion)
-
-print(lufthansaZippedListOfDateFlownAndOpinion2021)
-
-lufthansaListOfDateFlown2021, lufthansaListOfMainOpinions2021 = zip(*lufthansaZippedListOfDateFlownAndOpinion2021)
-
-print(lufthansaListOfDateFlown2021)
-
-lufthansaDateFlown2021Counter = Counter(lufthansaListOfDateFlown2021)
-
-print(lufthansaDateFlown2021Counter)
-print(lufthansaDateFlown2021Counter.keys())
-
-dataDictOfDateFlownAndCollectedOpinions2021 = {}
-for dateFlown in lufthansaDateFlown2021Counter.keys():
-    listOfOpinionsForCertainDate = []
-    for dateFlownAndOpinion in lufthansaZippedListOfDateFlownAndOpinion2021:
-        if str(dateFlownAndOpinion[0]) == str(dateFlown):
-            listOfOpinionsForCertainDate.append(dateFlownAndOpinion[1])
-    dataDictOfDateFlownAndCollectedOpinions2021[dateFlown] = ' '.join(listOfOpinionsForCertainDate)
-#     print('')
-#
-# for item in dataDictOfDateFlownAndCollectedOpinions2021.items():
-#     print(item)
-
-dataDictOfDateFlownAndCollectedOpinions2021Polarity = {}
-for dateFlown in dataDictOfDateFlownAndCollectedOpinions2021.keys():
-    dataDictOfDateFlownAndCollectedOpinions2021Polarity[dateFlown] = \
-        TextBlob(dataDictOfDateFlownAndCollectedOpinions2021[dateFlown]).sentiment.polarity
-
-[print(item) for item in dataDictOfDateFlownAndCollectedOpinions2021Polarity.items()]
-
-# dictOfDateFlownAndAvgPolarity = {}
-# for dateFlown in lufthansaDateFlown2021Counter.keys():
-#     listToSum = []
-#     for dateFlownAndOpinion in lufthansaZippedListOfDateFlownAndOpinion2021:
-#         if str(dateFlownAndOpinion[0]) == str(dateFlown):
-#             listToSum.append(dateFlownAndOpinion[1])
-#     dictOfDateFlownAndAvgPolarity[dateFlown] = sum(listToSum) / lufthansaDateFlown2021Counter[dateFlown]
-
-# print(dictOfDateFlownAndAvgPolarity)
-#
-# plt.plot(dictOfDateFlownAndAvgPolarity.keys(),dictOfDateFlownAndAvgPolarity.values())
-# plt.show()
-
-plt.plot(dataDictOfDateFlownAndCollectedOpinions2021Polarity.keys(),dataDictOfDateFlownAndCollectedOpinions2021Polarity.values())
-plt.show()
-
-# print(lufthansaZippedList[0][0][len(lufthansaZippedList[0][0])-4:])
-
-# TODO: check what will happen if we would count poalrity from post created form 17 posts insted of average polarity
-# TODO: the outcomes of polarity of concatenated ofinions differs from average polarity of separate opinions. Which measure is more relevant?
+objectsManager.saveObject(dictOfAirlinesOfDateCounters,pathsManager.DICT_OF_AIRLINES_DATE_COUNTERS)
+objectsManager.saveObject(dictOfListsOfDateAndStringInYear,pathsManager.DICT_OF_LISTS_OF_DATE_AND_STRING_IN_YEAR)
