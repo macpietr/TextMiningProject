@@ -3,23 +3,21 @@ from collections import Counter
 from matthausITberatung.objectsManager.CollectionsFromFiles import CollectionsFromFiles
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 from matthausITberatung.objectsManager.PathsManager import PathsManager
-from matthausITberatung.sentimentAnalysis.helper.SentimentHelper import SentimentHelper
 
 YEAR = '2021'
 
 pathsManager = PathsManager()
 objectsManager = ObjectsManager()
 collectionsFromFiles = CollectionsFromFiles()
-sentimentHelper = SentimentHelper()
 airlinesDictOfListsOfMainOpinions = collectionsFromFiles.createDictOfListsOfRecordsFromDownloadedFile('MainUserOpinion')
 airlinesDictOfListsOfDateFlown = collectionsFromFiles.createDictOfListsOfRecordsFromDownloadedFile('DateFlown')
 
 dictOfListsOfDateAndString = {}
 for airline in pathsManager.LIST_OF_AIRLINES:
     lufthansaListOfMainOpinions = airlinesDictOfListsOfMainOpinions[airline]
+    del lufthansaListOfMainOpinions[len(lufthansaListOfMainOpinions)-1]
     lufthansaListOfDateFlown = airlinesDictOfListsOfDateFlown[airline]
-    sentimentHelper.adjustListBuiltFromFile(lufthansaListOfMainOpinions)
-    sentimentHelper.adjustListBuiltFromFile(lufthansaListOfDateFlown)
+    del lufthansaListOfDateFlown[len(lufthansaListOfDateFlown)-1]
     dictOfListsOfDateAndString[airline] = list(zip(lufthansaListOfDateFlown,lufthansaListOfMainOpinions))
 
 dictOfListsOfDateAndStringInYear = {}

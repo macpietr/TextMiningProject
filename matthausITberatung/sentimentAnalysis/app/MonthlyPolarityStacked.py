@@ -7,7 +7,7 @@ from textblob import TextBlob
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 from matthausITberatung.objectsManager.PathsManager import PathsManager
 
-from matthausITberatung.sentimentAnalysis.app import Main
+from matthausITberatung.sentimentAnalysis.app import MonthlyPolarityPreparation
 
 pathsManager = PathsManager()
 objectsManager = ObjectsManager()
@@ -51,4 +51,6 @@ print(sortedDictOfAirlinesDictOfDateAndPolarity[pathsManager.LUFTHANSA].items())
 
 for airline in pathsManager.LIST_OF_AIRLINES:
     plt.plot(sortedDictOfAirlinesDictOfDateAndPolarity[airline].keys(), sortedDictOfAirlinesDictOfDateAndPolarity[airline].values())
+    plt.title(airline)
+    plt.ylim(ymin=-1,ymax=1)
     plt.show()
