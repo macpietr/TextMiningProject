@@ -53,4 +53,5 @@ for airline in pathsManager.LIST_OF_AIRLINES:
     plt.plot(sortedDictOfAirlinesDictOfDateAndPolarity[airline].keys(), sortedDictOfAirlinesDictOfDateAndPolarity[airline].values())
     plt.title(airline)
     plt.ylim(ymin=-1,ymax=1)
+    plt.xticks(rotation=45)
     plt.show()
