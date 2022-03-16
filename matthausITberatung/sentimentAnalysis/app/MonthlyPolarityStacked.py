@@ -51,6 +51,7 @@ print(sortedDictOfAirlinesDictOfDateAndPolarity[pathsManager.LUFTHANSA].items())
 
 for airline in pathsManager.LIST_OF_AIRLINES:
     plt.plot(sortedDictOfAirlinesDictOfDateAndPolarity[airline].keys(), sortedDictOfAirlinesDictOfDateAndPolarity[airline].values())
+    plt.axhline(y=0.0, color='r', linestyle='-')
     plt.title(airline)
     plt.ylim(ymin=-1,ymax=1)
     plt.xticks(rotation=45)
