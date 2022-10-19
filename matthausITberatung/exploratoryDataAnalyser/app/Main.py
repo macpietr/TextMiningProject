@@ -37,7 +37,7 @@ countVectorizer = CountVectorizer(stop_words=UNION_STOP_WORDS)
 objectManager.saveObject(countVectorizer, 'countVectorizer')
 
 #Prepare dict of cleand data for every airline
-cleanedDataDict = dataDictManager.getDataDictFromFiles(partOfScrappedData='MainUserOpinion')
+cleanedDataDict = dataDictManager.getDataDictFromFiles(PathsManager().CLEANED_DATA_FILES_DIR, partOfScrappedData='MainUserOpinion')
 cleandDataDictForCorpus = dataDictManager.getDataDictForCorpus(cleanedDataDict)
 lemmitizedDataDict = dataDictManager.getLemmatizedDataDictForCorpus(cleandDataDictForCorpus)
 dataDictWithoutStopWords = dataDictManager.getDataDictWithoutStopWords(lemmitizedDataDict, UNION_STOP_WORDS)

@@ -37,3 +37,10 @@ class DataCleaner:
             .replace('ttttttttttttt','')\
             .rstrip()\
             .lstrip()
+
+    def cleanDataForNumberAnalysis(self, downloadedDataDict):
+        clearedDownloadedData = {}
+        for key in downloadedDataDict.keys():
+            clearedDownloadedData[key] = downloadedDataDict[key]\
+                .replace(' ', '').lower().replace('none\n', '').replace('n/a\n', '').replace('\n', ' ')
+        return clearedDownloadedData

@@ -1,6 +1,5 @@
 from abc import abstractmethod
 
-
 class AbstractDownloader:
 
     def __init__(self, listOfBeautifulSoupObjects):

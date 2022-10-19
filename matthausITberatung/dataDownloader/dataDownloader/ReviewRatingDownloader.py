@@ -1,6 +1,5 @@
 from matthausITberatung.dataDownloader.dataDownloader.AbstractDownloader import AbstractDownloader
 
-
 class ReviewRatingDownloader(AbstractDownloader):
 
     def __init__(self, listOfBeautifulSoupObjects, reviewRatingHeader):

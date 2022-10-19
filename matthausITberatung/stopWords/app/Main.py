@@ -28,7 +28,7 @@ topWordsDictManager = TopWordsDictManager()
 stopWordsManager = StopWordsManager()
 pathsManager = PathsManager()
 
-airlinesDataDictFromFiles = dataDictManager.getDataDictFromFiles(partOfScrappedData='MainUserOpinion')
+airlinesDataDictFromFiles = dataDictManager.getDataDictFromFiles(PathsManager().LIST_OF_AIRLINES, partOfScrappedData='MainUserOpinion')
 airlinesDataDictForCorpus = dataDictManager.getDataDictForCorpus(airlinesDataDictFromFiles)
 airlinesDataDictOfLemmitizedWords = dataDictManager.getLemmatizedDataDictForCorpus(airlinesDataDictForCorpus)
 
@@ -36,6 +36,8 @@ mainOpinionsCorpus = corpusManager.createCorpus(airlinesDataDictOfLemmitizedWord
 mainOpinionsCorpus.columns = ['opinions']
 mainOpinionsDTM = dataTermMatrixManager.createDataTermMatrix(mainOpinionsCorpus.opinions, countVectorizer)
 mainOpinionsDTM.index = mainOpinionsCorpus.index
+
+print(mainOpinionsDTM)
 
 airlinesDataDictOfListsOfLemmatizedWords = dataDictManager.createDataDictOfListsOfWords(airlinesDataDictOfLemmitizedWords)
 

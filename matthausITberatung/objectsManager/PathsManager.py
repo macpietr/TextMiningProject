@@ -28,3 +28,5 @@ class PathsManager:
     POTENTIAL_STOP_WORDS_LIST = 'POTENTIAL_STOP_WORDS_LIST'
     DICT_OF_AIRLINES_DATE_COUNTERS = 'DICT_OF_AIRLINES_DATE_COUNTERS'
     DICT_OF_LISTS_OF_DATE_AND_STRING_IN_YEAR = 'DICT_OF_LISTS_OF_DATE_AND_STRING_IN_YEAR'
+
+    NUMBER_ANALYSIS_DIRS = ['CabinStaffService', 'FoodAndBeverages', 'GroundService', 'InflightEntertainment', 'SeatComfort', 'ValueForMoney', 'WifiAndConnectivity']
