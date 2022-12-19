@@ -1,20 +1,7 @@
+import numpy
 import pandas
 from matthausITberatung.objectsManager.PathsManager import PathsManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataDictManager import DataDictManager
-
-# toPattern = ' to '
-# viaPattern = ' via '
-# amperPattern = ' & '
-# listOfItems = []
-# item = 'Venice to San Francisco via Munich'
-# toPosition = item.find(toPattern)
-# listOfItems.append(item[:toPosition])
-# print(listOfItems)
-# viaPosition = item.find(viaPattern)
-# listOfItems.append(item[len(listOfItems[0]+toPattern):viaPosition])
-# print(listOfItems)
-# listOfItems.append(item[len(listOfItems[0]+toPattern+listOfItems[1]+viaPattern):])
-# print(listOfItems)
 
 pathsManager = PathsManager()
 dataDictManager = DataDictManager()
@@ -28,6 +15,7 @@ dictOfRouteLists = {}
 for airline in airlines:
     dictOfRouteLists[airline] = dictOfRouteStrings[airline].split('\n')
 
+print(dictOfRouteLists['wizz-air'])
 
 toPattern = ' to '
 viaPattern = ' via '
@@ -56,6 +44,23 @@ for airline in airlines:
         cleanedList.append(listOfItems)
     dictOfCleanedLists[airline] = cleanedList
 
-print(dictOfCleanedLists)
+print(dictOfCleanedLists['wizz-air'])
 
+dictOfParsedRoutes = {}
+for airline in airlines:
+    parsedRoutesList = []
+    for item in dictOfCleanedLists[airline]:
+        if len(item) == 4:
+            parsedRoutesList.append([item[0], item[2]])
+            parsedRoutesList.append([item[2], item[3]])
+            parsedRoutesList.append([item[3], item[1]])
+        if len(item) == 3:
+            parsedRoutesList.append([item[0], item[2]])
+            parsedRoutesList.append([item[2], item[1]])
+        if len(item) == 2:
+            parsedRoutesList.append(item)
+    dictOfParsedRoutes[airline] = parsedRoutesList
 
+counts = pandas.value_counts(dictOfParsedRoutes['ryanair'])
+
+print(counts)

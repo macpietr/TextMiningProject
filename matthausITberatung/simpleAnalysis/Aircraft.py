@@ -1,3 +1,5 @@
+import re
+
 from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
 from matthausITberatung.objectsManager.PathsManager import PathsManager
@@ -22,7 +24,7 @@ for airline in airlines:
     mapOfclearedDownloadedAircraftStrings[airline] = downloadedAircraftData[airline]\
         .replace(' ', '').replace('None\n', '').replace('\n', ' ').lower()
 
-print(mapOfclearedDownloadedAircraftStrings)
+# print(mapOfclearedDownloadedAircraftStrings)
 
 mapOfClearedDownloadedAircraftsLists = {}
 for airline in airlines:
@@ -30,59 +32,73 @@ for airline in airlines:
 
 print(mapOfClearedDownloadedAircraftsLists)
 
-mapOfWordsAndCounts = {}
-for airline in airlines:
-    mapOfWordsAndCounts[airline] = pd.value_counts(np.array(mapOfClearedDownloadedAircraftsLists[airline]))
-
-mapOfListOfTermsToRemove = {}
-for airline in airlines:
-    listOfTermsToRemove = []
-    for word in mapOfWordsAndCounts[airline].keys():
-        if mapOfWordsAndCounts[airline][word] == 1:
-            listOfTermsToRemove.append(word)
-    mapOfListOfTermsToRemove[airline] = listOfTermsToRemove
-
-print(mapOfListOfTermsToRemove)
-
-finalMap = {}
+mapOfRegexedAircraftsLists = {}
 for airline in airlines:
     helperList = []
-    for word in mapOfClearedDownloadedAircraftsLists[airline]:
-        if not word in mapOfListOfTermsToRemove[airline]:
-            helperList.append(word)
-    finalMap[airline] = helperList
+    for value in mapOfClearedDownloadedAircraftsLists[airline]:
+        if value[:1] == "a":
+            value = "a" + re.sub("[^0-9]", "", value)[:3]
+        else:
+            value = re.sub("[^0-9]", "", value)[:3]
+        if len(value) > 2:
+            helperList.append(value)
+    mapOfRegexedAircraftsLists[airline] = helperList
 
-print(mapOfClearedDownloadedAircraftsLists)
+print(mapOfRegexedAircraftsLists)
 
-mapOfWordsAndCounts = {}
+wordsAndCountsDict = {}
 for airline in airlines:
-    mapOfWordsAndCounts[airline] = pd.value_counts(np.array(finalMap[airline]))
+    wordsAndCountsDict[airline] = pd.value_counts(np.array(mapOfRegexedAircraftsLists[airline]))
 
-print(mapOfWordsAndCounts)
+dictOfListOfTermsToRemove = {}
+for airline in airlines:
+    listOfTermsToRemove = []
+    for word in wordsAndCountsDict[airline].keys():
+        if wordsAndCountsDict[airline][word] == 1:
+            listOfTermsToRemove.append(word)
+    dictOfListOfTermsToRemove[airline] = listOfTermsToRemove
 
-allCount = sum(mapOfWordsAndCounts['lufthansa'])
-df = pd.DataFrame.from_dict(mapOfWordsAndCounts['lufthansa'])
+print(dictOfListOfTermsToRemove)
+
+finalDict = {}
+for airline in airlines:
+    helperList = []
+    for word in mapOfRegexedAircraftsLists[airline]:
+        if not word in dictOfListOfTermsToRemove[airline]:
+            helperList.append(word)
+    finalDict[airline] = helperList
+#
+# print(mapOfClearedDownloadedAircraftsLists)
+
+wordsAndCountsDict = {}
+for airline in airlines:
+    wordsAndCountsDict[airline] = pd.value_counts(np.array(finalDict[airline]))
+
+# print(mapOfWordsAndCounts)
+
+allCount = sum(wordsAndCountsDict['lufthansa'])
+df = pd.DataFrame.from_dict(wordsAndCountsDict['lufthansa'])
 df.columns=['count']
-percentage = [round(count/allCount,3) for count in mapOfWordsAndCounts['lufthansa']]
+percentage = [str(round((count/allCount)*100,3)) +'%' for count in wordsAndCountsDict['lufthansa']]
 df.insert(1,"percentage",percentage,True)
 
 print(df)
-
-allCount = sum(mapOfWordsAndCounts['ryanair'])
-df1 = pd.DataFrame.from_dict(mapOfWordsAndCounts['ryanair'])
+print('#######################################################')
+allCount = sum(wordsAndCountsDict['ryanair'])
+df1 = pd.DataFrame.from_dict(wordsAndCountsDict['ryanair'])
 df1.columns=['count']
-percentage = [round(count/allCount,3) for count in mapOfWordsAndCounts['ryanair']]
+percentage = [str(round((count/allCount)*100,3)) +'%' for count in wordsAndCountsDict['ryanair']]
 df1.insert(1,"percentage",percentage,True)
 
 print(df1)
-
-allCount = sum(mapOfWordsAndCounts['wizz-air'])
-df2 = pd.DataFrame.from_dict(mapOfWordsAndCounts['wizz-air'])
+print('#######################################################')
+allCount = sum(wordsAndCountsDict['wizz-air'])
+df2 = pd.DataFrame.from_dict(wordsAndCountsDict['wizz-air'])
 df2.columns=['count']
-percentage = [round(count/allCount,3) for count in mapOfWordsAndCounts['wizz-air']]
+percentage = [str(round((count/allCount)*100,3)) +'%' for count in wordsAndCountsDict['wizz-air']]
 df2.insert(1,"percentage",percentage,True)
 
 print(df2)
-
-#jak to kuźwa przeanalizować?
-#Napisać do Rizun
+print('#######################################################')
+# #jak to kuźwa przeanalizować?
+# #Napisać do Rizun
