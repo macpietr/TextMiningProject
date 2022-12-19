@@ -24,14 +24,12 @@ for airline in airlines:
     mapOfclearedDownloadedAircraftStrings[airline] = downloadedAircraftData[airline]\
         .replace(' ', '').replace('None\n', '').replace('\n', ' ').lower()
 
-# print(mapOfclearedDownloadedAircraftStrings)
 
 mapOfClearedDownloadedAircraftsLists = {}
 for airline in airlines:
     mapOfClearedDownloadedAircraftsLists[airline] = mapOfclearedDownloadedAircraftStrings[airline].split(' ')
 
-print(mapOfClearedDownloadedAircraftsLists)
-
+# clean names of aircraft models
 mapOfRegexedAircraftsLists = {}
 for airline in airlines:
     helperList = []
@@ -58,8 +56,6 @@ for airline in airlines:
             listOfTermsToRemove.append(word)
     dictOfListOfTermsToRemove[airline] = listOfTermsToRemove
 
-print(dictOfListOfTermsToRemove)
-
 finalDict = {}
 for airline in airlines:
     helperList = []
@@ -67,8 +63,6 @@ for airline in airlines:
         if not word in dictOfListOfTermsToRemove[airline]:
             helperList.append(word)
     finalDict[airline] = helperList
-#
-# print(mapOfClearedDownloadedAircraftsLists)
 
 wordsAndCountsDict = {}
 for airline in airlines:
@@ -76,29 +70,32 @@ for airline in airlines:
 
 # print(mapOfWordsAndCounts)
 
-allCount = sum(wordsAndCountsDict['lufthansa'])
-df = pd.DataFrame.from_dict(wordsAndCountsDict['lufthansa'])
-df.columns=['count']
-percentage = [str(round((count/allCount)*100,3)) +'%' for count in wordsAndCountsDict['lufthansa']]
-df.insert(1,"percentage",percentage,True)
+for airline in airlines:
+    allCount = sum(wordsAndCountsDict[airline])
+    df = pd.DataFrame.from_dict(wordsAndCountsDict[airline])
+    df.columns=['count']
+    percentage = [str(round((count/allCount)*100,3)) +'%' for count in wordsAndCountsDict[airline]]
+    df.insert(1,"percentage",percentage,True)
 
-print(df)
-print('#######################################################')
-allCount = sum(wordsAndCountsDict['ryanair'])
-df1 = pd.DataFrame.from_dict(wordsAndCountsDict['ryanair'])
-df1.columns=['count']
-percentage = [str(round((count/allCount)*100,3)) +'%' for count in wordsAndCountsDict['ryanair']]
-df1.insert(1,"percentage",percentage,True)
+    print(airline)
+    print(df)
+    print('#######################################################')
 
-print(df1)
-print('#######################################################')
-allCount = sum(wordsAndCountsDict['wizz-air'])
-df2 = pd.DataFrame.from_dict(wordsAndCountsDict['wizz-air'])
-df2.columns=['count']
-percentage = [str(round((count/allCount)*100,3)) +'%' for count in wordsAndCountsDict['wizz-air']]
-df2.insert(1,"percentage",percentage,True)
-
-print(df2)
-print('#######################################################')
-# #jak to kuźwa przeanalizować?
-# #Napisać do Rizun
+# allCount = sum(wordsAndCountsDict['ryanair'])
+# df1 = pd.DataFrame.from_dict(wordsAndCountsDict['ryanair'])
+# df1.columns=['count']
+# percentage = [str(round((count/allCount)*100,3)) +'%' for count in wordsAndCountsDict['ryanair']]
+# df1.insert(1,"percentage",percentage,True)
+#
+# print(airlines[1])
+# print(df1)
+# print('#######################################################')
+# allCount = sum(wordsAndCountsDict['wizz-air'])
+# df2 = pd.DataFrame.from_dict(wordsAndCountsDict['wizz-air'])
+# df2.columns=['count']
+# percentage = [str(round((count/allCount)*100,3)) +'%' for count in wordsAndCountsDict['wizz-air']]
+# df2.insert(1,"percentage",percentage,True)
+#
+# print(airlines[2])
+# print(df2)
+# print('#######################################################')
