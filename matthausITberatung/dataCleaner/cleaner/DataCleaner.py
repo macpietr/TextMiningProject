@@ -12,7 +12,8 @@ class DataCleaner:
         for airline in PathsManager().LIST_OF_AIRLINES:
             downloadedData = FileReader().readFile(PathsManager().DOWNLOADED_FILES_DIR, nameOfDataChildDir, airline)
             cleanedData = self.cleanData(downloadedData)
-            cleanedData = self.cleanDataExtended(cleanedData)
+            if nameOfDataChildDir != 'MainMarkInOpinion':
+                cleanedData = self.cleanDataExtended(cleanedData)
             FileWriter(PathsManager().CLEANED_DATA_FILES_DIR, nameOfDataChildDir, airline).putDataIntoFile(cleanedData)
 
     def cleanDataExtended(self, data):

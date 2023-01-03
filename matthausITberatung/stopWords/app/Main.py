@@ -28,7 +28,7 @@ topWordsDictManager = TopWordsDictManager()
 stopWordsManager = StopWordsManager()
 pathsManager = PathsManager()
 
-airlinesDataDictFromFiles = dataDictManager.getDataDictFromFiles(PathsManager().LIST_OF_AIRLINES, partOfScrappedData='MainUserOpinion')
+airlinesDataDictFromFiles = dataDictManager.getDataDictFromFiles(PathsManager().CLEANED_DATA_FILES_DIR, partOfScrappedData='MainUserOpinion')
 airlinesDataDictForCorpus = dataDictManager.getDataDictForCorpus(airlinesDataDictFromFiles)
 airlinesDataDictOfLemmitizedWords = dataDictManager.getLemmatizedDataDictForCorpus(airlinesDataDictForCorpus)
 

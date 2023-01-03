@@ -2,7 +2,8 @@ class URLprovider:
 
     def getListOfAirLineURLs(self, airlineName):
         listOfAirLineURLs = []
-        for iterator in range(1, 11):
+        #12 pages, because range works like 1 <= x < 13
+        for iterator in range(1, 13):
             listOfAirLineURLs.append(URLprovider.getURL(iterator, airlineName))
         return listOfAirLineURLs
 

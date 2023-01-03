@@ -1,5 +1,8 @@
 import numpy
+import numpy as np
 import pandas
+import pandas as pd
+
 from matthausITberatung.objectsManager.PathsManager import PathsManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataDictManager import DataDictManager
 
@@ -15,8 +18,9 @@ dictOfRouteLists = {}
 for airline in airlines:
     dictOfRouteLists[airline] = dictOfRouteStrings[airline].split('\n')
 
-print(dictOfRouteLists['wizz-air'])
 
+
+# adjust routes description to matrix
 toPattern = ' to '
 viaPattern = ' via '
 amperPattern = ' & '
@@ -44,8 +48,10 @@ for airline in airlines:
         cleanedList.append(listOfItems)
     dictOfCleanedLists[airline] = cleanedList
 
-print(dictOfCleanedLists['wizz-air'])
 
+
+# Check variety of routes
+# split journey changes to separate routes
 dictOfParsedRoutes = {}
 for airline in airlines:
     parsedRoutesList = []
@@ -59,8 +65,66 @@ for airline in airlines:
             parsedRoutesList.append([item[2], item[1]])
         if len(item) == 2:
             parsedRoutesList.append(item)
+
     dictOfParsedRoutes[airline] = parsedRoutesList
 
-counts = pandas.value_counts(dictOfParsedRoutes['ryanair'])
 
-print(counts)
+# calculate number of distinct routes
+dictOfParsedRoutesSetOfString = {}
+for airline in airlines:
+    # create set to avoid duplicates
+    parsedRoutesSetOfString = set()
+    for item in dictOfParsedRoutes[airline]:
+        #to allow items to be appended to set, they need to be hashable like i.e. strings
+        parsedRoutesSetOfString.add(
+            str(item).replace('\'', '').replace('[', '').replace(']', '').rstrip().lstrip()
+        )
+    dictOfParsedRoutesSetOfString[airline] = list(parsedRoutesSetOfString)
+
+listOfSize = []
+[listOfSize.append(len(dictOfParsedRoutesSetOfString[airline])) for airline in airlines]
+
+print(listOfSize)
+
+data = {'Number of distinct routes':listOfSize}
+df = pandas.DataFrame(data, index=airlines)
+
+print(df)
+
+## check most common airports
+dictOfSeparateAirports = {}
+for airline in airlines:
+    #flatMap
+    listOfSeparateAirports = []
+    for row in dictOfParsedRoutes[airline]:
+        for item in row:
+            listOfSeparateAirports.append(item)
+    dictOfSeparateAirports[airline] = listOfSeparateAirports
+
+print(dictOfSeparateAirports)
+
+airportsAndCountsDict = {}
+for airline in airlines:
+    airportsAndCountsDict[airline] = pandas.value_counts(np.array(dictOfSeparateAirports[airline]))
+    allCount = sum(airportsAndCountsDict[airline])
+    df = pd.DataFrame.from_dict(airportsAndCountsDict[airline])
+    df.columns=['count']
+    percentage = [str(round((count / allCount) * 100, 3)) + '%' for count in airportsAndCountsDict[airline]]
+    df.insert(1, "sum", allCount, True)
+    df.insert(2, "percentage", percentage, True)
+    print(airline)
+    print(df)
+    print('#######################################################')
+
+
+dictOfSeparateDistinctAirports = {}
+for airline in airlines:
+    dictOfSeparateDistinctAirports[airline] = set(dictOfSeparateAirports[airline])
+
+listOfDistinctAirportsCounts = []
+[listOfDistinctAirportsCounts.append(len(dictOfSeparateDistinctAirports[airline])) for airline in airlines]
+
+data = {'Number of distinct airports':listOfDistinctAirportsCounts}
+df = pandas.DataFrame(data, index=airlines)
+
+print(df)
