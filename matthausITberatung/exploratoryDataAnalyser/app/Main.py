@@ -29,8 +29,9 @@ bigramsManager = BigramsManager()
 POTENTIAL_STOP_WORDS_LIST = objectManager.getSavedObject(pathsManager.POTENTIAL_STOP_WORDS_LIST)
 STOP_WORDS_LIST_FROM_SHORT_WORDS = objectManager.getSavedObject(pathsManager.STOP_WORDS_LIST_FROM_SHORT_WORDS)
 
-#TODO: Remember to check behaviuor with and without POTENTIAL_STOP_WORDS_LIST. Especially in wordClouds
-UNION_STOP_WORDS = text.ENGLISH_STOP_WORDS.union(POTENTIAL_STOP_WORDS_LIST).union(STOP_WORDS_LIST_FROM_SHORT_WORDS)
+#TODO: Remember to check behaviour with and without POTENTIAL_STOP_WORDS_LIST. Especially in wordClouds
+CUSTOM_STOP_WORDS = ['didnt', 'werent', 'dont', 'doesnt', 'wasnt', 'isnt', 'arent', 'havent', 'hasnt', 'hadnt']
+UNION_STOP_WORDS = text.ENGLISH_STOP_WORDS.union(POTENTIAL_STOP_WORDS_LIST).union(STOP_WORDS_LIST_FROM_SHORT_WORDS).union(CUSTOM_STOP_WORDS)
 #CountVectorizer will be required object to create DTM
 #It is used to transform a given text into a vector on the basis of the frequency (count) of each word that occurs in the entire text.
 countVectorizer = CountVectorizer(stop_words=UNION_STOP_WORDS)
@@ -38,11 +39,20 @@ objectManager.saveObject(countVectorizer, 'countVectorizer')
 
 #Prepare dict of cleand data for every airline
 cleanedDataDict = dataDictManager.getDataDictFromFiles(PathsManager().CLEANED_DATA_FILES_DIR, partOfScrappedData='MainUserOpinion')
-cleandDataDictForCorpus = dataDictManager.getDataDictForCorpus(cleanedDataDict)
-lemmitizedDataDict = dataDictManager.getLemmatizedDataDictForCorpus(cleandDataDictForCorpus)
-dataDictWithoutStopWords = dataDictManager.getDataDictWithoutStopWords(lemmitizedDataDict, UNION_STOP_WORDS)
+
+cleanedDataDictOfLists = {}
+for airline in pathsManager.LIST_OF_AIRLINES:
+    cleanedDataDictOfLists[airline] = cleanedDataDict[airline].split('\n')
+lemmatizedDataDictOfLists = dataDictManager.getLemmatizedDataDictOfLists(cleanedDataDictOfLists)
+lemmatizedDataDictOfListsWithoutStopWords = dataDictManager.getDataDictWithoutStopWords(lemmatizedDataDictOfLists, UNION_STOP_WORDS)
 
 #We have to create corpus
+cleandDataDictForCorpus = {}
+lemmatizedDataDictForCorpusWithoutStopWords = {}
+for airline in pathsManager.LIST_OF_AIRLINES:
+    cleandDataDictForCorpus[airline] = ' '.join(cleanedDataDictOfLists[airline])
+    lemmatizedDataDictForCorpusWithoutStopWords[airline] = ' '.join(lemmatizedDataDictOfListsWithoutStopWords[airline])
+
 
 #1 corpus with stop words included - only for display purpose
 mainOpinionsCorpus = corpusManager.createCorpus(cleandDataDictForCorpus, 100)
@@ -53,7 +63,7 @@ print('#############################')
 print('')
 
 #2 corpus without stop words - for further analysis
-mainOpinionsCorpusWithoutStopWords = corpusManager.createCorpus(dataDictWithoutStopWords, 30)
+mainOpinionsCorpusWithoutStopWords = corpusManager.createCorpus(lemmatizedDataDictForCorpusWithoutStopWords, 30)
 #name columns with opinions from corpus as 'opinions'. We have only one column in our corpus, beacuse airlines are index of corpus
 mainOpinionsCorpusWithoutStopWords.columns = ['opinions']
 
@@ -75,9 +85,8 @@ print('######### TDM head(30)')
 print(mainOpinionsTDM.head(30))
 
 #Create a dictionary where key is the airline and value is a list of words and their number of appearance (word, count)
-airlinesDictOfListsOfWords = dataDictManager.createDataDictOfListsOfWords(dataDictWithoutStopWords)
 airlinesDictOfCountedWordsCounter = dataDictManager\
-    .createDataDictOfDictsOfCountedWordsWithoutDefaultStopWords(airlinesDictOfListsOfWords,
+    .createDataDictOfDictsOfCountedWordsWithoutDefaultStopWords(lemmatizedDataDictOfListsWithoutStopWords,
                                                                 countVectorizer.get_stop_words())
 
 #print(topWordsDict)
@@ -97,9 +106,6 @@ print("###### most common words")
 print(Counter(topCommonWords).most_common())
 #Możemy zdecydować, które spośród tych słów trafi do stop words, a które będziemy badać
 print(len(airlinesDictOfCountedWordsCounter.keys()))
-potentialStopWordsList = stopWordsManager.createStopWordsListBasedOnCommonWords(topCommonWords, 3)
-print("#### potential stop words list ########")
-print(potentialStopWordsList)
 
 
 summaryTable = summaryTableManager.createSummaryTable(mainOpinionsTDM)
@@ -109,7 +115,7 @@ print(summaryTable)
 
 
 ######## BIGRAMS - repetition of previous steps, but using bigrams data############
-dictOfListsOfBigrams = bigramsManager.getDictOfListsOfBigrams(dataDictWithoutStopWords)
+dictOfListsOfBigrams = bigramsManager.getDictOfListsOfBigrams(lemmatizedDataDictForCorpusWithoutStopWords)
 
 print('#################### BIGRAMS dataDictParsedFromDictOfBigrams')
 print(dictOfListsOfBigrams.keys())
@@ -134,4 +140,5 @@ objectManager.saveObject(mainOpinionsTDM, pathsManager.MAIN_OPINIONS_TDM)
 objectManager.saveObject(summaryTable, pathsManager.SUMMARY_TABLE)
 objectManager.saveObject(dictOfListsOfBigrams, pathsManager.DICT_LIST_OF_BIGRAMS)
 objectManager.saveObject(dictOfCountersFromBigrams, pathsManager.DICT_OF_COUNTERS_FROM_BIGRAMS)
-objectManager.saveObject(dataDictWithoutStopWords, pathsManager.DATA_DICT_WITHOUT_STOP_WORDS)
+objectManager.saveObject(lemmatizedDataDictForCorpusWithoutStopWords, pathsManager.LEMMATIZED_DATA_DICT_FOR_CORPUS_WITHOUT_STOP_WORDS)
+objectManager.saveObject(lemmatizedDataDictOfListsWithoutStopWords, pathsManager.LEMMATIZED_DATA_DICT_OF_LISTS_WITHOUT_STOP_WORDS)

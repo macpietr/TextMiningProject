@@ -3,42 +3,37 @@ from collections import Counter
 import nltk
 from nltk import WordNetLemmatizer
 
+from matthausITberatung.dataCleaner.cleaner.DataCleaner import DataCleaner
 from matthausITberatung.objectsManager.FileReader import FileReader
 from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 
 class DataDictManager:
 
-    def __init__(self):
-        self.wordNetLemmatizer = WordNetLemmatizer()
-
-    def getDataDictForCorpus(self, dataDict):
-        return {key: [dataDict[key]] for (key, value) in dataDict.items()}
-
     def getDataDictFromFiles(self, parentDir, partOfScrappedData):
-        cleanedDataDict = {}
+        dataDict = {}
         for i, airline in enumerate(PathsManager().LIST_OF_AIRLINES):
-            cleanedDataDict[airline] = FileReader().readFile(parentDir, partOfScrappedData,
+            dataDict[airline] = FileReader().readFile(parentDir, partOfScrappedData,
                                                              airline)
-        return cleanedDataDict
+        return dataDict
 
-    def getLemmatizedDataDictForCorpus(self, dataDict):
+    def getLemmatizedDataDictOfLists(self, dataDict):
         nltk.download('wordnet')
         lemmatizedDataDict = {}
         for key in dataDict.keys():
+            helperList = []
             for opinion in dataDict[key]:
-                helperList = [self.wordNetLemmatizer.lemmatize(word.strip(), 'v') for word in opinion.split(" ")]
-                helperList = [self.wordNetLemmatizer.lemmatize(word.strip(), 'n') for word in helperList]
-                helperList = [self.wordNetLemmatizer.lemmatize(word.strip(), 'a') for word in helperList]
-                helperList = [self.wordNetLemmatizer.lemmatize(word.strip(), 'r') for word in helperList]
-            lemmatizedDataDict[key] = ' '.join(helperList)
+                helperList.append(DataCleaner().lemmatizeLine(opinion))
+            lemmatizedDataDict[key] = helperList
         return lemmatizedDataDict
 
     def getDataDictWithoutStopWords(self, dataDict, stopWords):
         dataDictWithoutStopWords = {}
         for key in dataDict.keys():
-            helperlist = [word.strip() for word in dataDict[key].split(" ") if word.strip() not in stopWords]
-            dataDictWithoutStopWords[key] = ' '.join(helperlist)
+            helperlist = []
+            for line in dataDict[key]:
+                helperlist.append(DataCleaner().lineWithoutStopWords(line, stopWords))
+            dataDictWithoutStopWords[key] = helperlist
         return dataDictWithoutStopWords
 
     def createDataDictOfListsOfWords(self, dataDictOfWords):
@@ -47,10 +42,11 @@ class DataDictManager:
             dataDictOfListsOfWords[key] = dataDictOfWords[key].split(' ')
         return dataDictOfListsOfWords
 
-    def createDataDictOfDictsOfCountedWordsWithoutDefaultStopWords(self, dataDictOfListsOfWords, stopWords):
+    def createDataDictOfDictsOfCountedWordsWithoutDefaultStopWords(self, dataDictOfLists, stopWords):
         dataDictOfDictsOfCountedWordsWithoutDefaultStopWords = {}
-        for key in dataDictOfListsOfWords.keys():
-            dataDictOfDictsOfCountedWordsWithoutDefaultStopWords[key] = Counter(dataDictOfListsOfWords[key])
+        for key in dataDictOfLists.keys():
+            listOfWords = str(dataDictOfLists[key]).split(' ')
+            dataDictOfDictsOfCountedWordsWithoutDefaultStopWords[key] = Counter(listOfWords)
             for word in stopWords:
                 del dataDictOfDictsOfCountedWordsWithoutDefaultStopWords[key][word]
             del dataDictOfDictsOfCountedWordsWithoutDefaultStopWords[key]['']

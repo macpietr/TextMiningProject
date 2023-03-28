@@ -21,22 +21,25 @@ numberAnalysisDictOfStrings = {}
 for directory in numberAnalysisDirectories:
     numberAnalysisDictOfStrings[directory] = dataDictManager.getDataDictFromFiles(pathsManager.DOWNLOADED_FILES_DIR, directory)
 
+#Had to add it separately, because it needed deepen cleaning
+numberAnalysisDictOfStrings['MainMarkInOpinion'] = dataDictManager.getDataDictFromFiles(pathsManager.CLEANED_DATA_FILES_DIR, 'MainMarkInOpinion')
+
 print(numberAnalysisDictOfStrings)
 
 clearedNumberAnalysisDictOfStrings = {}
-for directory in numberAnalysisDirectories:
+for directory in numberAnalysisDictOfStrings.keys():
     clearedNumberAnalysisDictOfStrings[directory] = dataCleaner.cleanDataForNumberAnalysis(numberAnalysisDictOfStrings[directory])
 
 print(clearedNumberAnalysisDictOfStrings)
 
 numberAnalysisDictOfLists = {}
-for directory in numberAnalysisDirectories:
+for directory in numberAnalysisDictOfStrings.keys():
     numberAnalysisDictOfLists[directory] = helper.createDictOfLists(clearedNumberAnalysisDictOfStrings[directory])
 
 print(numberAnalysisDictOfLists)
 
 numberAnalysisDictOfListsOfInts = {}
-for directory in numberAnalysisDirectories:
+for directory in numberAnalysisDictOfStrings.keys():
     numberAnalysisDictOfListsOfInts[directory] = helper.convertStringsToInts(numberAnalysisDictOfLists[directory])
 
 print(numberAnalysisDictOfListsOfInts)
@@ -44,7 +47,7 @@ print(numberAnalysisDictOfListsOfInts)
 print(statistics.mode(numberAnalysisDictOfListsOfInts['GroundService']['wizz-air']))
 
 numberAnalysisDictOfDataFrames = {}
-for directory in numberAnalysisDirectories:
+for directory in numberAnalysisDictOfStrings.keys():
     listOfModes = [statistics.mode(numberAnalysisDictOfListsOfInts[directory][airline]) for airline in pathsManager.LIST_OF_AIRLINES]
     listOfMedians = [statistics.median(numberAnalysisDictOfListsOfInts[directory][airline]) for airline in pathsManager.LIST_OF_AIRLINES]
     listOfMeans = [round(statistics.mean(numberAnalysisDictOfListsOfInts[directory][airline]),2) for airline in pathsManager.LIST_OF_AIRLINES]
