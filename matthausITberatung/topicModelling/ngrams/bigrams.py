@@ -6,6 +6,8 @@ from gensim.models import TfidfModel
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 from matthausITberatung.objectsManager.PathsManager import PathsManager
 
+#co ja tutaj w ogóle robię??
+
 # TODO: tutaj są wyrazy, które mają długość 2, trzeba sie pozbyc tych wyrazow i w ogole chyba stopwordsy nie zadzialaly dobrze
 listOfWholeOpinions = ObjectsManager().getSavedObject('listOfWholeOpinions')
 lemmatizedDataDictOfListsWithoutStopWords = ObjectsManager().getSavedObject(PathsManager().LEMMATIZED_DATA_DICT_OF_LISTS_WITHOUT_STOP_WORDS)

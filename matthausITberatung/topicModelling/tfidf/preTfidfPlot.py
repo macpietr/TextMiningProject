@@ -1,5 +1,5 @@
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
-from matthausITberatung.topicModelling2.tfidf.TfidfUtils import TfidfUtils
+from matthausITberatung.topicModelling.tfidf.TfidfUtils import TfidfUtils
 
 commondatavectors = ObjectsManager().getSavedObject('commondatavectors')
 lufthansavectors = ObjectsManager().getSavedObject('lufthansavectors')

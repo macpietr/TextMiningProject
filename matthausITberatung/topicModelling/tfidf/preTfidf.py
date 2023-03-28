@@ -1,6 +1,6 @@
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 from matthausITberatung.objectsManager.PathsManager import PathsManager
-from matthausITberatung.topicModelling2.tfidf.TfidfUtils import TfidfUtils
+from matthausITberatung.topicModelling.tfidf.TfidfUtils import TfidfUtils
 from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import TfidfVectorizer
 
