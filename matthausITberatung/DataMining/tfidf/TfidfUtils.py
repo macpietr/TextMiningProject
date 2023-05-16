@@ -24,10 +24,9 @@ class TfidfUtils:
     def __lemmatizeAirLineOpinions(self, airlineOpinions, listOfWholeOpinions):
         perAirlineList = []
         for opinion in airlineOpinions:
-            helperList = DataCleaner().lemmatizeLine(opinion)
-            joinedHelperList = ' '.join(helperList)
-            perAirlineList.append(joinedHelperList)
-            listOfWholeOpinions.append(joinedHelperList)
+            helperString = DataCleaner().lemmatizeLine(opinion)
+            perAirlineList.append(helperString)
+            listOfWholeOpinions.append(helperString)
         return perAirlineList
 
     def showExpectedClustersPlot(self, vectors, title):

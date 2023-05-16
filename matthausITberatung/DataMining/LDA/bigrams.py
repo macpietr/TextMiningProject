@@ -49,8 +49,6 @@ low_value = 0.03
 words = []
 words_missing_in_tfifd = []
 
-low_value = 0.03
-
 for i in range(0, len(corpus)):
     bow = corpus[i]
     low_value_words = [] #reinitialize to be safe. You can skip this.

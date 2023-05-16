@@ -11,3 +11,4 @@ class ObjectsManager:
     def getSavedObject(self, objectFileName):
         with open(PathsManager().PICKLED_FILES + "/" + objectFileName + ".pkl", 'rb') as pickledFile:
             return pickle.load(pickledFile)
+
