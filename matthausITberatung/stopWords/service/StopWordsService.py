@@ -13,11 +13,15 @@ class StopWordsService:
         nltk.download('punkt')
         self.customStopWords = ObjectsManager().getSavedObject(PathsManager().UNION_STOP_WORDS)
 
-    def remove_stopwords(self, data):
+    def remove_stopwords(self, listOfOpinions):
         stop_words = set(stopwords.words('english')).union(self.customStopWords)
 
-        tokens = word_tokenize(data)
-        filtered_tokens = [word for word in tokens if word.lower() not in stop_words]
-        filtered_text = ' '.join(filtered_tokens)
+        listOfClearedOpinions = []
 
-        return filtered_text
+        for opinion in listOfOpinions:
+            tokens = word_tokenize(opinion)
+            filtered_tokens = [word for word in tokens if word.lower() not in stop_words]
+            filtered_text = ' '.join(filtered_tokens)
+            listOfClearedOpinions.append(filtered_text)
+
+        return listOfClearedOpinions

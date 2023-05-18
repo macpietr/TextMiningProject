@@ -4,13 +4,9 @@ from gensim.models import LdaModel
 from nltk import word_tokenize
 
 from matthausITberatung.DataMining.LDA.Utils import Utils
-from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 
 class TopicModelling:
 #TODO: zrobic dla bigrams i trigrams. dla kazdej linii lotniczej oraz dla wszystkich opinii
-
-    listOfClusters_wholeOpinions = ObjectsManager().getSavedObject('listOfClusters_wholeOpinions')
-    dictOfAirlinesClusters = ObjectsManager().getSavedObject('dictOfAirlinesClusters')
 
     def __tokenizeCluster(self, cluster):
         return [word_tokenize(opinion) for opinion in cluster]

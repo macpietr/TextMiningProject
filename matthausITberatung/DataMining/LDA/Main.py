@@ -2,10 +2,7 @@ from matthausITberatung.DataMining.LDA.TopicModelling import TopicModelling
 from matthausITberatung.DataMining.tfidf.clustering.ClusterCreator import ClusterCreator
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 
-listOfClusters_wholeOpinions = ObjectsManager().getSavedObject('listOfClusters_wholeOpinions')
-
-dictOfAirlinesClusters = ObjectsManager().getSavedObject('dictOfAirlinesClusters')
-
+#wyczyścić to ze stopWordsow
 opinionsPerAirline = ObjectsManager().getSavedObject('opinionsPerAirline')
 
 
