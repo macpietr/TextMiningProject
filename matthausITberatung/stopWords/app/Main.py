@@ -1,5 +1,4 @@
-from collections import Counter
-
+from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer
 
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataDictManager import DataDictManager
@@ -53,12 +52,19 @@ airlinesDictOfCountedWordsWithoutStopWords = dataDictManager\
                                                                 countVectorizer.get_stop_words())
 
 topCommonWords = topWordsDictManager.getTopCommonWords(airlinesDictOfCountedWordsWithoutStopWords, NUMBER_OF_TOP_WORDS_PER_AIRLINE)
+
 potentialStopWordsList = stopWordsManager.createStopWordsListBasedOnCommonWords(topCommonWords,
                                                                                 NUMBER_OF_DOCUMENTS_IN_WHICH_WORDS_OCCURED)
 
 stopWordsListFromShortWords = stopWordsManager.createStopWordsListFromShortWords(lemmatizedAirlinesDataDictForCorpus, 3)
 
-objectManager.saveObject(stopWordsListFromShortWords, pathsManager.STOP_WORDS_LIST_FROM_SHORT_WORDS)
-objectManager.saveObject(potentialStopWordsList, pathsManager.POTENTIAL_STOP_WORDS_LIST)
+CUSTOM_STOP_WORDS = ['didnt', 'werent', 'dont', 'doesnt', 'wasnt', 'isnt', 'arent', 'havent', 'hasnt', 'hadnt']
 
-print(potentialStopWordsList)
+#Order is important here, because text.ENGLISH_STOP_WORDS is the frozenset
+UNION_STOP_WORDS = stopWordsListFromShortWords\
+    .union(potentialStopWordsList)\
+    # .union(stopWordsListFromShortWords)
+
+objectManager.saveObject(UNION_STOP_WORDS, pathsManager.UNION_STOP_WORDS)
+
+print(UNION_STOP_WORDS)

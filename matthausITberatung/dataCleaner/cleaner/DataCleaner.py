@@ -46,7 +46,7 @@ class DataCleaner:
         clearedDownloadedData = {}
         for key in downloadedDataDict.keys():
             clearedDownloadedData[key] = downloadedDataDict[key]\
-                .replace(' ', '').lower().replace('none\n', '').replace('n/a\n', '').replace('\n', ' ')
+                .replace(' ', '').lower().replace('none\n', '').replace('n/a\n', '').replace('\n', ' ').replace('n','')
         return clearedDownloadedData
 
     def lineWithoutStopWords(self, line, stopWords):

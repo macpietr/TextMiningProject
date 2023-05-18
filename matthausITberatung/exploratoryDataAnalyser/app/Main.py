@@ -1,6 +1,4 @@
 from collections import Counter
-
-from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import CountVectorizer
 
 from matthausITberatung.exploratoryDataAnalyser.analyser.BigramsManager import BigramsManager
@@ -26,12 +24,9 @@ stopWordsManager = StopWordsManager()
 summaryTableManager = SummaryTableManager()
 bigramsManager = BigramsManager()
 
-POTENTIAL_STOP_WORDS_LIST = objectManager.getSavedObject(pathsManager.POTENTIAL_STOP_WORDS_LIST)
-STOP_WORDS_LIST_FROM_SHORT_WORDS = objectManager.getSavedObject(pathsManager.STOP_WORDS_LIST_FROM_SHORT_WORDS)
+UNION_STOP_WORDS = objectManager.getSavedObject(pathsManager.UNION_STOP_WORDS)
 
 #TODO: Remember to check behaviour with and without POTENTIAL_STOP_WORDS_LIST. Especially in wordClouds
-CUSTOM_STOP_WORDS = ['didnt', 'werent', 'dont', 'doesnt', 'wasnt', 'isnt', 'arent', 'havent', 'hasnt', 'hadnt']
-UNION_STOP_WORDS = text.ENGLISH_STOP_WORDS.union(POTENTIAL_STOP_WORDS_LIST).union(STOP_WORDS_LIST_FROM_SHORT_WORDS).union(CUSTOM_STOP_WORDS)
 #CountVectorizer will be required object to create DTM
 #It is used to transform a given text into a vector on the basis of the frequency (count) of each word that occurs in the entire text.
 countVectorizer = CountVectorizer(stop_words=UNION_STOP_WORDS)
@@ -134,7 +129,6 @@ for airline in pathsManager.LIST_OF_AIRLINES:
     dictOfCountersFromBigrams[airline] = Counter(dictOfListsOfBigrams[airline])
 
 objectManager.saveObject(mainOpinionsCorpusWithoutStopWords, pathsManager.MAIN_OPINIONS_CORPUS_WITHOUT_STOPWORDS)
-objectManager.saveObject(UNION_STOP_WORDS, pathsManager.UNION_STOP_WORDS)
 objectManager.saveObject(airlinesDictOfCountedWordsCounter, pathsManager.AIRLINES_DICT_OF_COUNTED_WORDS_COUNTER)
 objectManager.saveObject(mainOpinionsTDM, pathsManager.MAIN_OPINIONS_TDM)
 objectManager.saveObject(summaryTable, pathsManager.SUMMARY_TABLE)

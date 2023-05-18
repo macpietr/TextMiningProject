@@ -11,8 +11,6 @@ pathsManager = PathsManager()
 dataDictManager = DataDictManager()
 dataCleaner = DataCleaner()
 helper = Helper()
-corpusManager = CorpusManager()
-dtmManager = DataTermMatrixManager()
 airlines = pathsManager.LIST_OF_AIRLINES
 
 numberAnalysisDirectories = pathsManager.NUMBER_ANALYSIS_DIRS
@@ -40,6 +38,7 @@ print(numberAnalysisDictOfLists)
 
 numberAnalysisDictOfListsOfInts = {}
 for directory in numberAnalysisDictOfStrings.keys():
+    print(directory)
     numberAnalysisDictOfListsOfInts[directory] = helper.convertStringsToInts(numberAnalysisDictOfLists[directory])
 
 print(numberAnalysisDictOfListsOfInts)

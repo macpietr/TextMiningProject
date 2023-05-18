@@ -10,7 +10,8 @@ class Helper:
     def convertStringsToInts(self, dictOfLists):
         dictOfInts = {}
         for key in dictOfLists.keys():
-            dictOfInts[key] = list(map(int,dictOfLists[key]))
+            print(key)
+            dictOfInts[key] = list(map(int, dictOfLists[key]))
         return dictOfInts
 
     def __removeEmpties(self, list):
