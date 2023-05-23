@@ -6,12 +6,11 @@ from matthausITberatung.stopWords.service.StopWordsService import StopWordsServi
 
 stopWordsService = StopWordsService()
 
-def __lemmatizeAirLineOpinions(airlineOpinions, listOfWholeOpinions):
+def __lemmatizeAirLineOpinions(airlineOpinions):
     perAirlineList = []
     for opinion in airlineOpinions:
         helperString = DataCleaner().lemmatizeLine(opinion)
         perAirlineList.append(helperString)
-        listOfWholeOpinions.append(helperString)
     return perAirlineList
 
 def prepareData():
@@ -21,9 +20,10 @@ def prepareData():
     for airline in PathsManager().LIST_OF_AIRLINES:
         airlineOpinions = FileReader().readFile(PathsManager().CLEANED_DATA_FILES_DIR, 'MainUserOpinion', airline) \
             .split('\n')
-        lemmatized = __lemmatizeAirLineOpinions(airlineOpinions, listOfWholeOpinions)
-        perAirlineList = stopWordsService.remove_stopwords(lemmatized)
-        opinionsPerAirline[airline] = perAirlineList
+        lemmatizedOpinions = __lemmatizeAirLineOpinions(airlineOpinions)
+        lemmatizedOpinions_withoutStopWords = stopWordsService.remove_stopwords(lemmatizedOpinions)
+        opinionsPerAirline[airline] = lemmatizedOpinions_withoutStopWords
+        listOfWholeOpinions.append(lemmatizedOpinions_withoutStopWords)
     ObjectsManager().saveObject(listOfWholeOpinions, 'listOfWholeOpinions')
     ObjectsManager().saveObject(opinionsPerAirline, 'opinionsPerAirline')
 

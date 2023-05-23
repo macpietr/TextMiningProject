@@ -25,3 +25,6 @@ class ClusterCreator:
         clusters = k_means.labels_
         df = pd.DataFrame({'opinion': listOfOpinions, 'cluster': clusters})
         return df.groupby('cluster')['opinion'].apply(list)
+
+    def getVectorizer(self):
+        return self.vectorizer
