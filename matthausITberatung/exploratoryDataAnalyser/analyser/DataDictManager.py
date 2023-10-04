@@ -1,7 +1,6 @@
 from collections import Counter
 
 import nltk
-from nltk import WordNetLemmatizer
 
 from matthausITberatung.dataCleaner.cleaner.DataCleaner import DataCleaner
 from matthausITberatung.objectsManager.FileReader import FileReader

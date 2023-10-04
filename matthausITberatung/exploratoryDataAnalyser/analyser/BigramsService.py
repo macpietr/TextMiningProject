@@ -1,6 +1,6 @@
 from nltk import ngrams
 
-class BigramsManager:
+class BigramsService:
 
     def getDictOfListsOfBigrams(self, dataDict):
         dataDictParsedFromDictOfBigrams = {}
@@ -8,6 +8,3 @@ class BigramsManager:
             listOfBigrams = [' '.join(bigram) for bigram in ngrams(dataDict[key].split(), 2)]
             dataDictParsedFromDictOfBigrams[key] = listOfBigrams
         return dataDictParsedFromDictOfBigrams
-
-
-

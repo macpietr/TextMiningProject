@@ -9,17 +9,17 @@ from matthausITberatung.objectsManager.PathsManager import PathsManager
 objectsManager = ObjectsManager()
 pathsManager = PathsManager()
 
-UNION_STOP_WORDS = objectsManager.getSavedObject(pathsManager.UNION_STOP_WORDS)
-airlinesDictOfCountedWordsCounter = objectsManager.getSavedObject(pathsManager.AIRLINES_DICT_OF_COUNTED_WORDS_COUNTER)
+dictOfListOf30CountedMostCommonWords = objectsManager.getSavedObject(pathsManager.DICT_OF_LIST_OF_30_COUNTED_MOST_COMMON_WORDS)
+dictOfListOf30CountedMostCommonBigrams = objectsManager.getSavedObject(pathsManager.DICT_OF_LIST_OF_30_COUNTED_MOST_COMMON_BIGRAMS)
 
-for key in airlinesDictOfCountedWordsCounter.keys():
-    print('########### '+key+' ##########')
-    print(airlinesDictOfCountedWordsCounter[key].most_common(10))
+for airline in pathsManager.LIST_OF_AIRLINES:
+    print('########### '+airline+' ##########')
 
-    wordcloud = WordCloud(width = 1000, height = 500, background_color="white", stopwords=UNION_STOP_WORDS, colormap="Dark2")\
-        .generate_from_frequencies(airlinesDictOfCountedWordsCounter[key])
+    wordcloud = WordCloud(width = 1000, height = 500, background_color="white",
+                          stopwords=objectsManager.getSavedObject(pathsManager.UNION_STOP_WORDS), colormap="Dark2")\
+        .generate_from_frequencies(dictOfListOf30CountedMostCommonBigrams[airline])
     plt.figure(figsize=(15,8))
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
-    plt.title(key)
+    plt.title(airline)
     plt.show()

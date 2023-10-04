@@ -1,7 +1,7 @@
 from collections import Counter
 from sklearn.feature_extraction.text import CountVectorizer
 
-from matthausITberatung.exploratoryDataAnalyser.analyser.BigramsManager import BigramsManager
+from matthausITberatung.exploratoryDataAnalyser.analyser.BigramsService import BigramsService
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataDictManager import DataDictManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
@@ -14,6 +14,8 @@ from matthausITberatung.stopWords.manager.StopWordsManager import StopWordsManag
 
 ##BASIC PART
 #Create objects which are managers for certain operations
+from matthausITberatung.stopWords.service.StopWordsService import StopWordsService
+
 pathsManager = PathsManager()
 dataDictManager = DataDictManager()
 corpusManager = CorpusManager()
@@ -21,8 +23,9 @@ dataTermMatrixManager = DataTermMatrixManager()
 objectManager = ObjectsManager()
 topWordsDictManager = TopWordsDictManager()
 stopWordsManager = StopWordsManager()
+stopWordsService = StopWordsService()
 summaryTableManager = SummaryTableManager()
-bigramsManager = BigramsManager()
+bigramsService = BigramsService()
 
 UNION_STOP_WORDS = objectManager.getSavedObject(pathsManager.UNION_STOP_WORDS)
 
@@ -39,6 +42,12 @@ cleanedDataDictOfLists = {}
 for airline in pathsManager.LIST_OF_AIRLINES:
     cleanedDataDictOfLists[airline] = cleanedDataDict[airline].split('\n')
 lemmatizedDataDictOfLists = dataDictManager.getLemmatizedDataDictOfLists(cleanedDataDictOfLists)
+
+lemmatizedDataDictOfListsWithoutStopWords = {}
+for airline in pathsManager.LIST_OF_AIRLINES:
+    lemmatizedDataDictOfListsWithoutStopWords[airline] = stopWordsService.remove_stopwords(lemmatizedDataDictOfLists[airline])
+
+
 lemmatizedDataDictOfListsWithoutStopWords = dataDictManager.getDataDictWithoutStopWords(lemmatizedDataDictOfLists, UNION_STOP_WORDS)
 
 #We have to create corpus
@@ -110,7 +119,7 @@ print(summaryTable)
 
 
 ######## BIGRAMS - repetition of previous steps, but using bigrams data############
-dictOfListsOfBigrams = bigramsManager.getDictOfListsOfBigrams(lemmatizedDataDictForCorpusWithoutStopWords)
+dictOfListsOfBigrams = bigramsService.getDictOfListsOfBigrams(lemmatizedDataDictForCorpusWithoutStopWords)
 
 print('#################### BIGRAMS dataDictParsedFromDictOfBigrams')
 print(dictOfListsOfBigrams.keys())
@@ -131,7 +140,6 @@ for airline in pathsManager.LIST_OF_AIRLINES:
 objectManager.saveObject(mainOpinionsCorpusWithoutStopWords, pathsManager.MAIN_OPINIONS_CORPUS_WITHOUT_STOPWORDS)
 objectManager.saveObject(airlinesDictOfCountedWordsCounter, pathsManager.AIRLINES_DICT_OF_COUNTED_WORDS_COUNTER)
 objectManager.saveObject(mainOpinionsTDM, pathsManager.MAIN_OPINIONS_TDM)
-objectManager.saveObject(summaryTable, pathsManager.SUMMARY_TABLE)
 objectManager.saveObject(dictOfListsOfBigrams, pathsManager.DICT_LIST_OF_BIGRAMS)
 objectManager.saveObject(dictOfCountersFromBigrams, pathsManager.DICT_OF_COUNTERS_FROM_BIGRAMS)
 objectManager.saveObject(lemmatizedDataDictForCorpusWithoutStopWords, pathsManager.LEMMATIZED_DATA_DICT_FOR_CORPUS_WITHOUT_STOP_WORDS)

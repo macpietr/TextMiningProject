@@ -4,11 +4,12 @@ from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 pathsManager = PathsManager()
-objectManager = ObjectsManager()
+objectsManager = ObjectsManager()
 
-airlinesDictOfCountedWordsCounter = ObjectsManager().getSavedObject(pathsManager.AIRLINES_DICT_OF_COUNTED_WORDS_COUNTER)
+dictOfListOf30CountedMostCommonWords = objectsManager.getSavedObject(pathsManager.DICT_OF_LIST_OF_30_COUNTED_MOST_COMMON_WORDS)
+dictOfListOf30CountedMostCommonBigrams = objectsManager.getSavedObject(pathsManager.DICT_OF_LIST_OF_30_COUNTED_MOST_COMMON_BIGRAMS)
 
-lufthansaTopWordsList = airlinesDictOfCountedWordsCounter['lufthansa'].most_common(20)
+lufthansaTopWordsList = dictOfListOf30CountedMostCommonBigrams['lufthansa']
 
 lufthansaTopWordsDict = dict(lufthansaTopWordsList)
 
@@ -16,10 +17,10 @@ lufthansaTopWordsDict = dict(lufthansaTopWordsList)
 
 print(len(lufthansaTopWordsDict))
 
-plt.figure(figsize=(10,6))
+plt.figure(figsize=(15,8))
 plt.bar(range(len(lufthansaTopWordsDict)),
         list(lufthansaTopWordsDict.values()),
         tick_label=list(lufthansaTopWordsDict.keys()),
         align='center', width=0.6)
-plt.xticks(rotation=35)
+plt.xticks(rotation=55)
 plt.show()

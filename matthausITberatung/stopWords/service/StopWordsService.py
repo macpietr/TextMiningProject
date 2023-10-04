@@ -5,7 +5,6 @@ from nltk.corpus import stopwords
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 from matthausITberatung.objectsManager.PathsManager import PathsManager
 
-
 class StopWordsService:
 
     def __init__(self):

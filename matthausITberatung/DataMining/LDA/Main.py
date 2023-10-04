@@ -8,7 +8,8 @@ objectsManager = ObjectsManager()
 opinionsPerAirline = objectsManager.getSavedObject('opinionsPerAirline')
 listOfWholeOpinions = objectsManager.getSavedObject('listOfWholeOpinions')
 
-topicModelling = TopicModelling(opinionsPerAirline['wizz-air'], 2)
+#(listOfOpinions, clusterNumber)
+topicModelling = TopicModelling(opinionsPerAirline['ryanair'], 2)
 
 def process(topicModelling):
     # Prepare list of clusters
@@ -17,11 +18,9 @@ def process(topicModelling):
     # Create df showing amount of opinions per topic
     df_count_topic_opinion = df_topic_opinion.groupby(['TopicId', 'TopicWords']).size().reset_index(name='AmountOfOpinions')
     print(df_count_topic_opinion)
-    # print(df_count_topic_opinion)
-    # print(df_count_topic_opinion)
 
     # Create and display topics plot
-    # topicModelling.displayTopicPlot()
+    topicModelling.displayTopicPlot()
 
     # print(topicModelling.getMainDf())
 

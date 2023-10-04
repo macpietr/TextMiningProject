@@ -1,12 +1,16 @@
 import pandas
 
+from matthausITberatung.objectsManager.PathsManager import PathsManager
+
+
 class DataTermMatrixManager:
 
     def createDataTermMatrix(self, corpusColumn, countVectorizer):
         # make a DTM where columns are labeled as words appeared in opinions about airlines
         # Values of matrix show quantity of word in opinions for certain airline
         return pandas.DataFrame(self.__getCountedWordsArray(corpusColumn, countVectorizer),
-                                columns=self.__getCountedWordsLabels(countVectorizer))
+                                columns=self.__getCountedWordsLabels(countVectorizer),
+                                index=PathsManager().LIST_OF_AIRLINES)
 
     #Below methods are private, beacuse they have to be invoked in appropriate order. It is not allowed to return
     #CountedWirdsLabels without previous usage of fit_transform on countVectoriser

@@ -39,7 +39,22 @@ df_topic_opinion = topicModelling.getTopicOpinionsDataFrame()
 
 df_topic_opinion_opinionPolarity = df_topic_opinion.assign(OpinionPolarity = df_topic_opinion['Opinion'].apply(lambda x: TextBlob(x).polarity))
 
+# TODO: rozpatrzmy dwa przypadki wyliczenia polarity dla topiców. 1. polacz opinie i wylicz polarity. 2. policz srednia na podstawie obliczonych juz polarity
 print(df_topic_opinion_opinionPolarity)
+
+# to podejście nie za bardzo bo jest to sztuczne tworzenie opinii
+df_joinedOpinions = df_topic_opinion.groupby('TopicId')['Opinion'].apply(lambda x: TextBlob(' '.join(x)).polarity)
+# TODO: zastosować podejście średniej
+# TODO: można też obliczyć wariację, w celu obserwacji odchyleń
+df_averageApproach = df_topic_opinion_opinionPolarity.groupby('TopicId')['OpinionPolarity'].mean()
+# TODO: to samo zrobić dla clustra
+# spróbować policzyć średnią z opinii vs średnią z topiców i zobaczyć
+# No i wychodzą niezłe kwiatki
+
+# Zbadać siłę problemu - pod
+
+print(df_joinedOpinions)
+print(df_averageApproach)
 
 # df = pd.DataFrame(columns=["Opinion", "Polarity"])
 #
