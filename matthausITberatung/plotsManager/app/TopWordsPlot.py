@@ -9,18 +9,16 @@ objectsManager = ObjectsManager()
 dictOfListOf30CountedMostCommonWords = objectsManager.getSavedObject(pathsManager.DICT_OF_LIST_OF_30_COUNTED_MOST_COMMON_WORDS)
 dictOfListOf30CountedMostCommonBigrams = objectsManager.getSavedObject(pathsManager.DICT_OF_LIST_OF_30_COUNTED_MOST_COMMON_BIGRAMS)
 
-lufthansaTopWordsList = dictOfListOf30CountedMostCommonBigrams['lufthansa']
 
-lufthansaTopWordsDict = dict(lufthansaTopWordsList)
-
-
-
-print(len(lufthansaTopWordsDict))
-
-plt.figure(figsize=(15,8))
-plt.bar(range(len(lufthansaTopWordsDict)),
-        list(lufthansaTopWordsDict.values()),
-        tick_label=list(lufthansaTopWordsDict.keys()),
-        align='center', width=0.6)
-plt.xticks(rotation=55)
-plt.show()
+for airline in pathsManager.LIST_OF_AIRLINES:
+        topWordsList = dictOfListOf30CountedMostCommonWords[airline]
+        topWordsDict = dict(topWordsList)
+        print(len(topWordsDict))
+        plt.figure(figsize=(15,8))
+        plt.bar(range(len(topWordsDict)),
+                list(topWordsDict.values()),
+                tick_label=list(topWordsDict.keys()),
+                align='center', width=0.6)
+        plt.xticks(rotation=55)
+        plt.title(airline, fontsize=20)
+        plt.show()
