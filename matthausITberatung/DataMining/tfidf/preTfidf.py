@@ -1,13 +1,10 @@
-from matthausITberatung.DataMining.tfidf.TfidfUtils import TfidfUtils
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 from matthausITberatung.objectsManager.PathsManager import PathsManager
-from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-TfidfUtils().prepareData()
-
-opinionsPerAirline = ObjectsManager().getSavedObject('opinionsPerAirline')
-listOfWholeOpinions = ObjectsManager().getSavedObject('listOfWholeOpinions')
+opinionsPerAirline = ObjectsManager().getSavedObject('dataDictOfClearedOpinions')
+# opinionsPerAirline = ObjectsManager().getSavedObject('dictOfBigramedOpinions')
+# listOfWholeOpinions = ObjectsManager().getSavedObject('listOfWholeOpinions')
 
 vectorizer = TfidfVectorizer(
     lowercase=True,
@@ -18,10 +15,12 @@ vectorizer = TfidfVectorizer(
     stop_words=ObjectsManager().getSavedObject(PathsManager().UNION_STOP_WORDS)
 )
 
-commondatavectors = vectorizer.fit_transform(listOfWholeOpinions)
-ObjectsManager().saveObject(commondatavectors, 'commondatavectors')
+# commondatavectors = vectorizer.fit_transform(listOfWholeOpinions)
+# ObjectsManager().saveObject(commondatavectors, 'commondatavectors')
 
 for airline in PathsManager().LIST_OF_AIRLINES:
     ObjectsManager().saveObject(vectorizer.fit_transform(opinionsPerAirline[airline]), str(airline)+'vectors')
 
 ObjectsManager().saveObject(vectorizer, 'vectorizer')
+
+print('Finished')

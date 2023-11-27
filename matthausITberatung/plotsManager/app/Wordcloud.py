@@ -17,7 +17,7 @@ for airline in pathsManager.LIST_OF_AIRLINES:
 
     wordcloud = WordCloud(width = 1000, height = 500, background_color="white",
                           stopwords=objectsManager.getSavedObject(pathsManager.UNION_STOP_WORDS), colormap="Dark2")\
-        .generate_from_frequencies(dictOfListOf30CountedMostCommonWords[airline])
+        .generate_from_frequencies(dictOfListOf30CountedMostCommonBigrams[airline])
     plt.figure(figsize=(15,8))
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")

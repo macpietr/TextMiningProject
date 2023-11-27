@@ -11,7 +11,7 @@ dictOfListOf30CountedMostCommonBigrams = objectsManager.getSavedObject(pathsMana
 
 
 for airline in pathsManager.LIST_OF_AIRLINES:
-        topWordsList = dictOfListOf30CountedMostCommonWords[airline]
+        topWordsList = dictOfListOf30CountedMostCommonBigrams[airline]
         topWordsDict = dict(topWordsList)
         print(len(topWordsDict))
         plt.figure(figsize=(15,8))
@@ -19,6 +19,6 @@ for airline in pathsManager.LIST_OF_AIRLINES:
                 list(topWordsDict.values()),
                 tick_label=list(topWordsDict.keys()),
                 align='center', width=0.6)
-        plt.xticks(rotation=55)
+        plt.xticks(rotation=45)
         plt.title(airline, fontsize=20)
         plt.show()

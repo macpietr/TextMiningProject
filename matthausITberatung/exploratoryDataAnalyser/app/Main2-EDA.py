@@ -44,6 +44,8 @@ lemmatizedDataDictOfListsWithoutStopWords = {}
 for airline in pathsManager.LIST_OF_AIRLINES:
     lemmatizedDataDictOfListsWithoutStopWords[airline] = stopWordsService.remove_stopwords(lemmatizedDataDictOfLists[airline])
 
+objectManager.saveObject(lemmatizedDataDictOfListsWithoutStopWords, 'dataDictOfClearedOpinions')
+
 lemmatizedDataDictForCorpusWithoutStopWords = {}
 for airline in pathsManager.LIST_OF_AIRLINES:
     lemmatizedDataDictForCorpusWithoutStopWords[airline] = ' '.join(lemmatizedDataDictOfListsWithoutStopWords[airline])
@@ -125,6 +127,12 @@ for airline in pathsManager.LIST_OF_AIRLINES:
             item2.append(bigram.replace(' ','_'))
         helperList.append(item2)
     dataDictOfBigramsUnderscore[airline] = helperList
+
+dictOfBigramedOpinions = {}
+for airline in pathsManager.LIST_OF_AIRLINES:
+    dictOfBigramedOpinions[airline] = [' '.join(item) for item in dataDictOfBigramsUnderscore[airline]]
+
+objectManager.saveObject(dictOfBigramedOpinions, 'dictOfBigramedOpinions')
 
 dataDictOfBigramsUnderscoreForCorpus = {}
 for airline in pathsManager.LIST_OF_AIRLINES:

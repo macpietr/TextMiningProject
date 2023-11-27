@@ -1,16 +1,11 @@
 from matplotlib import pyplot as plt
 from sklearn.cluster import KMeans
 
-from matthausITberatung.dataCleaner.cleaner.DataCleaner import DataCleaner
-from matthausITberatung.objectsManager.FileReader import FileReader
-from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
-from matthausITberatung.objectsManager.PathsManager import PathsManager
-
 
 class TfidfUtils:
 
     def showExpectedClustersPlot(self, vectors, title):
-        ###optimum number of clusters
+        ###optimum number of clusters = 3
         plt.clf()
         means = []
         inertias = []

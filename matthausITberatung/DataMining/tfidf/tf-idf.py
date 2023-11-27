@@ -11,7 +11,7 @@ airlines = PathsManager().LIST_OF_AIRLINES
 numberOfClusters = 3
 
 components = airlines
-components.append('commondata')
+# components.append('commondata')
 
 for component in components:
     plt.clf()

@@ -100,6 +100,7 @@ CUSTOM_STOP_WORDS = ['didnt', 'werent', 'dont', 'doesnt', 'wasnt', 'isnt', 'aren
 #Order is important here, because text.ENGLISH_STOP_WORDS is the frozenset
 UNION_STOP_WORDS = stopWordsListFromShortWords\
     .union(stopWordsListFromShortWords)\
+    .union(CUSTOM_STOP_WORDS)\
     .union(countVectorizer.get_stop_words())
     # .union(potentialStopWords)
 objectManager.saveObject(UNION_STOP_WORDS, pathsManager.UNION_STOP_WORDS)
