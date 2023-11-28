@@ -9,7 +9,8 @@ opinionsPerAirline = objectsManager.getSavedObject('opinionsPerAirline')
 listOfWholeOpinions = objectsManager.getSavedObject('listOfWholeOpinions')
 
 #(listOfOpinions, clusterNumber)
-topicModelling = TopicModelling(opinionsPerAirline['ryanair'], 2)
+# topicModelling = TopicModelling(opinionsPerAirline['ryanair'], 2)
+topicModelling = TopicModelling('ryanair', 2)
 
 def process(topicModelling):
     # Prepare list of clusters

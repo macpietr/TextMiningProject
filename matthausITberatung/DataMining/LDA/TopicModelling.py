@@ -7,15 +7,18 @@ from sklearn.decomposition import LatentDirichletAllocation
 
 from matthausITberatung.DataMining.LDA.Utils import Utils
 from matthausITberatung.DataMining.tfidf.clustering.ClusterCreator import ClusterCreator
+from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 
 
 class TopicModelling:
 #TODO: zrobic dla bigrams i trigrams. dla kazdej linii lotniczej oraz dla wszystkich opinii
 
-    def __init__(self, listOfOpinions, clusterNumber):
-        self.clusterCreator = ClusterCreator()
-        self.listOfClusters = self.clusterCreator.tfidf_createClusters(listOfOpinions)
-        self.chosen_cluster = self.listOfClusters[clusterNumber]
+    def __init__(self, airline, clusterNumber):
+        # self.clusterCreator = ClusterCreator()
+        # self.listOfClusters = self.clusterCreator.tfidf_createClusters(listOfOpinions)
+        # self.chosen_cluster = self.listOfClusters[clusterNumber]
+        self.dictOfDictsOfAirlinesClustersOpinions = ObjectsManager().getSavedObject('dictOfDictsOfAirlinesClustersOpinions')
+        self.chosen_cluster = self.dictOfDictsOfAirlinesClustersOpinions[airline][clusterNumber]
         # Tokenize chosen cluster
         self.cluster_tokenized = [word_tokenize(opinion) for opinion in self.chosen_cluster]
         # Create dictionary
