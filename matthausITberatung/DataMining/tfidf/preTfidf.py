@@ -8,7 +8,7 @@ opinionsPerAirline = ObjectsManager().getSavedObject('dataDictOfClearedOpinions'
 
 vectorizer = TfidfVectorizer(
     lowercase=True,
-    max_features=100,
+    max_features=2000,
     max_df=0.8,
     min_df=5,
     ngram_range=(1,3),
