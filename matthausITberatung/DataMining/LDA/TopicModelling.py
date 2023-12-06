@@ -13,12 +13,15 @@ from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 class TopicModelling:
 #TODO: zrobic dla bigrams i trigrams. dla kazdej linii lotniczej oraz dla wszystkich opinii
 
-    def __init__(self, airline, clusterNumber):
+    def __init__(self, airline, clusterNumber, numberOfTopics):
+        self.airline = airline
+        self.clusterNumber = clusterNumber
+        self.dictOfDictsOfAirlinesClustersOpinions = ObjectsManager().getSavedObject('dictOfDictsOfAirlinesClustersOpinions')
+        self.listOfOpinions = self.dictOfDictsOfAirlinesClustersOpinions[airline][clusterNumber]
         # self.clusterCreator = ClusterCreator()
         # self.listOfClusters = self.clusterCreator.tfidf_createClusters(listOfOpinions)
         # self.chosen_cluster = self.listOfClusters[clusterNumber]
-        self.dictOfDictsOfAirlinesClustersOpinions = ObjectsManager().getSavedObject('dictOfDictsOfAirlinesClustersOpinions')
-        self.chosen_cluster = self.dictOfDictsOfAirlinesClustersOpinions[airline][clusterNumber]
+        self.chosen_cluster = self.listOfOpinions
         # Tokenize chosen cluster
         self.cluster_tokenized = [word_tokenize(opinion) for opinion in self.chosen_cluster]
         # Create dictionary
@@ -27,7 +30,12 @@ class TopicModelling:
         self.gensim_corpus = [self.gensim_dictionary.doc2bow(opinion) for opinion in self.cluster_tokenized]
         Utils().filterCorpus(self.gensim_corpus, self.gensim_dictionary, 0.03)
         # Create LdaModel
-        self.lda_model = LdaModel(corpus=self.gensim_corpus, id2word=self.gensim_dictionary, num_topics=20)
+        self.lda_model = LdaModel(corpus=self.gensim_corpus,
+                                  id2word=self.gensim_dictionary,
+                                  num_topics=numberOfTopics,
+                                  chunksize=len(self.chosen_cluster),
+                                  passes=20,
+                                  random_state=100)
 
     def displayTopicPlot(self):
         #PLOT
@@ -35,17 +43,34 @@ class TopicModelling:
         vis = pyLDAvis.gensim.prepare(self.lda_model, self.gensim_corpus, self.gensim_dictionary, mds="mmds", R=30)
         pyLDAvis.show(vis)
 
-    def getTopicOpinionsDataFrame(self):
-        # Assign opinion to topic
-        opinion_topic_assignments = []
-        for i, opinion in enumerate(self.chosen_cluster):
-            # Assign topic using LDA model
-            topic_assignment = max(self.lda_model[self.gensim_corpus[i]], key=lambda x: x[1])[0]
-            topic_words = ", ".join([word for word, _ in self.lda_model.show_topic(topic_assignment)])
-            opinion_topic_assignments.append((topic_assignment, topic_words, opinion))
 
-        # Create df from above list
-        return pd.DataFrame(opinion_topic_assignments, columns=['TopicId', 'TopicWords', 'Opinion'])
+    def getTopicOpinionsDataFrame(self):
+        document_topics = [self.lda_model.get_document_topics(doc) for doc in self.gensim_corpus]
+        data = {'TopicId': [], 'Adjustment': [], 'Opinion': []}
+        for i, topics in enumerate(document_topics):
+            for topic in topics:
+                data['TopicId'].append(topic[0]+1)
+                data['Adjustment'].append(topic[1])
+                data['Opinion'].append(self.listOfOpinions[i])
+
+        return pd.DataFrame(data)
+
+
+
+
+
+
+    # def getTopicOpinionsDataFrame(self):
+    #     # Assign opinion to topic
+    #     opinion_topic_assignments = []
+    #     for i, opinion in enumerate(self.chosen_cluster):
+    #         # Assign topic using LDA model
+    #         topic_assignment = max(self.lda_model[self.gensim_corpus[i]], key=lambda x: x[1])[0]
+    #         topic_words = ", ".join([word for word, _ in self.lda_model.show_topic(topic_assignment)])
+    #         opinion_topic_assignments.append((topic_assignment, topic_words, opinion))
+    #
+    #     # Create df from above list
+    #     return pd.DataFrame(opinion_topic_assignments, columns=['TopicId', 'TopicWords', 'Opinion'])
 
     # def __getTopicOpinionsDataFrame(self):
     #     # Assign opinion to topic
