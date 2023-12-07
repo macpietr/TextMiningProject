@@ -30,9 +30,6 @@ df_topic_opinion = topicModelling.getTopicOpinionsDataFrame()
 
 
 
-
-# TODO: może po kolei, żeby nikt dwa razy wpier***u nie dostał
-
 # TODO: zacznijmy od dataframe opinie i polarity
 
 df_topic_opinion = topicModelling.getTopicOpinionsDataFrame()
