@@ -1,8 +1,6 @@
 import statistics
 import pandas
 from matthausITberatung.dataCleaner.cleaner.DataCleaner import DataCleaner
-from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
-from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
 from matthausITberatung.objectsManager.PathsManager import PathsManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataDictManager import DataDictManager
 from matthausITberatung.simpleAnalysis.helper.Helper import Helper

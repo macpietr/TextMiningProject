@@ -1,4 +1,3 @@
-import numpy
 import numpy as np
 import pandas
 import pandas as pd
@@ -12,13 +11,9 @@ airlines = pathsManager.LIST_OF_AIRLINES
 
 dictOfRouteStrings = dataDictManager.getDataDictFromFiles(pathsManager.DOWNLOADED_FILES_DIR, 'Route')
 
-
-
 dictOfRouteLists = {}
 for airline in airlines:
     dictOfRouteLists[airline] = dictOfRouteStrings[airline].split('\n')
-
-
 
 # adjust routes description to matrix
 toPattern = ' to '
@@ -48,8 +43,6 @@ for airline in airlines:
         cleanedList.append(listOfItems)
     dictOfCleanedLists[airline] = cleanedList
 
-
-
 # Check variety of routes
 # split journey changes to separate routes
 dictOfParsedRoutes = {}
@@ -67,7 +60,6 @@ for airline in airlines:
             parsedRoutesList.append(item)
 
     dictOfParsedRoutes[airline] = parsedRoutesList
-
 
 # calculate number of distinct routes
 dictOfParsedRoutesSetOfString = {}

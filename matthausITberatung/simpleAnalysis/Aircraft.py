@@ -13,8 +13,6 @@ dataDictManager = DataDictManager()
 corpusManager = CorpusManager()
 dtmManager = DataTermMatrixManager()
 airlines = PathsManager().LIST_OF_AIRLINES
-#disable removing special signs in countvectoriser
-# countVectoriser = CountVectorizer(token_pattern = '[a-zA-Z0-9$&+,:;=?@#|<>.^*()%!-]+')
 vectoriser = CountVectorizer()
 
 downloadedAircraftData = dataDictManager.getDataDictFromFiles(pathsManager.DOWNLOADED_FILES_DIR, 'Aircraft')
@@ -68,8 +66,6 @@ wordsAndCountsDict = {}
 for airline in airlines:
     wordsAndCountsDict[airline] = pd.value_counts(np.array(finalDict[airline]))
 
-# print(mapOfWordsAndCounts)
-
 for airline in airlines:
     allCount = sum(wordsAndCountsDict[airline])
     df = pd.DataFrame.from_dict(wordsAndCountsDict[airline])
@@ -80,22 +76,3 @@ for airline in airlines:
     print(airline)
     print(df)
     print('#######################################################')
-
-# allCount = sum(wordsAndCountsDict['ryanair'])
-# df1 = pd.DataFrame.from_dict(wordsAndCountsDict['ryanair'])
-# df1.columns=['count']
-# percentage = [str(round((count/allCount)*100,3)) +'%' for count in wordsAndCountsDict['ryanair']]
-# df1.insert(1,"percentage",percentage,True)
-#
-# print(airlines[1])
-# print(df1)
-# print('#######################################################')
-# allCount = sum(wordsAndCountsDict['wizz-air'])
-# df2 = pd.DataFrame.from_dict(wordsAndCountsDict['wizz-air'])
-# df2.columns=['count']
-# percentage = [str(round((count/allCount)*100,3)) +'%' for count in wordsAndCountsDict['wizz-air']]
-# df2.insert(1,"percentage",percentage,True)
-#
-# print(airlines[2])
-# print(df2)
-# print('#######################################################')

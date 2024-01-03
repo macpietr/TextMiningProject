@@ -1,6 +1,5 @@
 from gensim.models import TfidfModel
 
-
 class Utils:
 
     #It is filtering corpus from rare occurred low_value words and these which are not in tfidf model

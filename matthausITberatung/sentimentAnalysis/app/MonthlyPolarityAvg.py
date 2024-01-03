@@ -7,8 +7,6 @@ from textblob import TextBlob
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 from matthausITberatung.objectsManager.PathsManager import PathsManager
 
-from matthausITberatung.sentimentAnalysis.app import MonthlyPolarityPreparation
-
 pathsManager = PathsManager()
 objectsManager = ObjectsManager()
 

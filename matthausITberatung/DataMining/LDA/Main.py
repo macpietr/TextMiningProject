@@ -1,5 +1,3 @@
-import pandas as pd
-
 from matthausITberatung.DataMining.LDA.TopicModelling import TopicModelling
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 from matthausITberatung.objectsManager.PathsManager import PathsManager
@@ -10,7 +8,7 @@ pathsManager = PathsManager()
 
 #(listOfOpinions, clusterNumber, numberOfTopics)
 # topicModelling = TopicModelling(opinionsPerAirline['ryanair'], 2)
-topicModelling = TopicModelling(pathsManager.LUFTHANSA, 0, 10)
+topicModelling = TopicModelling(pathsManager.RYANAIR, 1, 4)
 
 def labeling(topicModelling):
     topic_labels = []
@@ -33,7 +31,14 @@ def process(topicModelling):
     print(df_count_topic_opinion)
 
     # Create and display topics plot
+    topicModelling.print_topics()
     topicModelling.displayTopicPlot()
+    # coherence_model_lda = CoherenceModel(model=topicModelling.lda_model, texts=topicModelling.cluster_tokenized,
+    #                                      dictionary=topicModelling.gensim_dictionary, coherence='c_v')
+    # if __name__ == '__main__':
+    #     coherence_lda = coherence_model_lda.get_coherence()
+    #     print('Coherence')
+    #     print(coherence_lda)
 
     # print(topicModelling.getMainDf())
 

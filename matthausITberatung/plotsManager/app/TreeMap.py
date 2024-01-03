@@ -22,6 +22,15 @@ for airline in pathsManager.LIST_OF_AIRLINES:
 
 print(dictOfDictsOfAirlinesClustersCountedWords)
 
+dictOfDictsOfAirlinesClustersCountedDocs = {}
+for airline in pathsManager.LIST_OF_AIRLINES:
+    dictOfClustersCountedDocs = {}
+    for cluster in dictOfDictsOfAirlinesClustersOpinions[airline]:
+        dictOfClustersCountedDocs[cluster] = len(dictOfDictsOfAirlinesClustersOpinions[airline][cluster])
+    dictOfDictsOfAirlinesClustersCountedDocs[airline] = dictOfClustersCountedDocs
+
+print(dictOfDictsOfAirlinesClustersCountedDocs)
+
 
 # Data preparation
 labels = []
@@ -29,7 +38,7 @@ parents = []
 values = []
 colors = ['blue', 'green', 'purple']
 
-for airline, clusters in dictOfDictsOfAirlinesClustersCountedWords.items():
+for airline, clusters in dictOfDictsOfAirlinesClustersCountedDocs.items():
     labels.append(airline)
     parents.append('')
     values.append(sum(clusters.values()))

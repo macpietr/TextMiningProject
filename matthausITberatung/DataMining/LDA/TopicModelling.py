@@ -1,26 +1,21 @@
+from pprint import pprint
+
 import pandas as pd
 import pyLDAvis.gensim
 from gensim.corpora import Dictionary
 from gensim.models import LdaModel
 from nltk import word_tokenize
-from sklearn.decomposition import LatentDirichletAllocation
-
 from matthausITberatung.DataMining.LDA.Utils import Utils
-from matthausITberatung.DataMining.tfidf.clustering.ClusterCreator import ClusterCreator
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 
 
 class TopicModelling:
-#TODO: zrobic dla bigrams i trigrams. dla kazdej linii lotniczej oraz dla wszystkich opinii
 
     def __init__(self, airline, clusterNumber, numberOfTopics):
         self.airline = airline
         self.clusterNumber = clusterNumber
         self.dictOfDictsOfAirlinesClustersOpinions = ObjectsManager().getSavedObject('dictOfDictsOfAirlinesClustersOpinions')
         self.listOfOpinions = self.dictOfDictsOfAirlinesClustersOpinions[airline][clusterNumber]
-        # self.clusterCreator = ClusterCreator()
-        # self.listOfClusters = self.clusterCreator.tfidf_createClusters(listOfOpinions)
-        # self.chosen_cluster = self.listOfClusters[clusterNumber]
         self.chosen_cluster = self.listOfOpinions
         # Tokenize chosen cluster
         self.cluster_tokenized = [word_tokenize(opinion) for opinion in self.chosen_cluster]
@@ -37,12 +32,20 @@ class TopicModelling:
                                   passes=20,
                                   random_state=100)
 
+
     def displayTopicPlot(self):
         #PLOT
         pyLDAvis.enable_notebook()
         vis = pyLDAvis.gensim.prepare(self.lda_model, self.gensim_corpus, self.gensim_dictionary, mds="mmds", R=30)
         pyLDAvis.show(vis)
 
+    def print_topics(self):
+        pprint(self.lda_model.print_topics(num_words=10))
+
+    # a measure of how good the model is. lower the better.
+    def showPerplexity(self):
+        print('Perplexity')
+        print(self.lda_model.log_perplexity(self.gensim_corpus))
 
     def getTopicOpinionsDataFrame(self):
         document_topics = [self.lda_model.get_document_topics(doc) for doc in self.gensim_corpus]
@@ -54,35 +57,3 @@ class TopicModelling:
                 data['Opinion'].append(self.listOfOpinions[i])
 
         return pd.DataFrame(data)
-
-
-
-
-
-
-    # def getTopicOpinionsDataFrame(self):
-    #     # Assign opinion to topic
-    #     opinion_topic_assignments = []
-    #     for i, opinion in enumerate(self.chosen_cluster):
-    #         # Assign topic using LDA model
-    #         topic_assignment = max(self.lda_model[self.gensim_corpus[i]], key=lambda x: x[1])[0]
-    #         topic_words = ", ".join([word for word, _ in self.lda_model.show_topic(topic_assignment)])
-    #         opinion_topic_assignments.append((topic_assignment, topic_words, opinion))
-    #
-    #     # Create df from above list
-    #     return pd.DataFrame(opinion_topic_assignments, columns=['TopicId', 'TopicWords', 'Opinion'])
-
-    # def __getTopicOpinionsDataFrame(self):
-    #     # Assign opinion to topic
-    #     opinion_topic_assignments = []
-    #     for i, opinion in enumerate(self.chosen_cluster):
-    #         # Assign topic using LDA model
-    #         topic_assignment = max(self.lda_model[self.gensim_corpus[i]], key=lambda x: x[1])[0]
-    #
-    #
-    #         opinion_topic_assignments.append((topic_assignment, opinion))
-    #     # Create df from above list
-    #     return pd.DataFrame(opinion_topic_assignments, columns=['Topic', 'Opinion'])
-
-    def __tokenizeCluster(self, cluster):
-        return [word_tokenize(opinion) for opinion in cluster]

@@ -25,28 +25,3 @@ class DataDictManager:
                 helperList.append(DataCleaner().lemmatizeLine(opinion))
             lemmatizedDataDict[key] = helperList
         return lemmatizedDataDict
-
-    def getDataDictWithoutStopWords(self, dataDict, stopWords):
-        dataDictWithoutStopWords = {}
-        for key in dataDict.keys():
-            helperlist = []
-            for line in dataDict[key]:
-                helperlist.append(DataCleaner().lineWithoutStopWords(line, stopWords))
-            dataDictWithoutStopWords[key] = helperlist
-        return dataDictWithoutStopWords
-
-    def createDataDictOfListsOfWords(self, dataDictOfWords):
-        dataDictOfListsOfWords = {}
-        for key in dataDictOfWords.keys():
-            dataDictOfListsOfWords[key] = dataDictOfWords[key].split(' ')
-        return dataDictOfListsOfWords
-
-    def createDataDictOfDictsOfCountedWordsWithoutDefaultStopWords(self, dataDictOfLists, stopWords):
-        dataDictOfDictsOfCountedWordsWithoutDefaultStopWords = {}
-        for key in dataDictOfLists.keys():
-            listOfWords = str(dataDictOfLists[key]).split(' ')
-            dataDictOfDictsOfCountedWordsWithoutDefaultStopWords[key] = Counter(listOfWords)
-            for word in stopWords:
-                del dataDictOfDictsOfCountedWordsWithoutDefaultStopWords[key][word]
-            del dataDictOfDictsOfCountedWordsWithoutDefaultStopWords[key]['']
-        return dataDictOfDictsOfCountedWordsWithoutDefaultStopWords
