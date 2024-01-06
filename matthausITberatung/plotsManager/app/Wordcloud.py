@@ -31,15 +31,27 @@ def generate_wordcloud(data, title, position):
     plt.subplot(3, 3, position)
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis('off')
-    plt.title(title)
+    plt.title(title, fontdict={'fontsize': 18})
 
 plt.figure(figsize=(15, 8))
 
+clusterLabels = ['Airports\nand Operational Aspects',
+                 'In-Flight Experience',
+                 'Booking\nand Customer Service',
+                 'Booking and Customer Service',
+                 'Flight Operations\nand Passenger Experience',
+                 'Check-in and Airport Services',
+                 'Booking and Customer Service',
+                 'Flight Experience\nand Service',
+                 'Check-in and Airport Services']
+
 position = 1
+label = 0
 for key, subDict in dictOfDictsOfAirlinesClustersOpinions.items():
     for subKey, opinion in subDict.items():
-        generate_wordcloud(opinion, str(key)+' - Cluster_'+str(int(subKey+1)), position)
+        generate_wordcloud(opinion, str(key)+' - '+clusterLabels[label], position)
         position += 1
+        label += 1
 
 plt.tight_layout()
 plt.show()

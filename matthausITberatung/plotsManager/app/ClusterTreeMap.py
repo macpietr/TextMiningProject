@@ -1,3 +1,4 @@
+import pandas as pd
 import plotly.express as px
 
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
@@ -31,33 +32,39 @@ for airline in pathsManager.LIST_OF_AIRLINES:
 
 print(dictOfDictsOfAirlinesClustersCountedDocs)
 
+clusterLabels = ['Airports and Operational Aspects',
+                 'In-Flight Experience',
+                 'Booking and Customer Service',
+                 'Booking and Customer Service',
+                 'Flight Operations and Passenger Experience',
+                 'Check-in and Airport Services',
+                 'Booking and Customer Service',
+                 'Flight Experience and Service',
+                 'Check-in and Airport Services']
 
-# Data preparation
-labels = []
-parents = []
-values = []
 colors = ['blue', 'green', 'purple']
 
+rows = []
 for airline, clusters in dictOfDictsOfAirlinesClustersCountedDocs.items():
-    labels.append(airline)
-    parents.append('')
-    values.append(sum(clusters.values()))
-
     for cluster, count in clusters.items():
-        labels.append(f"{airline} - Cluster_{cluster+1}")
-        parents.append(airline)
-        values.append(count)
+        rows.append([airline, cluster, count])
 
-# Create treemap plot
-fig = px.treemap(
-    names=labels,
-    parents=parents,
-    values=values,
-    title='Treemap of airlines and their clusters',
-    branchvalues="total",  # Child wypełnia całą powierzchnię parent
-    color_discrete_sequence=colors,  # Kolory dla klastrów
-)
+df = pd.DataFrame(rows, columns=["Airline", "Cluster", "Count"])
+
+df['Cluster'] = clusterLabels
+
+fig = px.treemap(df, path=["Airline", "Cluster"],
+                 values="Count",
+                 title="Amonts of documets per cluster",
+                 color_discrete_sequence=colors,
+                 custom_data=["Count"])
+
+fig.update_traces(texttemplate='%{label}<br>%{customdata[0]}',
+                  textposition='middle center',
+                  textfont_size=16)
+fig.update_layout(height=800, width=800)
 
 # Print plot
 fig.update_traces(root_color="lightgrey")
+fig.data[0].textinfo = 'label+text+value'
 fig.show()

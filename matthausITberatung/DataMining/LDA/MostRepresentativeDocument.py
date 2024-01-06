@@ -8,8 +8,8 @@ objectsManager = ObjectsManager()
 
 pathsManager = PathsManager()
 
-airline = pathsManager.RYANAIR
-clusterNumber = 1
+airline = pathsManager.WIZZ_AIR
+clusterNumber = 2
 
 df_topic_sents_keywords = objectsManager.getSavedObject('df_topic_opinions_keywords_'+airline+'_'+str(clusterNumber))
 

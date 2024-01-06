@@ -7,8 +7,8 @@ from matthausITberatung.objectsManager.PathsManager import PathsManager
 pathsManager = PathsManager()
 objectsManager = ObjectsManager()
 
-airline = pathsManager.RYANAIR
-clusterNumber = 1
+airline = pathsManager.LUFTHANSA
+clusterNumber = 0
 numberOfTopics = 4
 
 df_topic_sents_keywords = objectsManager.getSavedObject('df_topic_opinions_keywords_'+airline+'_'+str(clusterNumber))

@@ -8,7 +8,7 @@ pathsManager = PathsManager()
 
 #(listOfOpinions, clusterNumber, numberOfTopics)
 # topicModelling = TopicModelling(opinionsPerAirline['ryanair'], 2)
-topicModelling = TopicModelling(pathsManager.RYANAIR, 1, 4)
+topicModelling = TopicModelling(pathsManager.WIZZ_AIR, 2, 3)
 
 def labeling(topicModelling):
     topic_labels = []

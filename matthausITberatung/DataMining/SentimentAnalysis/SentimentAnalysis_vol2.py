@@ -4,16 +4,10 @@ from textblob import TextBlob
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
 
 objectsManager = ObjectsManager()
-
-
 topicModelling = objectsManager.getSavedObject('topicModelling_lufthansa_0')
-
 df_topic_opinion = objectsManager.getSavedObject('df_topic_opinion_lufthansa_0')
-
 df_filtered = df_topic_opinion[df_topic_opinion['Opinion'].str.strip() != '']
 
-###TODO: zastosować podejście średniej
-##TODO: tutaj właśnie widać to zachowanie dla topic 5 i 10 dla opinii 'flight delay information'
 ###Sentiment for each opinion
 pd.set_option('display.max_columns', None)
 df_filtered['Sentiment'] = df_filtered['Opinion'].apply(lambda opinion: TextBlob(opinion).sentiment.polarity)
@@ -34,28 +28,6 @@ df_topic_weightedPolaity = pd.DataFrame({'TopicId': topic_weightedPolaity.index,
 print(df_topic_weightedPolaity)
 
 
-####Sentiment for cluster
+####Sentiment for cluster - a co z topic proportion?
 cluster_polarity = df_topic_weightedPolaity['WeightedPolarity'].mean()
 print(cluster_polarity)
-
-
-
-
-#########################################
-#
-# ####Sentiment for whole cluster
-# cluster_corpus = ' '.join(df_topic_opinion['Opinion'].tolist())
-# print(TextBlob(cluster_corpus).sentiment.polarity)
-#
-#
-# ### TODO: czy tutaj powinienem wziać pod uwagę fakt, że niektóre opinie pasują do kilku topiców, ale z inną proporcją?
-# ### TODO: czy przemnożyć jakoś sentyment przez proporcję?
-# ####Sentiment for each topic
-# for topicId in sorted(df_topic_opinion['TopicId'].unique()):
-#     topic_corpus = ' '.join(df_topic_opinion[df_topic_opinion.apply(lambda row: row['TopicId'] == topicId, axis=1)]['Opinion'].tolist())
-#     print(str(topicId)+': '+str(TextBlob(topic_corpus).sentiment.polarity))
-#
-# ##TODO: tutaj właśnie widać to zachowanie dla topic 5 i 10 dla opini 'flight delay information'
-# ###Sentiment for each opinion
-# df_topic_opinion['Sentiment'] = df_topic_opinion['Opinion'].apply(lambda opinion: TextBlob(opinion).sentiment.polarity)
-# print(df_topic_opinion[['TopicId','Opinion','Sentiment']])

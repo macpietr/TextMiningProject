@@ -6,8 +6,8 @@ from matthausITberatung.objectsManager.PathsManager import PathsManager
 pathsManager = PathsManager()
 objectsManager = ObjectsManager()
 
-airline = pathsManager.RYANAIR
-clusterNumber = 1
+airline = pathsManager.WIZZ_AIR
+clusterNumber = 2
 
 topicModelling = objectsManager.getSavedObject('topicModelling_'+airline+'_'+str(clusterNumber))
 
