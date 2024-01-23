@@ -40,7 +40,21 @@ class TopicModelling:
         pyLDAvis.show(vis)
 
     def print_topics(self):
-        pprint(self.lda_model.print_topics(num_words=10))
+
+        output_lda = self.lda_model.print_topics(num_words=30)
+
+        excel_path = 'C:\\Users\\macie\\Downloads\\lda_topics.xlsx'  # Ścieżka do zapisania pliku Excel
+        with pd.ExcelWriter(excel_path) as writer:
+            for topic_num, words in output_lda:
+                data = []
+                for word_info in words.split(' + '):
+                    proportion, word = word_info.split('*')
+                    word = word.strip('"')
+                    data.append((word, float(proportion)))
+                topic_df = pd.DataFrame(data, columns=['word', 'word_proportion'])
+                topic_df.to_excel(writer, sheet_name=f'Topic_{topic_num}', index=False)
+
+        excel_path
 
     # a measure of how good the model is. lower the better.
     def showPerplexity(self):

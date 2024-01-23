@@ -2,10 +2,15 @@ import pandas as pd
 from textblob import TextBlob
 
 from matthausITberatung.objectsManager.ObjectsManager import ObjectsManager
+from matthausITberatung.objectsManager.PathsManager import PathsManager
 
 objectsManager = ObjectsManager()
-topicModelling = objectsManager.getSavedObject('topicModelling_lufthansa_0')
-df_topic_opinion = objectsManager.getSavedObject('df_topic_opinion_lufthansa_0')
+pathsManager = PathsManager()
+
+airline = pathsManager.WIZZ_AIR
+clusterNumber = 2
+
+df_topic_opinion = objectsManager.getSavedObject('df_topic_opinion_'+airline+'_'+str(clusterNumber))
 df_filtered = df_topic_opinion[df_topic_opinion['Opinion'].str.strip() != '']
 
 ###Sentiment for each opinion
@@ -14,20 +19,33 @@ df_filtered['Sentiment'] = df_filtered['Opinion'].apply(lambda opinion: TextBlob
 df_filtered.columns = ['Proportion' if col == 'Adjustment' else col for col in df_filtered.columns]
 print(df_filtered[['TopicId','Proportion','Opinion','Sentiment']])
 
-##TODO: I have used the average with proportion included approach
 ###Sentiment for each topic using proportion
 def weightedPolarity(opinion, proportion):
     analysis = TextBlob(opinion)
     return analysis.sentiment.polarity * proportion
 
+def weightedSubjectivity(opinion, proportion):
+    analysis = TextBlob(opinion)
+    return analysis.sentiment.subjectivity * proportion
+
 df_filtered['WeightedPolarity'] = df_filtered.apply(lambda row: weightedPolarity(row['Opinion'], row['Proportion']), axis=1)
+df_filtered['WeightedSubjectivity'] = df_filtered.apply(lambda row: weightedSubjectivity(row['Opinion'], row['Proportion']), axis=1)
 print(df_filtered)
 
-topic_weightedPolaity = df_filtered.groupby('TopicId')['WeightedPolarity'].sum() / df_filtered.groupby('TopicId')['Proportion'].sum()
-df_topic_weightedPolaity = pd.DataFrame({'TopicId': topic_weightedPolaity.index, 'WeightedPolarity': topic_weightedPolaity.values})
-print(df_topic_weightedPolaity)
+topic_weightedPolarity = df_filtered.groupby('TopicId')['WeightedPolarity'].sum() / df_filtered.groupby('TopicId')['Proportion'].sum()
+topic_weightedSubjectivity = df_filtered.groupby('TopicId')['WeightedSubjectivity'].sum() / df_filtered.groupby('TopicId')['Proportion'].sum()
 
+df_polarity_numberOfOpinions = pd.DataFrame({'TopicPolarity' : topic_weightedPolarity,
+                                             'TopicSubjectivity': topic_weightedSubjectivity,
+                         'NumberOfRelatedTopics' : df_filtered['TopicId'].value_counts()})\
+                         .sort_values(by='NumberOfRelatedTopics', ascending=False)
 
-####Sentiment for cluster - a co z topic proportion?
-cluster_polarity = df_topic_weightedPolaity['WeightedPolarity'].mean()
-print(cluster_polarity)
+print(df_polarity_numberOfOpinions)
+
+clusterPolarity = df_filtered['WeightedPolarity'].sum() / df_filtered['Proportion'].sum()
+clusterSubjectivity = df_filtered['WeightedSubjectivity'].sum() / df_filtered['Proportion'].sum()
+
+print('### cluster polarity ###')
+print(clusterPolarity)
+print('### cluster subjectivity ###')
+print(clusterSubjectivity)

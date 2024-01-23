@@ -32,7 +32,7 @@ def process(topicModelling):
 
     # Create and display topics plot
     topicModelling.print_topics()
-    topicModelling.displayTopicPlot()
+    # topicModelling.displayTopicPlot()
     # coherence_model_lda = CoherenceModel(model=topicModelling.lda_model, texts=topicModelling.cluster_tokenized,
     #                                      dictionary=topicModelling.gensim_dictionary, coherence='c_v')
     # if __name__ == '__main__':

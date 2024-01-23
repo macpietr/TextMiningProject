@@ -3,8 +3,6 @@ import statistics
 import pandas as pd
 from nltk import bigrams
 from sklearn.feature_extraction.text import CountVectorizer
-
-from matthausITberatung.exploratoryDataAnalyser.analyser.BigramsService import BigramsService
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataDictManager import DataDictManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.CorpusManager import CorpusManager
 from matthausITberatung.exploratoryDataAnalyser.analyser.DataTermMatrixManager import DataTermMatrixManager
@@ -26,7 +24,6 @@ objectManager = ObjectsManager()
 topWordsDictManager = TopWordsDictManager()
 stopWordsManager = StopWordsManager()
 stopWordsService = StopWordsService()
-bigramsService = BigramsService()
 
 UNION_STOP_WORDS = objectManager.getSavedObject(pathsManager.UNION_STOP_WORDS)
 

@@ -9,7 +9,7 @@ from matthausITberatung.objectsManager.PathsManager import PathsManager
 airlines = PathsManager().LIST_OF_AIRLINES
 
 # our desired number of clusters
-numberOfClusters = 3
+numberOfClusters = 4
 
 opinionsPerAirline = ObjectsManager().getSavedObject('dataDictOfClearedOpinions')
 
@@ -45,7 +45,7 @@ for airline in airlines:
     colors = ["r", "b", "c", "y", "m"]
     plt.scatter(x=xAxis, y=yAxis, c=[colors[d] for d in kMeanIndices], s=10)
     plt.title(airline)
-    plt.savefig(str(airline) + ".png")
+    plt.show()
 
 ObjectsManager().saveObject(dictOfDictsOfAirlinesClustersOpinions, 'dictOfDictsOfAirlinesClustersOpinions')
 
